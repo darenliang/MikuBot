@@ -1,9 +1,10 @@
 import random
 import subprocess
-from fuzzywuzzy import fuzz
+
 import discord
 import requests
 from bs4 import BeautifulSoup
+from fuzzywuzzy import fuzz
 
 
 def get_hash(bits=96):

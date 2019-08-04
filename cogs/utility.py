@@ -1,5 +1,6 @@
 import logging
 import os
+from math import floor
 
 import discord
 import requests
@@ -7,7 +8,6 @@ import wolframalpha
 from clarifai.rest import ClarifaiApp
 from discord.ext import commands
 from googletrans import Translator
-from math import floor
 
 import bitly_api
 from config import config

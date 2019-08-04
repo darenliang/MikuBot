@@ -1,9 +1,9 @@
 import logging
+import math
 import os
 
 import clashroyale
 import discord
-import math
 from discord.ext import commands
 from pfaw import Fortnite, Platform
 
