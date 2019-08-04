@@ -5,6 +5,9 @@ import os
 import dbl
 from discord.ext import commands
 
+"""Currently, this cog only runs on master branch because of current deployment, go to config.py to set "dbl" as an
+activated extension"""
+
 
 class DiscordBotsOrgAPI(commands.Cog):
     """Handles interactions with the discordbots.org API"""
