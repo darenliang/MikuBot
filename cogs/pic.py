@@ -35,6 +35,53 @@ class Pic(commands.Cog):
         """Get image based on tag"""
         return self.booru.post_list(limit=1, tags=tag, random=True, raw=True)[0]['file_url']
 
+    @commands.command(name='pic', aliases=['pics'])
+    async def pic(self, ctx, tag=None):
+        """Return a SFW image given a tag.
+
+        Parameters
+        ------------
+        tag: str [Optional]
+            The image tag to search for.
+            If an image tag is not specified, the tag "1girl" will be used instead.
+        """
+        if tag is None:
+            tag = '1girl'
+        try:
+            image = self.get_image(tag + ' score:>10 rating:safe')
+        except:
+            try:
+                image = self.get_image(tag + ' rating:safe')
+            except:
+                log.warning('pic: Cannot get tag data')
+                return await ctx.send("Cannot get an image looking for.")
+        embed = create_embed(image, tag)
+        await ctx.send(embed=embed)
+
+    @commands.command(name='lewd', aliases=['lewds'])
+    @commands.is_nsfw()
+    async def lewd(self, ctx, tag=None):
+        """Return a lewd image given a tag.
+
+        Note:
+            Only works for NSFW channels and DMs.
+
+        Parameters
+        ------------
+        tag: str [Optional]
+            The image tag to search for.
+            If an image tag is not specified, the tag "1girl" will be used instead.
+        """
+        if tag is None:
+            tag = '1girl'
+        try:
+            image = self.get_image(tag + ' rating:explicit')
+        except:
+            log.warning('lewd: Cannot get tag data')
+            return await ctx.send("Cannot get an image looking for.")
+        embed = create_embed(image, tag)
+        await ctx.send(embed=embed)
+
 
 def setup(client):
     client.add_cog(Pic(client))

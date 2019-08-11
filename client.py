@@ -82,8 +82,20 @@ logging.info('Client generated')
 client.launch_time = datetime.utcnow()
 logging.info('Startup time registered')
 
+# load extensions to memory
+extensions = config.activated_extensions[:]
+
+# unload and load cogs according to public_bot status
+if "PUBLIC_BOT" in os.environ:
+    if os.environ["PUBLIC_BOT"] == 'true':
+        if 'pic' in extensions:
+            extensions.remove('pic')
+    elif os.environ["PUBLIC_BOT"] == 'false':
+        if 'dbl' in extensions:
+            extensions.remove('dbl')
+
 # load cog extensions
-for extension in config.activated_extensions:
+for extension in extensions:
     client.load_extension(f'cogs.{extension}')
 client.load_extension('framework.error_handler')
 logging.info('Extensions loaded')
