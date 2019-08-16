@@ -1,3 +1,5 @@
+"""This cog file contains the bot's info commands"""
+
 from datetime import datetime
 
 import discord
@@ -34,7 +36,7 @@ class Info(commands.Cog):
         paginator.add_line('')
         paginator.add_line(
             'This bot is created from scratch by Daren Liang (' + info.owner.name + '#' + info.owner.discriminator + ') using discord.py')
-        paginator.add_line('The fast, clean and modular predecessor of an older iteration "MikuBot v1"')
+        paginator.add_line('The fast, clean and modular successor of an older iteration "MikuBot v1"')
         paginator.add_line('')
         paginator.add_line('This bot is made possible with the following cloud services:')
         paginator.add_line('')

@@ -1,3 +1,5 @@
+"""This framework file contains a scraper and media downloader for openings.moe"""
+
 import random
 import subprocess
 

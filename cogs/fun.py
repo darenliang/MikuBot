@@ -1,3 +1,5 @@
+"""This cog file contains the bot's fun commands"""
+
 import html
 import json
 import os

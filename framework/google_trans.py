@@ -1,3 +1,5 @@
+"""This framework file contains functions to help with google translate"""
+
 from fuzzywuzzy import fuzz
 
 # list of langcodes

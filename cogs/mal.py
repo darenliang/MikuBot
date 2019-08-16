@@ -1,3 +1,5 @@
+"""This cog file contains the bot's MyAnimeList commands"""
+
 import datetime
 import logging
 import random

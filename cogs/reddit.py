@@ -1,3 +1,5 @@
+"""This cog file contains the bot's reddit commands"""
+
 import os
 from random import randint
 

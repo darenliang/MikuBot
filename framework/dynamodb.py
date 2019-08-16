@@ -1,3 +1,5 @@
+"""This framework file contains DynamoDB setup and functions"""
+
 import os
 
 import boto3

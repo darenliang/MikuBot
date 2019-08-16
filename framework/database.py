@@ -1,3 +1,6 @@
+"""This framework file contains database setup and functions"""
+
+
 def init():
     """Initialize global temp data"""
     global server_data

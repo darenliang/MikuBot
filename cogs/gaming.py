@@ -1,3 +1,5 @@
+"""This cog file contains the bot's gaming commands"""
+
 import logging
 import math
 import os

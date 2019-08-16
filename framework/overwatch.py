@@ -1,3 +1,5 @@
+"""This framework file contains api bindings for ow-api.com"""
+
 import json
 import urllib.request
 

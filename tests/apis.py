@@ -1,3 +1,5 @@
+"""This test file gets responses for various apis"""
+
 import json
 import urllib.request
 

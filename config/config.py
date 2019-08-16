@@ -1,4 +1,4 @@
-# config file with all of the variables
+"""Config file with important setup variables"""
 
 # default prefix
 prefix = '!'

@@ -1,3 +1,5 @@
+"""This cog file contains the bot's admin commands"""
+
 import logging
 import os
 

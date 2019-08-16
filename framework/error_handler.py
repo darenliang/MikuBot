@@ -1,3 +1,5 @@
+"""This framework file contains the bot's error handling"""
+
 import sys
 import traceback
 

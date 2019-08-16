@@ -1,3 +1,5 @@
+"""This framework file checks the bot's system info"""
+
 import psutil
 
 

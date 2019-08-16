@@ -1,3 +1,5 @@
+"""This framework file contains helper functions for the bot's anime presence"""
+
 import datetime
 import random
 

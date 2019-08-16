@@ -1,3 +1,5 @@
+"""This framework file contains functions to help play youtube music"""
+
 import html
 import os
 

@@ -1,3 +1,5 @@
+"""This framework file contains the bot's prefix handling"""
+
 from discord.ext import commands
 
 from config import config

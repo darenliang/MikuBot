@@ -1,3 +1,5 @@
+"""This cog file contains the bot's music commands"""
+
 import asyncio
 import itertools
 import sys

@@ -1,3 +1,5 @@
+"""This cog file contains the bot's booru commands"""
+
 import logging
 import os.path
 

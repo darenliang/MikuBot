@@ -1,3 +1,5 @@
+"""This cog file updates the correct server count on discordbots.org"""
+
 import asyncio
 import logging
 import os

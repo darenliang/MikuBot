@@ -1,3 +1,5 @@
+"""This test file contains tests for various apis"""
+
 from unittest import TestCase
 from tests import apis
 

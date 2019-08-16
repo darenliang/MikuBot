@@ -1,3 +1,5 @@
+"""This cog file overrides some of the defaults of the help command"""
+
 import itertools
 
 from discord.ext import commands

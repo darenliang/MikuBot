@@ -1,3 +1,5 @@
+"""This cog file contains the bot's utility commands"""
+
 import logging
 import os
 from math import floor
