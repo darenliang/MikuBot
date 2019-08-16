@@ -15,6 +15,9 @@ on_download = False
 # default embed color
 embed_color = 0x2e98a6
 
+# pastebin whatsnew link
+whatsnew = 'https://pastebin.com/raw/BZyJcMUi'
+
 
 class Aws:
     """AWS database setup info"""

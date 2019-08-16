@@ -7,7 +7,7 @@ import pkg_resources
 from discord.ext import commands
 
 from config import config
-from framework import prefix_handler, system
+from framework import prefix_handler, system, pastebin
 
 
 def get_uptime(client):
@@ -160,6 +160,12 @@ class Info(commands.Cog):
         if member is None:
             member = ctx.author
         await ctx.send(str(member.avatar_url).replace('.webp', '.png'))
+
+    @commands.command(name='new', aliases=['whatsnew'])
+    async def new(self, ctx):
+        """Return what's new about bot development"""
+        text = '```' + pastebin.get_url_data(config.whatsnew) + '```'
+        await ctx.send(text)
 
 
 def setup(client):
