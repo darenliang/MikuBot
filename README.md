@@ -1,6 +1,6 @@
 # MikuBot: The anime Discord bot
 
-[![MikuBot](https://discordbots.org/api/widget/status/512354713602228265.png)](https://discordapp.com/oauth2/authorize?client_id=512354713602228265&scope=bot)
+[![MikuBot](https://discordbots.org/api/widget/status/512354713602228265.png)](https://discordbots.org/bot/512354713602228265)
 
 MikuBot is a general purpose anime Discord bot.
 
