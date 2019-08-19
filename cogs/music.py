@@ -216,7 +216,7 @@ class Music(commands.Cog):
 
     @commands.command(name='connect', aliases=['join', 'move'])
     @commands.guild_only()
-    async def connect(self, ctx, *, channel: discord.VoiceChannel = None):
+    async def connect_(self, ctx, *, channel: discord.VoiceChannel = None):
         """Connect to voice.
 
         Parameters
@@ -251,7 +251,7 @@ class Music(commands.Cog):
 
     @commands.command(name='play', aliases=['music'])
     @commands.guild_only()
-    async def play(self, ctx, *, search: str):
+    async def play_(self, ctx, *, search: str):
         """Request a song and add it to the queue to play.
         This command can call from many different sources.
         You can try all sorts of links or IDs.
@@ -281,7 +281,7 @@ class Music(commands.Cog):
 
     @commands.command(name='youtube', aliases=['yt'])
     @commands.guild_only()
-    async def youtube(self, ctx, *, query):
+    async def youtube_(self, ctx, *, query):
         """Search for Youtube videos and add to queue to play.
 
         Parameters
@@ -333,7 +333,7 @@ class Music(commands.Cog):
 
     @commands.command(name='pause', aliases=['freeze'])
     @commands.guild_only()
-    async def pause(self, ctx):
+    async def pause_(self, ctx):
         """Pause the currently playing song."""
         vc = ctx.voice_client
 
@@ -347,7 +347,7 @@ class Music(commands.Cog):
 
     @commands.command(name='resume', aliases=['continue'])
     @commands.guild_only()
-    async def resume(self, ctx):
+    async def resume_(self, ctx):
         """Resume the currently paused song."""
         vc = ctx.voice_client
 
@@ -361,7 +361,7 @@ class Music(commands.Cog):
 
     @commands.command(name='skip', aliases=['pass'])
     @commands.guild_only()
-    async def skip(self, ctx):
+    async def skip_(self, ctx):
         """Skip the currently playing song."""
         vc = ctx.voice_client
 
@@ -415,7 +415,7 @@ class Music(commands.Cog):
 
     @commands.command(name='now_playing', aliases=['np'])
     @commands.guild_only()
-    async def now_playing(self, ctx):
+    async def now_playing_(self, ctx):
         """Display information about the currently playing song."""
         vc = ctx.voice_client
 
@@ -463,7 +463,7 @@ class Music(commands.Cog):
 
     @commands.command(name='stop', aliases=['clear', 'leave'])
     @commands.guild_only()
-    async def stop(self, ctx):
+    async def stop_(self, ctx):
         """Stop the currently playing song and clear the player."""
         vc = ctx.voice_client
 
