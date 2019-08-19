@@ -13,7 +13,7 @@ from googletrans import Translator
 
 import bitly_api
 from config import config
-from framework import google_trans
+from framework import google_trans, link_converter
 
 # sketchify endpoint
 SKETCHIFY_API_ENDPOINT = "http://verylegit.link/sketchify"
@@ -151,7 +151,7 @@ class Utility(commands.Cog):
             URL you want to shorten.
         """
         try:
-            response = self.bitly.shorten(uri=link)
+            response = self.bitly.shorten(uri=link_converter.convert(link))
         except:
             return await ctx.send('Enter a valid link URL.')
         await ctx.send('Here is the shorted link: ' + response['url'])

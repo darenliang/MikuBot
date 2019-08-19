@@ -145,7 +145,8 @@ class Gaming(commands.Cog):
         try:
             if id[0] == '#':
                 id = id[1:]
-            player = self.clashroyale.get_player(id)
+            player = self.clashroyale.get_player(id)[0]
+            print(player)
             embed = discord.Embed(color=config.embed_color, title="{0}'s ClashRoyale Stats".format(player['name']))
             embed.add_field(name='Trophies',
                             value=str(player['trophies']),
@@ -156,10 +157,10 @@ class Gaming(commands.Cog):
             embed.add_field(name='Level',
                             value=str(player['stats']['level']),
                             inline=True)
-            if player['clan'] is None:
+            if player['clan']['name'] == '':
                 clan = 'Not in a clan'
             else:
-                clan = player['clan']
+                clan = player['clan']['name']
             embed.add_field(name='Clan Name',
                             value=clan,
                             inline=True)
