@@ -1,4 +1,11 @@
 """
+  __  __ _ _        ___      _
+ |  \/  (_) |___  _| _ ) ___| |_
+ | |\/| | | / / || | _ \/ _ \  _|
+ |_|  |_|_|_\_\\_,_|___/\___/\__|
+
+Copyright (c) 2019 Daren Liang
+
 MikuBot is a fast, clean and modular successor of "MikuBot v1" written in Python using discord.py
 
 To invite the official MikuBot discord bot, you can do so with this link:
