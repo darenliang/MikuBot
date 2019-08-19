@@ -12,7 +12,7 @@ chardet==3.0.4
 clarifai==2.6.2
 clashroyale==4.0.1
 configparser==3.7.4
-dblpy==0.3.1
+dblpy==0.3.2
 discord.py==1.2.3
 docutils==0.14
 fortnite==0.0.8
