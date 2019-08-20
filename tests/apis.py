@@ -5,6 +5,7 @@ import os
 import urllib.request
 from random import randint
 
+import cfscrape
 import clashroyale
 import praw
 import requests
@@ -124,3 +125,14 @@ def get_clashroyale_response():
     cr = clashroyale.royaleapi.Client(os.environ['CR_TOKEN'])
     player = cr.get_player("29L2YQCGG")
     return player[0]['name']
+
+
+def get_dbl_response():
+    scraper = cfscrape.create_scraper()
+    return json.loads(scraper.get('https://discordbots.org/api').content)['hello']
+
+
+def get_discord_response():
+    with urllib.request.urlopen("https://srhpyqt94yxb.statuspage.io/api/v2/status.json") as url:
+        data = json.loads(url.read().decode())
+        return data['status']['description'] == 'All Systems Operational'
