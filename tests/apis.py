@@ -17,7 +17,7 @@ from pybooru import Danbooru
 
 import bitly_api
 from cogs.utility import SKETCHIFY_API_ENDPOINT
-from framework import link_converter, youtube
+from framework import link_converter, youtube, cloc
 from jikanpy import Jikan
 
 
@@ -136,3 +136,8 @@ def get_discord_response():
     with urllib.request.urlopen("https://srhpyqt94yxb.statuspage.io/api/v2/status.json") as url:
         data = json.loads(url.read().decode())
         return data['status']['description'] == 'All Systems Operational'
+
+
+def get_cloc_response():
+    data = cloc.get_code_count("darenliang/MikuBot")
+    return data

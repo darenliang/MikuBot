@@ -51,5 +51,8 @@ class TestAPIs(TestCase):
     def test_get_dbl_response(self):
         self.assertEqual(apis.get_dbl_response(), 'world')
 
-    def test_discord_response(self):
+    def test_get_discord_response(self):
         self.assertEqual(apis.get_discord_response(), True)
+
+    def test_get_cloc_response(self):
+        self.assertIsInstance(apis.get_cloc_response()[0]['language'], str)

@@ -7,6 +7,7 @@ import pkg_resources
 from discord.ext import commands
 
 from config import config
+from framework import cloc
 from framework import prefix_handler, system, pastebin
 
 
@@ -167,6 +168,40 @@ class Info(commands.Cog):
         """Return what's new about bot development"""
         text = '```' + pastebin.get_url_data(config.whatsnew) + '```'
         await ctx.send(text)
+
+    @commands.command(name='cloc', aliases=[])
+    async def cloc(self, ctx, repo=None):
+        """Return number of lines of code of a repo
+
+        Parameters
+        ------------
+        repo: string [Optional]
+            The GitHub repo in the format username/repo_name (ex: darenliang/MikuBot)
+            If the GitHub repo is not specified, this bot's repo will be used.
+        """
+        if not repo:
+            repo = "darenliang/MikuBot"
+        data = cloc.get_code_count(repo)
+        if "Error" in data:
+            return await ctx.send("Please provide a valid GitHub repo.")
+        else:
+            embed = discord.Embed(
+                color=config.embed_color,
+                title=f'How many lines of code in {repo}?')
+            if len(data) < 26:
+                for element in data:
+                    embed.add_field(name=element['language'],
+                                    value=element['linesOfCode'],
+                                    inline=False)
+            else:
+                for i in range(24):
+                    embed.add_field(name=data[i]['language'],
+                                    value=data[i]['linesOfCode'],
+                                    inline=False)
+                embed.add_field(name=data[-1]['language'],
+                                value=data[-1]['linesOfCode'],
+                                inline=False)
+            return await ctx.send(embed=embed)
 
 
 def setup(client):
