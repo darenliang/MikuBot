@@ -7,6 +7,7 @@ prefix = '!'
 anime_presence = True
 
 # list of activated extensions
+# dbl will be deactivated if bot is set to public
 activated_extensions = ['admin', 'pic', 'fun', 'help', 'gaming', 'info', 'mal', 'music', 'reddit', 'utility', 'dbl']
 
 # True for downloading music and False for streaming music
