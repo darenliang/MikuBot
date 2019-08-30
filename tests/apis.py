@@ -69,7 +69,7 @@ def get_translate_response():
 def get_clarifai_response():
     clarifai = ClarifaiApp(api_key=os.environ['CLARIFAI_KEY'])
     clarifai_model = clarifai.public_models.general_model
-    response = clarifai_model.predict_by_url(url="https://sample-videos.com/img/Sample-jpg-image-100kb.jpg")
+    response = clarifai_model.predict_by_url(url="https://imgsv.imaging.nikon.com/lineup/dslr/df/img/sample/img_01_l.jpg")
     concepts = response['outputs'][0]['data']['concepts']
     return concepts[0]['name']
 
