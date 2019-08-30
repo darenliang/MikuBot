@@ -23,7 +23,7 @@ def get_hash(bits=96):
 def get_theme():
     """Get anime theme data"""
     page_response = requests.get('https://openings.moe', timeout=5)
-    page_content = BeautifulSoup(page_response.content, "html.parser")
+    page_content = BeautifulSoup(page_response.content, "lxml")
     anime = page_content.find("p", id="source").text
     source = anime[5:]
     anime = source

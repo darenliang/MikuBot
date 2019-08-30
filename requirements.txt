@@ -31,6 +31,7 @@ inflect==2.1.0
 jaraco.itertools==4.4.2
 jmespath==0.9.4
 jsonschema==2.6.0
+lxml==4.4.1
 more-itertools==7.2.0
 multidict==4.5.2
 praw==6.3.1
