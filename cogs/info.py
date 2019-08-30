@@ -36,7 +36,8 @@ class Info(commands.Cog):
         paginator.add_line('About ' + info.name)
         paginator.add_line('')
         paginator.add_line(
-            'This bot is created from scratch by Daren Liang (' + info.owner.name + '#' + info.owner.discriminator + ') using discord.py')
+            'This bot is created from scratch by Daren Liang (' + info.owner.name + '#' + info.owner.discriminator +
+            ') using discord.py')
         paginator.add_line('The fast, clean and modular successor of an older iteration "MikuBot v1"')
         paginator.add_line('')
         paginator.add_line('This bot is made possible with the following cloud services:')
@@ -50,8 +51,8 @@ class Info(commands.Cog):
         paginator.add_line('FFMPEG')
         paginator.add_line('')
         paginator.add_line(
-            'This bot is complex and requires a lot of work to maintain. If you do find any bugs or have any suggestions, please contact me at {0}'.format(
-                info.owner.name + '#' + info.owner.discriminator))
+            'This bot is complex and requires a lot of work to maintain. If you do find any bugs or have any'
+            'suggestions, please contact me at {0}'.format(info.owner.name + '#' + info.owner.discriminator))
         paginator.add_line('')
         paginator.add_line('Here is the list of loaded packages:')
         paginator.add_line('')

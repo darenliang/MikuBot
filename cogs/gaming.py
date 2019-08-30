@@ -129,8 +129,9 @@ class Gaming(commands.Cog):
                             inline=True)
             embed.set_thumbnail(url='https://github.com/darenliang/MikuBot/raw/master/static_files/fortnite.png')
             await ctx.send(embed=embed)
-        except:
+        except Exception as e:
             log.warning('fortnite: Player not found')
+            log.error(e)
             await ctx.send('Player cannot be found.')
 
     @commands.command(name='clashroyale', aliases=['cr'])
@@ -185,8 +186,9 @@ class Gaming(commands.Cog):
                             inline=True)
             embed.set_thumbnail(url='https://github.com/darenliang/MikuBot/raw/master/static_files/clashroyale.png')
             await ctx.send(embed=embed)
-        except:
+        except Exception as e:
             log.warning('clashroyale: Player not found')
+            log.error(e)
             await ctx.send('Player cannot be found.')
 
 

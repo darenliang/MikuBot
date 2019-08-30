@@ -51,11 +51,13 @@ class Pic(commands.Cog):
             tag = '1girl'
         try:
             image = self.get_image(tag + ' score:>10 rating:safe')
-        except:
+        except Exception as e:
+            log.error(e)
             try:
                 image = self.get_image(tag + ' rating:safe')
-            except:
+            except Exception as e:
                 log.warning('pic: Cannot get tag data')
+                log.error(e)
                 return await ctx.send("Cannot get an image looking for.")
         embed = create_embed(image, tag)
         await ctx.send(embed=embed)
@@ -78,8 +80,9 @@ class Pic(commands.Cog):
             tag = '1girl'
         try:
             image = self.get_image(tag + ' rating:explicit')
-        except:
+        except Exception as e:
             log.warning('lewd: Cannot get tag data')
+            log.error(e)
             return await ctx.send("Cannot get an image looking for.")
         embed = create_embed(image, tag)
         await ctx.send(embed=embed)

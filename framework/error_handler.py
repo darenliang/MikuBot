@@ -1,9 +1,13 @@
 """This framework file contains the bot's error handling"""
 
+import logging
 import sys
 import traceback
 
 from discord.ext import commands
+
+# set logger
+log = logging.getLogger(__name__)
 
 
 class CommandErrorHandler(commands.Cog):
@@ -58,7 +62,8 @@ class CommandErrorHandler(commands.Cog):
             try:
                 return await ctx.author.send(
                     f'The command `{ctx.command}` can not be used in private messages and can only be used in a guild.')
-            except:
+            except Exception as e:
+                log.error(e)
                 pass
 
         # other

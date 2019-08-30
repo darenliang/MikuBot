@@ -53,8 +53,9 @@ class Utility(commands.Cog):
         try:
             result = self.wolfram.query(query)
             answer = next(result.results).text
-        except:
+        except Exception as e:
             log.warning('ask: Cannot parse result')
+            log.error(e)
             return await ctx.send('Cannot parse result.')
         await ctx.send(answer)
 
@@ -137,8 +138,9 @@ class Utility(commands.Cog):
                             value=pronun,
                             inline=False)
             await ctx.send(embed=embed)
-        except:
+        except Exception as e:
             log.warning('translate: Error encountered')
+            log.error(e)
             await ctx.send('Cannot get translation from text.')
 
     @commands.command(name='shorten', aliases=['short'])
@@ -152,7 +154,8 @@ class Utility(commands.Cog):
         """
         try:
             response = self.bitly.shorten(uri=link_converter.convert(link))
-        except:
+        except Exception as e:
+            log.error(e)
             return await ctx.send('Enter a valid link URL.')
         await ctx.send('Here is the shorted link: ' + response['url'])
 
@@ -169,7 +172,8 @@ class Utility(commands.Cog):
             data = {'long_url': link}
             response = requests.post(url=SKETCHIFY_API_ENDPOINT, data=data)
             sketchy = response.text
-        except:
+        except Exception as e:
+            log.error(e)
             return await ctx.send('Cannot sketchify the link you provided.')
         await ctx.send('Here is your sketchy link: ' + sketchy)
 

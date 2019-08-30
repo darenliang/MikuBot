@@ -306,8 +306,9 @@ class Mal(commands.Cog):
         """
         try:
             embed = self.get_user(user)
-        except:
+        except Exception as e:
             log.warning('user: Error')
+            log.error(e)
             return await ctx.send('Cannot retreive user info.')
         await ctx.send(embed=embed)
 
@@ -363,8 +364,9 @@ class Mal(commands.Cog):
         try:
             embed = self.lister(self.jikan.season(year=year, season=season.lower())['anime'][:15],
                                 "{0} {1} anime".format(season.capitalize(), year))
-        except:
+        except Exception as e:
             log.warning('season: Error')
+            log.error(e)
             return await ctx.send('Cannot get specified season.')
         await ctx.send(embed=embed)
 

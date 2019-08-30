@@ -132,9 +132,10 @@ class Admin(commands.Cog):
             response = self.clarifai_model.predict_by_url(
                 url=str(member.avatar_url).replace('.webp', '.jpg'))
             concept = response['outputs'][0]['data']['concepts'][0]['name']
-        except:
+        except Exception as e:
             concept = 'Cannot parse data.'
             log.warning('who: Cannot concept data')
+            log.error(e)
         embed.add_field(name="What's their avatar?",
                         value=concept.capitalize(),
                         inline=True)
