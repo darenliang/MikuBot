@@ -19,6 +19,7 @@ embed_color = 0x2e98a6
 # pastebin whatsnew link
 whatsnew = 'https://pastebin.com/raw/BZyJcMUi'
 
+# timeout in seconds for selection commands
 timeout = 60.0
 
 
