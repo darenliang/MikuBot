@@ -19,6 +19,8 @@ embed_color = 0x2e98a6
 # pastebin whatsnew link
 whatsnew = 'https://pastebin.com/raw/BZyJcMUi'
 
+timeout = 60.0
+
 
 class Aws:
     """AWS database setup info"""

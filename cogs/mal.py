@@ -227,36 +227,27 @@ class Mal(commands.Cog):
 
         Parameters
         ------------
-        arg: str or int [Required]
-            If arg is a string, then arg is the search query.
-            If arg is a number, then it is the choice number.
+        arg: str [Required]
+            The anime query you want to search.
+
+        Note that to select an option, you must give a valid integer in the selection range.
         """
-        if not error_checking.is_int(arg):
-            embed, list_ids = self.create_selection('anime', arg)
-            search = database.channel_update(ctx.channel.id)
-            database.server_data[search]['anime_context'] = list_ids
-            database.server_data[search]['anime_search'] = False
-            message = await ctx.send(embed=embed)
-            database.server_data[search]['anime_message'] = message
-            return
-        else:
-            choice = int(arg)
-            search = database.channel_update(ctx.channel.id)
-            if 1 <= choice <= 5 and not database.server_data[search]['anime_search']:
-                id = database.server_data[search]['anime_context'][choice - 1]
-                database.server_data[search]['anime_search'] = True
-                embed = self.get_anime(id)
-                await ctx.send(embed=embed)
-                message = database.server_data[search]['anime_message']
-                try:
-                    await message.delete()
-                except discord.HTTPException:
-                    pass
-                return
-            elif database.server_data[search]['anime_search']:
-                return await ctx.send('Search for an anime on this channel.')
-            else:
-                return await ctx.send('Enter a number in range.')
+        embed, list_ids = self.create_selection('anime', arg)
+        message = await ctx.send(embed=embed)
+
+        def check_int(message):
+            return error_checking.is_int(message.content) and message.channel == ctx.channel and 1 <= int(
+                message.content) <= 5
+
+        selection = await self.client.wait_for('message', timeout=config.timeout, check=check_int)
+        selection = int(selection.content)
+        id = list_ids[selection - 1]
+        embed = self.get_anime(id)
+        await ctx.send(embed=embed)
+        try:
+            await message.delete()
+        except discord.HTTPException:
+            pass
 
     @commands.command(name='manga', aliases=['mal_manga'])
     async def manga(self, ctx, *, arg):
@@ -264,36 +255,27 @@ class Mal(commands.Cog):
 
         Parameters
         ------------
-        arg: str or int [Required]
-            If arg is a string, then arg is the search query.
-            If arg is a number, then it is the choice number.
+        arg: str [Required]
+            The manga query you want to search.
+
+        Note that to select an option, you must give a valid integer in the selection range.
         """
-        if not error_checking.is_int(arg):
-            embed, list_ids = self.create_selection('manga', arg)
-            search = database.channel_update(ctx.channel.id)
-            database.server_data[search]['manga_context'] = list_ids
-            database.server_data[search]['manga_search'] = False
-            message = await ctx.send(embed=embed)
-            database.server_data[search]['manga_message'] = message
-            return
-        else:
-            choice = int(arg)
-            search = database.channel_update(ctx.channel.id)
-            if 1 <= choice <= 5 and not database.server_data[search]['manga_search']:
-                id = database.server_data[search]['manga_context'][choice - 1]
-                database.server_data[search]['manga_search'] = True
-                embed = self.get_manga(id)
-                await ctx.send(embed=embed)
-                message = database.server_data[search]['manga_message']
-                try:
-                    await message.delete()
-                except discord.HTTPException:
-                    pass
-                return
-            elif database.server_data[search]['manga_search']:
-                return await ctx.send('Search for a manga on this channel.')
-            else:
-                return await ctx.send('Enter a number in range.')
+        embed, list_ids = self.create_selection('manga', arg)
+        message = await ctx.send(embed=embed)
+
+        def check_int(message):
+            return error_checking.is_int(message.content) and message.channel == ctx.channel and 1 <= int(
+                message.content) <= 5
+
+        selection = await self.client.wait_for('message', timeout=config.timeout, check=check_int)
+        selection = int(selection.content)
+        id = list_ids[selection - 1]
+        embed = self.get_manga(id)
+        await ctx.send(embed=embed)
+        try:
+            await message.delete()
+        except discord.HTTPException:
+            pass
 
     @commands.command(name='user', aliases=['mal_user'])
     async def user(self, ctx, user):

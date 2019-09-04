@@ -9,10 +9,7 @@ def init():
 
 def channel_initialization(id):
     """Return default channel settings"""
-    return {'channel_id': id, 'youtube_search': True, 'youtube_context': [],
-            'youtube_message': None, 'anime_search': True, 'anime_context': [], 'anime_message': None,
-            'manga_search': True, 'manga_context': [], 'manga_message': None, 'trivia_search': True,
-            'trivia_answers': [], 'quiz_search': True, 'quiz_answers': []}
+    return {'channel_id': id, 'youtube_search': True, 'quiz_search': True, 'quiz_answers': []}
 
 
 def channel_update(id):

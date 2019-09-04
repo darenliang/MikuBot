@@ -11,7 +11,7 @@ from discord.ext import commands
 from googletrans import Translator
 
 from config import config
-from framework import database, error_checking, themes
+from framework import database, error_checking, themes, prefix_handler
 from jikanpy import Jikan
 
 
@@ -29,67 +29,52 @@ class Fun(commands.Cog):
         await ctx.send(config.lenny[random.randint(0, 108)])
 
     @commands.command(name='trivia', aliases=[])
-    async def trivia(self, ctx, num=None):
+    async def trivia(self, ctx):
         """Get an anime themed trivia question.
 
-        Parameters
-        ------------
-        num: int [Optional]
-            If the a number choice is not specified, a trivia question will be given to you.
-            If a number is specified, it will check if it is the right answer
+        Note that to answer the question, you must give a valid integer in the selection range.
         """
         # uses questions from opentdb
-        if not num:
-            with urllib.request.urlopen("https://opentdb.com/api.php?amount=1&category=31&type=multiple") as url:
-                data = json.loads(url.read().decode())
-            answers = [[1, data["results"][0]["correct_answer"]],
-                       [0, data["results"][0]["incorrect_answers"][0]],
-                       [0, data["results"][0]["incorrect_answers"][1]],
-                       [0, data["results"][0]["incorrect_answers"][2]]]
-            random.shuffle(answers)
-            embed = discord.Embed(
-                color=config.embed_color,
-                title='Anime trivia question',
-                description=html.unescape(data["results"][0]["question"]) + "\n" + '1. ' + html.unescape(
-                    answers[0][1]) + "\n" + '2. ' + html.unescape(answers[1][1]) + "\n" + '3. ' + html.unescape(
-                    answers[2][1]) + "\n" + '4. ' + html.unescape(answers[3][1]),
-            )
-            search = database.channel_update(ctx.channel.id)
-            database.server_data[search]['trivia_answers'] = answers
-            database.server_data[search]['trivia_search'] = False
+        with urllib.request.urlopen("https://opentdb.com/api.php?amount=1&category=31&type=multiple") as url:
+            data = json.loads(url.read().decode())
+        answers = [[1, data["results"][0]["correct_answer"]],
+                   [0, data["results"][0]["incorrect_answers"][0]],
+                   [0, data["results"][0]["incorrect_answers"][1]],
+                   [0, data["results"][0]["incorrect_answers"][2]]]
+        random.shuffle(answers)
+        embed = discord.Embed(
+            color=config.embed_color,
+            title='Anime trivia question',
+            description=html.unescape(data["results"][0]["question"]) + "\n" + '1. ' + html.unescape(
+                answers[0][1]) + "\n" + '2. ' + html.unescape(answers[1][1]) + "\n" + '3. ' + html.unescape(
+                answers[2][1]) + "\n" + '4. ' + html.unescape(answers[3][1]),
+        )
 
-            await ctx.send(embed=embed)
+        await ctx.send(embed=embed)
+
+        def check_int(message):
+            return error_checking.is_int(message.content) and message.channel == ctx.channel and 1 <= int(
+                message.content) <= 4
+
+        selection = await self.client.wait_for('message', timeout=config.timeout, check=check_int)
+        selection = int(selection.content)
+        if answers[selection - 1][0] == 1:
+            return await ctx.send('You are correct!')
         else:
-            search = database.channel_update(ctx.channel.id)
-            if error_checking.is_int(num) and 1 <= int(num) <= 4 and not database.server_data[search]['trivia_search']:
-                choice = int(num)
-                database.server_data[search]['trivia_search'] = True
-                retrieve = database.server_data[search]['trivia_answers']
-                if retrieve[choice - 1][0] == 1:
-                    return await ctx.send('You are correct!')
-                else:
-                    message = 'You are incorrect. The correct answer is: '
-                    for answer in retrieve:
-                        if answer[0] == 1:
-                            message += html.unescape(answer[1])
-                            break
-                    return await ctx.send(message)
-            elif database.server_data[search]['trivia_search']:
-                return await ctx.send("You haven't called out a trivia question on this channel.")
-            elif error_checking.is_int(num):
-                return await ctx.send('Choice out of range.')
-            else:
-                return await ctx.send('Enter a valid input.')
+            message = 'You are incorrect. The correct answer is: '
+            for answer in answers:
+                if answer[0] == 1:
+                    message += html.unescape(answer[1])
+                    break
+            return await ctx.send(message)
 
     @commands.command(name='8ball', aliases=['8b', 'eightball'])
     async def eightball(self, ctx, *, question):
         """Return an 8ball response.
-
         Parameters
         ------------
         question: str [Required]
             The question asked.
-
         Please note that a question string is not necessary, but the bot enforces it.
         """
         choices = ['It is certain.', 'Outlook good.', 'You may rely on it.', 'Ask again later',
@@ -99,7 +84,6 @@ class Fun(commands.Cog):
     @commands.command(name='musicquiz', aliases=['mq', 'quiz'])
     async def musicquiz(self, ctx, *, answer=None):
         """Get an anime music quiz
-
         Parameters
         ------------
         answer: str [Optional]
@@ -118,6 +102,13 @@ class Fun(commands.Cog):
             music_hash = themes.convert_video(video_hash)
             os.remove(video_hash + '.webm')
             song = themes.get_file(music_hash + '.mp3')
+            if not ctx.guild:
+                prefix_str = config.prefix
+            else:
+                prefix_str = prefix_handler.return_prefix(ctx)
+            await ctx.send(
+                "What is this song? Type: `{prefix_str}musicquiz answer` to guess an anime or type `{prefix_str}musicquiz giveup` to get the correct answer.".format(
+                    prefix_str=prefix_str))
             await ctx.send(file=song)
             os.remove(music_hash + '.mp3')
         else:

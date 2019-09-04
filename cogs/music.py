@@ -286,50 +286,41 @@ class Music(commands.Cog):
 
         Parameters
         ------------
-        query: str or int [Required]
-            If query is a string, it will return a list of Youtube searches.
-            If query is a number, it will choose the result from the search list.
+        query: str [Required]
+            The youtube query you want to search.
+
+        Note that to select an option, you must give a valid integer in the selection range.
         """
-        if not error_checking.is_int(query):
-            embed, url_list = youtube.get_youtube_info(query)
-            search = database.channel_update(ctx.channel.id)
-            database.server_data[search]['youtube_context'] = url_list
-            database.server_data[search]['youtube_search'] = False
-            message = await ctx.send(embed=embed)
-            database.server_data[search]['youtube_message'] = message
-            return
-        else:
-            choice = int(query)
-            search = database.channel_update(ctx.channel.id)
-            if 1 <= choice <= len(database.server_data[search]['youtube_context']) and not database.server_data[search][
-                'youtube_search']:
-                videoId = database.server_data[search]['youtube_context'][choice - 1]
-                database.server_data[search]['youtube_search'] = True
-                await ctx.trigger_typing()
-                vc = ctx.voice_client
+        embed, url_list = youtube.get_youtube_info(query)
+        message = await ctx.send(embed=embed)
 
-                if not vc:
-                    await ctx.invoke(self.connect_)
+        url_length = len(url_list)
 
-                player = self.get_player(ctx)
+        def check_int(message):
+            return error_checking.is_int(message.content) and message.channel == ctx.channel and 1 <= int(
+                message.content) <= url_length
 
-                message = database.server_data[search]['youtube_message']
-                try:
-                    # Remove our previous now_playing message.
-                    await message.delete()
-                except discord.HTTPException:
-                    pass
+        selection = await self.bot.wait_for('message', timeout=config.timeout, check=check_int)
+        selection = int(selection.content)
 
-                # If download is False, source will be a dict which will be used later to regather the stream.
-                # If download is True, source will be a discord.FFmpegPCMAudio with a VolumeTransformer.
-                source = await YTDLSource.create_source(ctx, videoId, loop=self.bot.loop,
-                                                        download=config.on_download)
-                await player.queue.put(source)
+        videoId = url_list[selection - 1]
+        await ctx.trigger_typing()
 
-            elif database.server_data[search]['youtube_search']:
-                return await ctx.send('Search for a youtube video.')
-            else:
-                return await ctx.send('Enter a number in range.')
+        vc = ctx.voice_client
+        if not vc:
+            await ctx.invoke(self.connect_)
+
+        player = self.get_player(ctx)
+        try:
+            await message.delete()
+        except discord.HTTPException:
+            pass
+
+        # If download is False, source will be a dict which will be used later to regather the stream.
+        # If download is True, source will be a discord.FFmpegPCMAudio with a VolumeTransformer.
+        source = await YTDLSource.create_source(ctx, videoId, loop=self.bot.loop,
+                                                download=config.on_download)
+        await player.queue.put(source)
 
     @commands.command(name='pause', aliases=['freeze'])
     @commands.guild_only()
