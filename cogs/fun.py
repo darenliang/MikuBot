@@ -1,5 +1,5 @@
 """This cog file contains the bot's fun commands"""
-
+import asyncio
 import html
 import json
 import os
@@ -11,7 +11,7 @@ from discord.ext import commands
 from googletrans import Translator
 
 from config import config
-from framework import database, error_checking, themes, prefix_handler
+from framework import database, themes, prefix_handler
 from jikanpy import Jikan
 
 
@@ -62,7 +62,15 @@ class Fun(commands.Cog):
         def check_reaction(reaction, user):
             return not user.bot and reaction.message.id == question.id and reaction.emoji in emojis
 
-        reaction, user = await self.client.wait_for('reaction_add', timeout=config.timeout, check=check_reaction)
+        try:
+            reaction, user = await self.client.wait_for('reaction_add', timeout=config.timeout, check=check_reaction)
+        except asyncio.TimeoutError:
+            correct_answer = ""
+            for answer in answers:
+                if answer[0] == 1:
+                    correct_answer = html.unescape(answer[1])
+                    break
+            return await ctx.send("You ran out of time. The correct answer is: " + correct_answer)
 
         selection = emojis.index(reaction.emoji) + 1
 
