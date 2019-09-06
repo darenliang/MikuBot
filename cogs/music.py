@@ -293,15 +293,22 @@ class Music(commands.Cog):
         """
         embed, url_list = youtube.get_youtube_info(query)
         message = await ctx.send(embed=embed)
+        await message.add_reaction("1\N{combining enclosing keycap}")
+        await message.add_reaction("2\N{combining enclosing keycap}")
+        await message.add_reaction("3\N{combining enclosing keycap}")
+        await message.add_reaction("4\N{combining enclosing keycap}")
+        await message.add_reaction("5\N{combining enclosing keycap}")
 
-        url_length = len(url_list)
+        emojis = ["1\N{combining enclosing keycap}", "2\N{combining enclosing keycap}",
+                  "3\N{combining enclosing keycap}", "4\N{combining enclosing keycap}",
+                  "5\N{combining enclosing keycap}"]
 
-        def check_int(message):
-            return error_checking.is_int(message.content) and message.channel == ctx.channel and 1 <= int(
-                message.content) <= url_length
+        def check_reaction(reaction, user):
+            return not user.bot and reaction.message.id == message.id and reaction.emoji in emojis
 
-        selection = await self.bot.wait_for('message', timeout=config.timeout, check=check_int)
-        selection = int(selection.content)
+        reaction, user = await self.bot.wait_for('reaction_add', timeout=config.timeout, check=check_reaction)
+
+        selection = emojis.index(reaction.emoji) + 1
 
         videoId = url_list[selection - 1]
         await ctx.trigger_typing()

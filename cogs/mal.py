@@ -234,13 +234,23 @@ class Mal(commands.Cog):
         """
         embed, list_ids = self.create_selection('anime', arg)
         message = await ctx.send(embed=embed)
+        await message.add_reaction("1\N{combining enclosing keycap}")
+        await message.add_reaction("2\N{combining enclosing keycap}")
+        await message.add_reaction("3\N{combining enclosing keycap}")
+        await message.add_reaction("4\N{combining enclosing keycap}")
+        await message.add_reaction("5\N{combining enclosing keycap}")
 
-        def check_int(message):
-            return error_checking.is_int(message.content) and message.channel == ctx.channel and 1 <= int(
-                message.content) <= 5
+        emojis = ["1\N{combining enclosing keycap}", "2\N{combining enclosing keycap}",
+                  "3\N{combining enclosing keycap}", "4\N{combining enclosing keycap}",
+                  "5\N{combining enclosing keycap}"]
 
-        selection = await self.client.wait_for('message', timeout=config.timeout, check=check_int)
-        selection = int(selection.content)
+        def check_reaction(reaction, user):
+            return not user.bot and reaction.message.id == message.id and reaction.emoji in emojis
+
+        reaction, user = await self.client.wait_for('reaction_add', timeout=config.timeout, check=check_reaction)
+
+        selection = emojis.index(reaction.emoji) + 1
+
         id = list_ids[selection - 1]
         embed = self.get_anime(id)
         await ctx.send(embed=embed)
@@ -262,13 +272,23 @@ class Mal(commands.Cog):
         """
         embed, list_ids = self.create_selection('manga', arg)
         message = await ctx.send(embed=embed)
+        await message.add_reaction("1\N{combining enclosing keycap}")
+        await message.add_reaction("2\N{combining enclosing keycap}")
+        await message.add_reaction("3\N{combining enclosing keycap}")
+        await message.add_reaction("4\N{combining enclosing keycap}")
+        await message.add_reaction("5\N{combining enclosing keycap}")
 
-        def check_int(message):
-            return error_checking.is_int(message.content) and message.channel == ctx.channel and 1 <= int(
-                message.content) <= 5
+        emojis = ["1\N{combining enclosing keycap}", "2\N{combining enclosing keycap}",
+                  "3\N{combining enclosing keycap}", "4\N{combining enclosing keycap}",
+                  "5\N{combining enclosing keycap}"]
 
-        selection = await self.client.wait_for('message', timeout=config.timeout, check=check_int)
-        selection = int(selection.content)
+        def check_reaction(reaction, user):
+            return not user.bot and reaction.message.id == message.id and reaction.emoji in emojis
+
+        reaction, user = await self.client.wait_for('reaction_add', timeout=config.timeout, check=check_reaction)
+
+        selection = emojis.index(reaction.emoji) + 1
+
         id = list_ids[selection - 1]
         embed = self.get_manga(id)
         await ctx.send(embed=embed)
