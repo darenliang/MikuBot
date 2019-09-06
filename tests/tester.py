@@ -2,6 +2,8 @@
 
 from unittest import TestCase
 
+from config import config
+from framework import pastebin
 from tests import apis
 
 
@@ -56,3 +58,6 @@ class TestAPIs(TestCase):
 
     def test_get_cloc_response(self):
         self.assertIsInstance(apis.get_cloc_response()[0]['language'], str)
+
+    def test_get_pastebin_response(self):
+        self.assertIsInstance(pastebin.get_url_data(config.whatsnew), str)

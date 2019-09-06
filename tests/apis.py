@@ -70,7 +70,7 @@ def get_clarifai_response():
     clarifai = ClarifaiApp(api_key=os.environ['CLARIFAI_KEY'])
     clarifai_model = clarifai.public_models.general_model
     response = clarifai_model.predict_by_url(
-        url="https://imgsv.imaging.nikon.com/lineup/dslr/df/img/sample/img_01_l.jpg")
+        url="https://www.fujifilm.com/products/digital_cameras/x/fujifilm_x_t1/sample_images/img/index/ff_x_t1_001.JPG")
     concepts = response['outputs'][0]['data']['concepts']
     return concepts[0]['name']
 
