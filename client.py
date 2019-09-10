@@ -53,6 +53,10 @@ class BotClient(commands.AutoShardedBot):
         logging.info('Guilds registered')
         logging.info('Bot is ready')
 
+        if not config.anime_presence:
+            await self.change_presence(activity=discord.Game(name="with weebs"))
+            logging.info('Presence changed')
+
     async def on_guild_join(self, guild):
         """Runs when the bot joins a new server"""
 
