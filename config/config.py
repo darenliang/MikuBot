@@ -22,6 +22,10 @@ whatsnew = 'https://pastebin.com/raw/BZyJcMUi'
 # timeout in seconds for selection commands
 timeout = 60.0
 
+local_database = False
+
+local_database_location = "database/db.json"
+
 
 class Aws:
     """AWS database setup info"""

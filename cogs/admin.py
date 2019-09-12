@@ -8,7 +8,7 @@ from clarifai.rest import ClarifaiApp
 from discord.ext import commands
 
 from config import config
-from framework import prefix_handler, dynamodb, presence
+from framework import prefix_handler, presence
 
 # months list
 months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October',
@@ -43,12 +43,17 @@ class Admin(commands.Cog):
             The prefix to change to for this server.
         """
         # sets prefix on AWS
-        dynamodb.dynamodb.update_item(TableName=config.Aws.aws_table, Key={'Guild_Id': {'N': str(ctx.guild.id)}},
-                                      UpdateExpression="SET Prefix = :r",
-                                      ExpressionAttributeValues={':r': {'S': prefix}})
+        if not config.local_database:
+            self.client.database.dynamodb.update_item(TableName=config.Aws.aws_table,
+                                                      Key={'Guild_Id': {'N': str(ctx.guild.id)}},
+                                                      UpdateExpression="SET Prefix = :r",
+                                                      ExpressionAttributeValues={':r': {'S': prefix}})
+        else:
+            self.client.database.localdb.update({'Prefix': prefix},
+                                                self.client.database.user.Guild_Id == ctx.guild.id)
 
         # set new prefix in temporary local database
-        for guild in dynamodb.temp:
+        for guild in self.client.database.temp:
             if guild['Guild_Id'] == ctx.guild.id:
                 guild['Prefix'] = prefix
 

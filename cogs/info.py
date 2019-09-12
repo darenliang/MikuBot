@@ -81,7 +81,7 @@ class Info(commands.Cog):
             prefix_str = config.prefix
         else:
             server_prefix = 'Server Prefix'
-            prefix_str = prefix_handler.return_prefix(ctx)
+            prefix_str = prefix_handler.return_prefix(self.client, ctx)
         embed.add_field(name='Links',
                         value='[Invite Bot](https://discordapp.com/oauth2/authorize?client_id=' + str(
                             info.id) + '&scope=bot)\n'

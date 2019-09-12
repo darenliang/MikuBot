@@ -22,12 +22,7 @@ import discord
 from discord.ext import commands
 
 from config import config
-from framework import prefix_handler, database, dynamodb, presence
-
-# database is the temp storage
-database.init()
-# dynamodb uses AWS services to store persistent data
-dynamodb.init()
+from framework import prefix_handler, temp_database, presence, database
 
 # sets up logging
 logging.basicConfig(stream=sys.stdout, level=logging.INFO)
@@ -41,14 +36,16 @@ class BotClient(commands.AutoShardedBot):
 
         # create the background task and run it in the background
         self.bg_task = self.loop.create_task(self.presence_changer())
+        self.temp = temp_database.TempDatabase()
+        self.database = database.initialize_database()
 
     async def on_ready(self):
         """Runs on ready"""
         logging.info('Starting up')
 
         # register guilds in database
-        dynamodb.guild_update(self)
-        dynamodb.temp_update(self)
+        self.database.guild_update(self)
+        self.database.temp_update(self)
 
         logging.info('Guilds registered')
         logging.info('Bot is ready')
@@ -61,23 +58,23 @@ class BotClient(commands.AutoShardedBot):
         """Runs when the bot joins a new server"""
 
         # add guild to database
-        dynamodb.guild_add(guild)
-        dynamodb.temp_add(guild)
+        self.database.guild_add(guild)
+        self.database.temp_add(guild)
         logging.info('Guild added to database')
 
     async def on_guild_remove(self, guild):
         """Runs when the bot leaves a server"""
 
         # remove guild to database
-        dynamodb.guild_remove(guild)
-        dynamodb.temp_remove(guild)
+        self.database.guild_remove(guild)
+        self.database.temp_remove(guild)
         logging.info('Guild removed in database')
 
     async def on_guild_update(self, old_guild, new_guild):
         """Runs when a server updates"""
 
         # update guild info on database
-        dynamodb.guild_change(old_guild, new_guild)
+        self.database.guild_change(old_guild, new_guild)
         logging.info('Guild information changed in database')
 
     async def presence_changer(self):

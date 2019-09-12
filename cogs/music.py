@@ -12,7 +12,7 @@ from discord.ext import commands
 from youtube_dl import YoutubeDL
 
 from config import config
-from framework import error_checking, youtube, database
+from framework import youtube
 
 ytdlopts = {
     'format': 'bestaudio/best',

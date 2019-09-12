@@ -11,7 +11,7 @@ from discord.ext import commands
 from googletrans import Translator
 
 from config import config
-from framework import database, themes, prefix_handler
+from framework import themes, prefix_handler
 from jikanpy import Jikan
 
 
@@ -109,10 +109,9 @@ class Fun(commands.Cog):
         """
         if not answer:
             source, anime, url = themes.get_theme()
-
-            search = database.channel_update(ctx.channel.id)
-            database.server_data[search]['quiz_answers'] = (source, anime)
-            database.server_data[search]['quiz_search'] = False
+            search = self.client.temp.channel_update(ctx.channel.id)
+            self.client.temp.server_data[search]['quiz_answers'] = (source, anime)
+            self.client.temp.server_data[search]['quiz_search'] = False
 
             video_hash = themes.download_url(url)
             music_hash = themes.convert_video(video_hash)
@@ -121,22 +120,22 @@ class Fun(commands.Cog):
             if not ctx.guild:
                 prefix_str = config.prefix
             else:
-                prefix_str = prefix_handler.return_prefix(ctx)
+                prefix_str = prefix_handler.return_prefix(self.client, ctx)
             await ctx.send(
                 "What is this song? Type: `{prefix_str}musicquiz answer` to guess an anime or type `{prefix_str}musicquiz giveup` to get the correct answer.".format(
                     prefix_str=prefix_str))
             await ctx.send(file=song)
             os.remove(music_hash + '.mp3')
         else:
-            search = database.channel_update(ctx.channel.id)
-            if not database.server_data[search]['quiz_search']:
-                retrieve = database.server_data[search]['quiz_answers']
+            search = self.client.temp.channel_update(ctx.channel.id)
+            if not self.client.temp.server_data[search]['quiz_search']:
+                retrieve = self.client.temp.server_data[search]['quiz_answers']
                 if answer.lower() == 'giveup':
-                    database.server_data[search]['quiz_search'] = True
+                    self.client.temp.server_data[search]['quiz_search'] = True
                     return await ctx.send('The answer is: {0}'.format(retrieve[0]))
                 else:
                     if themes.validation(self.jikan.search('anime', answer)['results'], retrieve[1]):
-                        database.server_data[search]['quiz_search'] = True
+                        self.client.temp.server_data[search]['quiz_search'] = True
                         return await ctx.send('You are correct! The answer is {0}'.format(retrieve[0]))
                     else:
                         return await ctx.send('You are incorrect. Please try again.')

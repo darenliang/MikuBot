@@ -8,7 +8,7 @@ import discord
 from discord.ext import commands
 
 from config import config
-from framework import database, error_checking
+from framework import error_checking
 from jikanpy import Jikan
 
 # set logger
