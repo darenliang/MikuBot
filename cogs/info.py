@@ -150,17 +150,19 @@ class Info(commands.Cog):
         await ctx.send(embed=embed)
 
     @commands.command(name='pfp', aliases=[])
-    @commands.guild_only()
     async def pfp(self, ctx, *, member: discord.Member = None):
         """Return profile picture url
 
         Parameters
         ------------
         member: discord.Member [Optional]
-            The user or member to get profile picture from.
-            If the user or member is not specified, the message author will be checked instead.
+            When in a guild:
+                The user or member to get profile picture from.
+                If the user or member is not specified, the message author will be checked instead.
+            When in DMs:
+                Member is not to be specified.
         """
-        if member is None:
+        if member is None or ctx.guild is None:
             member = ctx.author
         await ctx.send(str(member.avatar_url).replace('.webp', '.png'))
 
