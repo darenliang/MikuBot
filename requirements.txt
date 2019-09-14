@@ -51,7 +51,7 @@ rsa==4.0
 s3transfer==0.2.1
 six==1.12.0
 soupsieve==1.9.2
-tinydb==3.13.0
+tinydb==3.14.1
 update-checker==0.16
 uritemplate==3.0.0
 urllib3==1.25.3
