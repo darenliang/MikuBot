@@ -50,6 +50,10 @@ class Gaming(commands.Cog):
             embed.add_field(name='Skill Rating',
                             value=sr,
                             inline=True)
+            for i in range(len(data['ratings'])):
+                embed.add_field(name='{} Rating'.format(data['ratings'][i]['role'].capitalize()),
+                                value=data['ratings'][i]['level'],
+                                inline=True)
             embed.add_field(name='Level',
                             value=str((data['prestige'] * 100) + data['level']),
                             inline=True)
