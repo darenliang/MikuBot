@@ -3,7 +3,7 @@
 # default prefix
 prefix = '!'
 
-# default presence (DO NOT CHANGE)
+# default presence (DO NOT CHANGE, EXPERIMENTAL)
 anime_presence = False
 
 # list of activated extensions
@@ -22,8 +22,10 @@ whatsnew = 'https://pastebin.com/raw/BZyJcMUi'
 # timeout in seconds for selection commands
 timeout = 60.0
 
+# True for using a local json database for prefix management. False for using AWS DynamoDB
 local_database = False
 
+# sets location of the local json database location if local_database config is set to True
 local_database_location = "database/db.json"
 
 
