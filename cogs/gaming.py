@@ -21,11 +21,13 @@ class Gaming(commands.Cog):
 
     def __init__(self, client):
         self.client = client
+        """
         self.fortnite = Fortnite(
             fortnite_token=os.environ['FORTNITE_TOKEN'],
             launcher_token=os.environ['LAUNCHER_TOKEN'],
             password=os.environ['FORTNITE_PASSWORD'],
             email=os.environ['FORTNITE_EMAIL'])
+        """
         self.clashroyale = clashroyale.royaleapi.Client(os.environ['CR_TOKEN'])
 
     @commands.command(name='overwatch', aliases=['ow'])
@@ -91,7 +93,7 @@ class Gaming(commands.Cog):
             log.warning('overwatch: Player not found')
             await ctx.send('Player cannot be found. Are you sure you entered the right battletag? (Case sensitive)')
 
-    @commands.command(name='fortnite', aliases=['fonibr'])
+    @commands.command(name='fortnite', aliases=['fonibr'], enabled=False)
     async def fortnite(self, ctx, *, gamertag):
         """Get Fortnite stats.
 
@@ -138,7 +140,7 @@ class Gaming(commands.Cog):
             log.error(e)
             await ctx.send('Player cannot be found.')
 
-    @commands.command(name='clashroyale', aliases=['cr'], enabled=False)
+    @commands.command(name='clashroyale', aliases=['cr'])
     async def clashroyale(self, ctx, *, id):
         """Get Clash Royale stats.
 
