@@ -377,7 +377,7 @@ class Mal(commands.Cog):
         """Return a pseudo-random anime.
         Based on a weighted random distribution.
         """
-        rank = random.randint(1, 63750)
+        rank = random.randint(1, 63749)
         page = 0
         while True:
             if rank - (50 - page) * 50 < 0:
@@ -386,6 +386,14 @@ class Mal(commands.Cog):
             rank -= (50 - page) * 50
             page += 1
         id = self.jikan.top(type='anime', page=page + 1)['top'][index]['mal_id']
+        embed = self.get_anime(id)
+        await ctx.send(embed=embed)
+
+    @commands.command(name='random', aliases=['mal_random'])
+    async def random(self, ctx):
+        """Return a random anime.
+        """
+        id = self.jikan.top(type='anime', page=random.randint(1, 320))['top'][random.randint(0, 49)]['mal_id']
         embed = self.get_anime(id)
         await ctx.send(embed=embed)
 
