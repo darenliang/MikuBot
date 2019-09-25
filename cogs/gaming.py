@@ -30,7 +30,7 @@ class Gaming(commands.Cog):
         """
         self.clashroyale = clashroyale.royaleapi.Client(os.environ['CR_TOKEN'])
 
-    @commands.command(name='overwatch', aliases=['ow'])
+    @commands.command(name='overwatch', aliases=['ow'], enabled=False)
     async def overwatch(self, ctx, *, battletag):
         """Get Overwatch profile info.
 
