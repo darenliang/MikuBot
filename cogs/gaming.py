@@ -209,7 +209,7 @@ class Gaming(commands.Cog):
             Your osu! username.
         """
         user = self.osu.get_user(username)
-        if not user[0]:
+        if not user:
             return await ctx.send('Player cannot be found.')
         user = user[0]
         embed = discord.Embed(color=config.embed_color, title="{0}'s osu! Stats".format(user.username))
