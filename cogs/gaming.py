@@ -214,7 +214,7 @@ class Gaming(commands.Cog):
         user = user[0]
         embed = discord.Embed(color=config.embed_color, title="{0}'s osu! Stats".format(user.username))
         embed.add_field(name='PP Rank',
-                        value=str(user.pp_rank),
+                        value='{:,}'.format(user.pp_rank),
                         inline=True)
         embed.add_field(name='Time Played',
                         value=str(int(user.total_seconds_played / 3600)) + " hours",
@@ -223,13 +223,13 @@ class Gaming(commands.Cog):
                         value=str(user.level),
                         inline=True)
         embed.add_field(name='Accuracy',
-                        value=str(int(round(user.accuracy))) + " %",
+                        value=str(round(user.accuracy, 2)) + "%",
                         inline=True)
         embed.add_field(name='Ranked Score',
-                        value=str(user.ranked_score),
+                        value='{:,}'.format(user.ranked_score),
                         inline=True)
         embed.add_field(name='Playcount',
-                        value=str(user.playcount),
+                        value='{:,}'.format(user.playcount),
                         inline=True)
         embed.set_thumbnail(url='https://github.com/darenliang/MikuBot/raw/master/static_files/osu.png')
         await ctx.send(embed=embed)
