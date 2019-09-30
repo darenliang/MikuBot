@@ -213,7 +213,7 @@ class Gaming(commands.Cog):
             return await ctx.send('Player cannot be found.')
         user = user[0]
         embed = discord.Embed(color=config.embed_color, title="{0}'s osu! Stats".format(user.username))
-        embed.add_field(name='PP Rank',
+        embed.add_field(name='Rank',
                         value='{:,}'.format(user.pp_rank),
                         inline=True)
         embed.add_field(name='Time Played',
