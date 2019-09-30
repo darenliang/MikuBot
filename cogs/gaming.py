@@ -7,7 +7,8 @@ import os
 import clashroyale
 import discord
 from discord.ext import commands
-from pfaw import Fortnite, Platform
+from osuapi import OsuApi, ReqConnector
+from pfaw import Platform
 
 from config import config
 from framework import overwatch
@@ -29,6 +30,7 @@ class Gaming(commands.Cog):
             email=os.environ['FORTNITE_EMAIL'])
         """
         self.clashroyale = clashroyale.royaleapi.Client(os.environ['CR_TOKEN'])
+        self.osu = OsuApi(os.environ["OSU_KEY"], connector=ReqConnector())
 
     @commands.command(name='overwatch', aliases=['ow'])
     async def overwatch(self, ctx, *, battletag):
@@ -196,6 +198,41 @@ class Gaming(commands.Cog):
             log.warning('clashroyale: Player not found')
             log.error(e)
             await ctx.send('Player cannot be found.')
+
+    @commands.command(name='osu', aliases=[])
+    async def osu(self, ctx, *, username):
+        """Get osu! stats.
+
+        Parameters
+        ------------
+        username: str [Required]
+            Your osu! username.
+        """
+        user = self.osu.get_user(username)
+        if not user[0]:
+            return await ctx.send('Player cannot be found.')
+        user = user[0]
+        embed = discord.Embed(color=config.embed_color, title="{0}'s osu! Stats".format(user.username))
+        embed.add_field(name='PP Rank',
+                        value=str(user.pp_rank),
+                        inline=True)
+        embed.add_field(name='Time Played',
+                        value=str(int(user.total_seconds_played / 3600)) + " hours",
+                        inline=True)
+        embed.add_field(name='Level',
+                        value=str(user.level),
+                        inline=True)
+        embed.add_field(name='Accuracy',
+                        value=str(int(round(user.accuracy))) + " %",
+                        inline=True)
+        embed.add_field(name='Ranked Score',
+                        value=str(user.ranked_score),
+                        inline=True)
+        embed.add_field(name='Playcount',
+                        value=str(user.playcount),
+                        inline=True)
+        embed.set_thumbnail(url='https://github.com/darenliang/MikuBot/raw/master/static_files/osu.png')
+        await ctx.send(embed=embed)
 
 
 def setup(client):
