@@ -4,7 +4,7 @@
 prefix = '!'
 
 # default presence (DO NOT CHANGE, EXPERIMENTAL)
-anime_presence = False
+anime_presence = True
 
 # list of activated extensions
 # dbl will be deactivated if bot is set to public
