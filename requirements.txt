@@ -3,8 +3,8 @@ async-generator==1.10
 async-timeout==3.0.1
 attrs==19.1.0
 beautifulsoup4==4.8.0
-boto3==1.9.241
-botocore==1.12.241
+boto3==1.9.242
+botocore==1.12.242
 cachetools==3.1.1
 certifi==2019.6.16
 cffi==1.12.3
@@ -13,7 +13,7 @@ chardet==3.0.4
 clarifai==2.6.2
 clashroyale==4.0.1
 configparser==3.7.4
-dblpy==0.3.2
+dblpy==0.3.3
 discord.py==1.2.3
 docutils==0.14
 fortnite==0.0.8
