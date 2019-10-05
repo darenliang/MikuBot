@@ -16,7 +16,8 @@ configparser==3.7.4
 dblpy==0.3.3
 discord.py==1.2.3
 docutils==0.14
-fortnite==0.0.8
+fortnite-python==0.3.5
+furl==2.1.0
 future==0.17.1
 fuzzywuzzy==0.17.0
 google-api-python-client==1.7.11
@@ -35,6 +36,7 @@ jsonschema==2.6.0
 lxml==4.4.1
 more-itertools==7.2.0
 multidict==4.5.2
+orderedmultidict==1.0.1
 osuapi==0.0.40
 praw==6.4.0
 prawcore==1.0.1

@@ -7,12 +7,12 @@ from random import randint
 
 import cfscrape
 import clashroyale
+import fortnite_python
 import praw
 import requests
 import wolframalpha
 from clarifai.rest import ClarifaiApp
 from googletrans import Translator
-from pfaw import Fortnite
 from pybooru import Danbooru
 
 import bitly_api
@@ -113,13 +113,10 @@ def get_anime_response():
 
 
 def get_fortnite_response():
-    fortnite = Fortnite(
-        fortnite_token=os.environ['FORTNITE_TOKEN'],
-        launcher_token=os.environ['LAUNCHER_TOKEN'],
-        password=os.environ['FORTNITE_PASSWORD'],
-        email=os.environ['FORTNITE_EMAIL'])
-    status = fortnite.server_status()
-    return status
+    fortnite = fortnite_python.Fortnite(os.environ['FORTNITE_KEY'])
+    player = fortnite.player("TSM_Myth")
+    stats = player.get_stats()
+    return stats.kills
 
 
 def get_clashroyale_response():

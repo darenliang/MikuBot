@@ -8,10 +8,10 @@ import clashroyale
 import discord
 from discord.ext import commands
 from osuapi import OsuApi, ReqConnector
-from pfaw import Platform
 
 from config import config
 from framework import overwatch
+import fortnite_python
 
 # set logger
 log = logging.getLogger(__name__)
@@ -22,13 +22,7 @@ class Gaming(commands.Cog):
 
     def __init__(self, client):
         self.client = client
-        """
-        self.fortnite = Fortnite(
-            fortnite_token=os.environ['FORTNITE_TOKEN'],
-            launcher_token=os.environ['LAUNCHER_TOKEN'],
-            password=os.environ['FORTNITE_PASSWORD'],
-            email=os.environ['FORTNITE_EMAIL'])
-        """
+        self.fortnite = fortnite_python.Fortnite(os.environ['FORTNITE_KEY'])
         self.clashroyale = clashroyale.royaleapi.Client(os.environ['CR_TOKEN'])
         self.osu = OsuApi(os.environ["OSU_KEY"], connector=ReqConnector())
 
@@ -95,7 +89,7 @@ class Gaming(commands.Cog):
             log.warning('overwatch: Player not found')
             await ctx.send('Player cannot be found. Are you sure you entered the right battletag? (Case sensitive)')
 
-    @commands.command(name='fortnite', aliases=['fonibr'], enabled=False)
+    @commands.command(name='fortnite', aliases=['fonibr'])
     async def fortnite(self, ctx, *, gamertag):
         """Get Fortnite stats.
 
@@ -108,32 +102,27 @@ class Gaming(commands.Cog):
             Your Fortnite gamertag.
         """
         try:
-            player = self.fortnite.player(username=gamertag)
-            stats = self.fortnite.battle_royale_stats(username=gamertag, platform=Platform.pc)
-            status = self.fortnite.server_status()
+            player = self.fortnite.player(gamertag)
+            stats = player.get_stats()
 
-            embed = discord.Embed(color=config.embed_color, title="{0}'s Fortnite Stats".format(player.name))
-            embed.add_field(name='Solo Wins',
-                            value=str(stats.solo.wins),
+            embed = discord.Embed(color=config.embed_color, title="{0}'s Fortnite Stats".format(player.username))
+            embed.add_field(name='Wins',
+                            value=str(stats.top1),
                             inline=True)
-            embed.add_field(name='Duo Wins',
-                            value=str(stats.duo.wins),
+            embed.add_field(name='Win Percentage',
+                            value=str(stats.win_ratio) + ' %',
                             inline=True)
-            embed.add_field(name='Squad Wins',
-                            value=str(stats.squad.wins),
+            embed.add_field(name='K/D Ratio',
+                            value=str(stats.kd),
                             inline=True)
-            embed.add_field(name='Lifetime Kills',
-                            value=str(stats.all.kills),
+            embed.add_field(name='Kills',
+                            value=str(stats.kills),
                             inline=True)
-            embed.add_field(name='Total Score',
-                            value=str(stats.all.score),
+            embed.add_field(name='Kills per Match',
+                            value=str(stats.kpg),
                             inline=True)
-            if status:
-                curr_status = 'Servers are up.'
-            else:
-                curr_status = 'Servers are down.'
-            embed.add_field(name='Fortnite Status',
-                            value=curr_status,
+            embed.add_field(name='Matches Played',
+                            value=str(stats.matches),
                             inline=True)
             embed.set_thumbnail(url='https://github.com/darenliang/MikuBot/raw/master/static_files/fortnite.png')
             await ctx.send(embed=embed)

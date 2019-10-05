@@ -45,7 +45,7 @@ class TestAPIs(TestCase):
         self.assertEqual(apis.get_anime_response(), "Cowboy Bebop")
 
     def test_get_fortnite_response(self):
-        self.assertEqual(apis.get_fortnite_response(), True)
+        self.assertIsInstance(int(apis.get_fortnite_response()), int)
 
     def test_get_clashroyale_response(self):
         self.assertIsInstance(apis.get_clashroyale_response(), str)
