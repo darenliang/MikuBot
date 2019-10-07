@@ -297,7 +297,7 @@ class Mal(commands.Cog):
         except discord.HTTPException:
             pass
 
-    @commands.command(name='user', aliases=['mal_user'])
+    @commands.command(name='user', aliases=['mal', 'mal_user'])
     async def user(self, ctx, user):
         """Get info about a user.
 
@@ -376,6 +376,7 @@ class Mal(commands.Cog):
     async def recommend(self, ctx):
         """Return a pseudo-random anime.
         Based on a weighted random distribution.
+        The more popular an anime is the higher sample chance.
         """
         rank = random.randint(1, 63749)
         page = 0
@@ -392,6 +393,7 @@ class Mal(commands.Cog):
     @commands.command(name='random', aliases=['mal_random'])
     async def random(self, ctx):
         """Return a random anime.
+        Excludes very obscure animes that are not properly indexed by MyAnimeList.
         """
         id = self.jikan.top(type='anime', page=random.randint(1, 320))['top'][random.randint(0, 49)]['mal_id']
         embed = self.get_anime(id)
