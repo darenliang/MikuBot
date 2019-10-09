@@ -31,7 +31,7 @@ class Gaming(commands.Cog):
         """Get Overwatch profile info.
 
         Note:
-            Only for NA region PC platform and profile must be set on public.
+            Only for NA region PC platform and profile must be set to public.
 
         Parameters
         ------------
@@ -94,7 +94,7 @@ class Gaming(commands.Cog):
         """Get Fortnite stats.
 
         Note:
-            Only for PC platform.
+            Only for NA and PC platform.
 
         Parameters
         ------------
