@@ -4,10 +4,12 @@
 prefix = '!'
 
 # default presence (DO NOT CHANGE, EXPERIMENTAL)
+# when anime_presence is set to true, the bots status will update every hour to an anime that is airing that day
 anime_presence = True
 
 # list of activated extensions
-# dbl will be deactivated if bot is set to public
+# dbl will be deactivated if bot is set to private
+# pic will be deactivated if bot is set to public
 activated_extensions = ['admin', 'pic', 'fun', 'help', 'gaming', 'info', 'mal', 'music', 'reddit', 'utility', 'dbl']
 
 # True for downloading music and False for streaming music

@@ -1,4 +1,8 @@
-"""This cog file contains the bot's booru commands"""
+"""
+This cog file contains the bot's booru commands
+Please note that when the bot is set to public status,
+this cog is disabled by default due to potential TOS violation.
+"""
 
 import logging
 import os.path

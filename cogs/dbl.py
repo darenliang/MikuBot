@@ -1,4 +1,7 @@
-"""This cog file updates the correct server count on discordbots.org"""
+"""
+This cog file updates the correct server count on discordbots.org.
+Please note that when the bot is set to private status, this cog is disabled by default.
+"""
 
 import asyncio
 import logging
@@ -6,9 +9,6 @@ import os
 
 import dbl
 from discord.ext import commands
-
-"""Currently, this cog only runs on master branch because of current deployment, go to config.py to set "dbl" as an
-activated extension"""
 
 
 class DiscordBotsOrgAPI(commands.Cog):
