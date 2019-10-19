@@ -5,6 +5,8 @@ Invite the bot here:
 
 MikuBot is a general purpose anime Discord bot.
 
+Currently, self-hosting is not recommended since the bot requires many API keys and python packages. An easier setup process is seriously considered right now.
+
 ## Documentation
 
 #### Prefix
