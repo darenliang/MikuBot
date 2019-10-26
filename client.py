@@ -89,32 +89,33 @@ class BotClient(commands.AutoShardedBot):
             await asyncio.sleep(3600)
 
 
-# create autoshardedbot
-client = BotClient(command_prefix=prefix_handler.get_prefix, case_insensitive=True)
-logging.info('Client generated')
+if __name__ == "__main__":
+    # create autoshardedbot
+    client = BotClient(command_prefix=prefix_handler.get_prefix, case_insensitive=True)
+    logging.info('Client generated')
 
-# save launch time when bot starts up
-client.launch_time = datetime.utcnow()
-logging.info('Startup time registered')
+    # save launch time when bot starts up
+    client.launch_time = datetime.utcnow()
+    logging.info('Startup time registered')
 
-# load extensions to memory
-extensions = config.activated_extensions[:]
+    # load extensions to memory
+    extensions = config.activated_extensions[:]
 
-# unload and load cogs according to public_bot status
-if "PUBLIC_BOT" in os.environ:
-    if os.environ["PUBLIC_BOT"] == 'true':
-        if 'pic' in extensions:
-            extensions.remove('pic')
-    elif os.environ["PUBLIC_BOT"] == 'false':
-        if 'dbl' in extensions:
-            extensions.remove('dbl')
+    # unload and load cogs according to public_bot status
+    if "PUBLIC_BOT" in os.environ:
+        if os.environ["PUBLIC_BOT"] == 'true':
+            if 'pic' in extensions:
+                extensions.remove('pic')
+        elif os.environ["PUBLIC_BOT"] == 'false':
+            if 'dbl' in extensions:
+                extensions.remove('dbl')
 
-# load cog extensions
-for extension in extensions:
-    client.load_extension(f'cogs.{extension}')
-client.load_extension('framework.error_handler')
-logging.info('Extensions loaded')
+    # load cog extensions
+    for extension in extensions:
+        client.load_extension(f'cogs.{extension}')
+    client.load_extension('framework.error_handler')
+    logging.info('Extensions loaded')
 
-# run bot instance
-client.run(os.environ['BOT_TOKEN'], bot=True, reconnect=True)
-logging.info('Bot instance initiated')
+    # run bot instance
+    client.run(os.environ['BOT_TOKEN'], bot=True, reconnect=True)
+    logging.info('Bot instance initiated')
