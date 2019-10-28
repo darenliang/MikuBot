@@ -253,7 +253,9 @@ class Music(commands.Cog):
     @commands.guild_only()
     async def play_(self, ctx, *, search: str):
         """Request a song and add it to the queue to play.
+
         This command can call from many different sources.
+
         You can try all sorts of links or IDs.
 
         Note:
@@ -378,6 +380,7 @@ class Music(commands.Cog):
     @commands.guild_only()
     async def queue_info(self, ctx, num: int = 1):
         """Retrieve a basic queue of upcoming songs.
+
         Returns 10 songs.
 
         Parameters

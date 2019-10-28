@@ -87,6 +87,7 @@ class Fun(commands.Cog):
     @commands.command(name='8ball', aliases=['8b', 'eightball'])
     async def eightball(self, ctx, *, question):
         """Return an 8ball response.
+
         Parameters
         ------------
         question: str [Required]
@@ -100,6 +101,7 @@ class Fun(commands.Cog):
     @commands.command(name='musicquiz', aliases=['mq', 'quiz'])
     async def musicquiz(self, ctx, *, answer=None):
         """Get an anime music quiz
+
         Parameters
         ------------
         answer: str [Optional]
