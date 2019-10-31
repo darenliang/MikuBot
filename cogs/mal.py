@@ -24,11 +24,11 @@ class Mal(commands.Cog):
         # starts jikan instance
         self.jikan = Jikan()
 
-    def create_selection(self, type, query):
+    def create_selection(self, media_type, query):
         """Return list of results based on a query."""
         results_str = ""
         list_ids = []
-        search_result = self.jikan.search(type, query)
+        search_result = self.jikan.search(media_type, query)
         results = search_result['results']
         for i in range(5):
             results_str += "{0}. {1}\n".format((i + 1), results[i]['title'])
@@ -40,9 +40,9 @@ class Mal(commands.Cog):
             description=results_str)
         return embed, list_ids
 
-    def get_anime(self, id):
+    def get_anime(self, mal_id):
         """Generate embed for anime"""
-        result = self.jikan.anime(id)
+        result = self.jikan.anime(mal_id)
 
         # title
         title = result['title']
@@ -103,9 +103,9 @@ class Mal(commands.Cog):
         embed.add_field(name='Members', value=result['members'], inline=True)
         return embed
 
-    def get_manga(self, id):
+    def get_manga(self, mal_id):
         """Generate embed for manga"""
-        result = self.jikan.manga(id)
+        result = self.jikan.manga(mal_id)
 
         # title
         title = result['title']
@@ -251,8 +251,8 @@ class Mal(commands.Cog):
 
         selection = emojis.index(reaction.emoji) + 1
 
-        id = list_ids[selection - 1]
-        embed = self.get_anime(id)
+        mal_id = list_ids[selection - 1]
+        embed = self.get_anime(mal_id)
         await ctx.send(embed=embed)
         try:
             await message.delete()
@@ -289,8 +289,8 @@ class Mal(commands.Cog):
 
         selection = emojis.index(reaction.emoji) + 1
 
-        id = list_ids[selection - 1]
-        embed = self.get_manga(id)
+        mal_id = list_ids[selection - 1]
+        embed = self.get_manga(mal_id)
         await ctx.send(embed=embed)
         try:
             await message.delete()
@@ -388,8 +388,8 @@ class Mal(commands.Cog):
                 break
             rank -= (50 - page) * 50
             page += 1
-        id = self.jikan.top(type='anime', page=page + 1)['top'][index]['mal_id']
-        embed = self.get_anime(id)
+        mal_id = self.jikan.top(type='anime', page=page + 1)['top'][index]['mal_id']
+        embed = self.get_anime(mal_id)
         await ctx.send(embed=embed)
 
     @commands.command(name='random', aliases=['mal_random'])
@@ -398,8 +398,8 @@ class Mal(commands.Cog):
 
         Excludes very obscure animes that are not properly indexed by MyAnimeList.
         """
-        id = self.jikan.top(type='anime', page=random.randint(1, 320))['top'][random.randint(0, 49)]['mal_id']
-        embed = self.get_anime(id)
+        mal_id = self.jikan.top(type='anime', page=random.randint(1, 320))['top'][random.randint(0, 49)]['mal_id']
+        embed = self.get_anime(mal_id)
         await ctx.send(embed=embed)
 
 

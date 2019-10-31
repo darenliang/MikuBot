@@ -312,7 +312,7 @@ class Music(commands.Cog):
 
         selection = emojis.index(reaction.emoji) + 1
 
-        videoId = url_list[selection - 1]
+        video_id = url_list[selection - 1]
         await ctx.trigger_typing()
 
         vc = ctx.voice_client
@@ -327,7 +327,7 @@ class Music(commands.Cog):
 
         # If download is False, source will be a dict which will be used later to regather the stream.
         # If download is True, source will be a discord.FFmpegPCMAudio with a VolumeTransformer.
-        source = await YTDLSource.create_source(ctx, videoId, loop=self.bot.loop,
+        source = await YTDLSource.create_source(ctx, video_id, loop=self.bot.loop,
                                                 download=config.on_download)
         await player.queue.put(source)
 

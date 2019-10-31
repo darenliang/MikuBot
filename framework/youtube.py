@@ -17,10 +17,10 @@ def get_youtube_response(query):
 
     api_service_name = "youtube"
     api_version = "v3"
-    DEVELOPER_KEY = os.environ['YOUTUBE_KEY']
+    developer_key = os.environ['YOUTUBE_KEY']
 
     youtube = googleapiclient.discovery.build(
-        api_service_name, api_version, developerKey=DEVELOPER_KEY, cache_discovery=False)
+        api_service_name, api_version, developerKey=developer_key, cache_discovery=False)
 
     request = youtube.search().list(
         part="snippet",

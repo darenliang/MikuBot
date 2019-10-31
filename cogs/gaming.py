@@ -132,18 +132,18 @@ class Gaming(commands.Cog):
             await ctx.send('Player cannot be found.')
 
     @commands.command(name='clashroyale', aliases=['cr'])
-    async def clashroyale(self, ctx, *, id):
+    async def clashroyale(self, ctx, *, cr_id):
         """Get Clash Royale stats.
 
         Parameters
         ------------
-        id: str [Required]
+        cr_id: str [Required]
             Your Clash Royale ID.
         """
         try:
-            if id[0] == '#':
-                id = id[1:]
-            player = self.clashroyale.get_player(id)[0]
+            if cr_id[0] == '#':
+                cr_id = cr_id[1:]
+            player = self.clashroyale.get_player(cr_id)[0]
             print(player)
             embed = discord.Embed(color=config.embed_color, title="{0}'s ClashRoyale Stats".format(player['name']))
             embed.add_field(name='Trophies',

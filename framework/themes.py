@@ -35,23 +35,23 @@ def get_theme():
 
 def download_url(url):
     """Download file from url"""
-    hash = str(get_hash())
-    filename = hash + ".webm"
+    rand_hash = str(get_hash())
+    filename = rand_hash + ".webm"
     r = requests.get(url, stream=True)
     with open(filename, 'wb') as f:
         for chunk in r.iter_content(chunk_size=1024):
             if chunk:
                 f.write(chunk)
     f.close()
-    return str(hash)
+    return str(rand_hash)
 
 
 def convert_video(filename):
     """Convert video"""
-    randhash = str(get_hash())
-    command = "ffmpeg -i {0}.webm -vn -ab 128k -ar 44100 -y {1}.mp3".format(filename, randhash)
+    rand_hash = str(get_hash())
+    command = "ffmpeg -i {0}.webm -vn -ab 128k -ar 44100 -y {1}.mp3".format(filename, rand_hash)
     subprocess.call(command, shell=True)
-    return randhash
+    return rand_hash
 
 
 def get_file(filename):
