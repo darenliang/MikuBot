@@ -24,7 +24,7 @@ LANGCODES = {'afrikaans': 'af', 'albanian': 'sq', 'amharic': 'am', 'arabic': 'ar
              'yiddish': 'yi', 'yoruba': 'yo', 'zulu': 'zu'}
 
 # reverse map langcodes list
-LANGUAGES = dict(map(reversed, LANGCODES.items()))
+LANGUAGES = {val: key for key, val in LANGCODES.items()}
 
 
 def get_language_code(search):
