@@ -2,6 +2,9 @@
 
 import psutil
 
+MB = 2 ** 20
+SAMPLE_INTERVAL = 0.1
+
 
 def get_platform():
     """Get platform"""
@@ -31,7 +34,7 @@ def get_platform():
 
 def get_cpu_load():
     """Get CPU load"""
-    return str(int(psutil.cpu_percent(interval=0.1))) + ' %'
+    return str(int(psutil.cpu_percent(interval=SAMPLE_INTERVAL))) + ' %'
 
 
 def get_cpu_count():
@@ -41,8 +44,8 @@ def get_cpu_count():
 
 def get_mem_size():
     """Get memory size"""
-    return str(int(psutil.virtual_memory().used / 1048576)) + ' / ' + str(
-        int(psutil.virtual_memory().total / 1048576)) + ' MB'
+    return str(int(psutil.virtual_memory().used / MB)) + ' / ' + str(
+        int(psutil.virtual_memory().total / MB)) + ' MB'
 
 
 def get_mem_load():
