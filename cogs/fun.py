@@ -124,8 +124,8 @@ class Fun(commands.Cog):
             else:
                 prefix_str = prefix_handler.return_prefix(self.client, ctx)
             await ctx.send(
-                "What is this song? Type: `{prefix_str}musicquiz answer` to guess an anime or type `{prefix_str}musicquiz giveup` to get the correct answer.".format(
-                    prefix_str=prefix_str))
+                "What is this song? Type: `{prefix_str}musicquiz answer` to guess an anime or type "
+                "`{prefix_str}musicquiz giveup` to get the correct answer.".format(prefix_str=prefix_str))
             await ctx.send(file=song)
             os.remove(music_hash + '.mp3')
         else:
