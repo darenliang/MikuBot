@@ -37,7 +37,7 @@ lxml==4.4.1
 more-itertools==7.2.0
 multidict==4.5.2
 orderedmultidict==1.0.1
-osuapi==0.0.40
+osuapi==0.0.41
 praw==6.4.0
 prawcore==1.0.1
 protobuf==3.9.0
