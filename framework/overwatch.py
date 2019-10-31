@@ -3,11 +3,13 @@
 import json
 import urllib.request
 
+OW_API = 'https://ow-api.com/v1/stats/pc/us/{0}/complete'
+
 
 def get_overwatch_data(username):
     """Request overwatch data"""
     username = username.replace('#', '-')
-    with urllib.request.urlopen('https://ow-api.com/v1/stats/pc/us/{0}/complete'.format(username)) as url:
+    with urllib.request.urlopen(OW_API.format(username)) as url:
         data = json.loads(url.read().decode())
         if 'error' in data:
             return None, False
