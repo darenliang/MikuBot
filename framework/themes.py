@@ -48,10 +48,10 @@ def download_url(url):
 
 def convert_video(filename):
     """Convert video"""
-    hash = str(get_hash())
-    command = "ffmpeg -i {0}.webm -vn -ab 128k -ar 44100 -y {1}.mp3".format(filename, hash)
+    randhash = str(get_hash())
+    command = "ffmpeg -i {0}.webm -vn -ab 128k -ar 44100 -y {1}.mp3".format(filename, randhash)
     subprocess.call(command, shell=True)
-    return hash
+    return randhash
 
 
 def get_file(filename):
