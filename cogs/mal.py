@@ -244,8 +244,8 @@ class Mal(commands.Cog):
                   "3\N{combining enclosing keycap}", "4\N{combining enclosing keycap}",
                   "5\N{combining enclosing keycap}"]
 
-        def check_reaction(reaction, user):
-            return not user.bot and reaction.message.id == message.id and reaction.emoji in emojis
+        def check_reaction(rctn, usr):
+            return not usr.bot and rctn.message.id == message.id and rctn.emoji in emojis
 
         reaction, user = await self.client.wait_for('reaction_add', timeout=config.timeout, check=check_reaction)
 
@@ -282,8 +282,8 @@ class Mal(commands.Cog):
                   "3\N{combining enclosing keycap}", "4\N{combining enclosing keycap}",
                   "5\N{combining enclosing keycap}"]
 
-        def check_reaction(reaction, user):
-            return not user.bot and reaction.message.id == message.id and reaction.emoji in emojis
+        def check_reaction(rctn, usr):
+            return not usr.bot and rctn.message.id == message.id and rctn.emoji in emojis
 
         reaction, user = await self.client.wait_for('reaction_add', timeout=config.timeout, check=check_reaction)
 

@@ -30,9 +30,9 @@ class HelpCommand(commands.DefaultHelpCommand):
 
         no_category = '\u200b{0.no_category}:'.format(self)
 
-        def get_category(command, *, no_category=no_category):
+        def get_category(command, *, no_cat=no_category):
             cog = command.cog
-            return cog.qualified_name + ':' if cog is not None else no_category
+            return cog.qualified_name + ':' if cog is not None else no_cat
 
         filtered = await self.filter_commands(bot.commands, sort=True, key=get_category)
         max_size = self.get_max_size(filtered)
@@ -44,9 +44,9 @@ class HelpCommand(commands.DefaultHelpCommand):
         self.paginator.add_line()
 
         # Now we can add the commands to the page.
-        for category, commands in to_iterate:
-            commands = sorted(commands, key=lambda c: c.name) if self.sort_commands else list(commands)
-            self.add_indented_commands(commands, heading=category, max_size=max_size)
+        for cat, cmds in to_iterate:
+            cmds = sorted(cmds, key=lambda c: c.name) if self.sort_commands else list(cmds)
+            self.add_indented_commands(cmds, heading=cat, max_size=max_size)
 
         await self.send_pages()
 
@@ -55,9 +55,10 @@ class Help(commands.Cog):
     """Help command group."""
 
     def __init__(self, bot):
-        self._original_help_command = bot.help_command
-        bot.help_command = HelpCommand()
-        bot.help_command.cog = self
+        self.bot = bot
+        self._original_help_command = self.bot.help_command
+        self.bot.help_command = HelpCommand()
+        self.bot.help_command.cog = self
 
     def cog_unload(self):
         self.bot.help_command = self._original_help_command

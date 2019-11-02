@@ -83,9 +83,9 @@ def get_reddit_response():
         counter = 0
         submissions = [x for x in reddit.subreddit(subreddit).hot(limit=150) if not x.stickied and x.url]
         limit = randint(0, len(submissions) - 1)
-        for submission in submissions:
+        for sub in submissions:
             if counter == limit:
-                return submission
+                return sub
             else:
                 counter += 1
 
