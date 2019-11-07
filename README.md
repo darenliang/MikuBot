@@ -1,5 +1,7 @@
 # MikuBot: The anime Discord bot
 
+Anime/manga, trivia, questions, gaming, music, memes, pics, Reddit, utilities and much much more!
+
 Invite the bot here:
 [![MikuBot](https://discordbots.org/api/widget/status/512354713602228265.png)](https://discordbots.org/bot/512354713602228265)
 
