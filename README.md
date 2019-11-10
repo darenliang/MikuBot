@@ -1,11 +1,12 @@
 # MikuBot: The anime Discord bot
 
+MikuBot is a general purpose anime Discord bot that doesn't require elevated privileges.
+
 Anime/manga, trivia, questions, gaming, music, memes, pics, Reddit, utilities and much much more!
 
 Invite the bot here:
-[![MikuBot](https://discordbots.org/api/widget/status/512354713602228265.png)](https://discordbots.org/bot/512354713602228265)
 
-MikuBot is a general purpose anime Discord bot that doesn't require elevated privileges.
+[![MikuBot](https://discordbots.org/api/widget/status/512354713602228265.png)](https://discordbots.org/bot/512354713602228265)
 
 Currently, self-hosting is not recommended since the bot requires many API keys and python packages. An easier setup process is seriously considered right now.
 
