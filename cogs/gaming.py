@@ -131,7 +131,7 @@ class Gaming(commands.Cog):
             log.error(e)
             await ctx.send('Player cannot be found.')
 
-    @commands.command(name='clashroyale', aliases=['cr'], enabled=False)
+    @commands.command(name='clashroyale', aliases=['cr'])
     async def clashroyale(self, ctx, *, cr_id):
         """Get Clash Royale stats.
 
