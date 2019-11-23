@@ -2,7 +2,7 @@
 
 import json
 import os
-import urllib.request
+from urllib.request import Request, urlopen
 from random import randint
 
 import cfscrape
@@ -22,7 +22,7 @@ from jikanpy import Jikan
 
 
 def get_trivia_response():
-    with urllib.request.urlopen("https://opentdb.com/api.php?amount=1&category=31&type=multiple") as url:
+    with urlopen("https://opentdb.com/api.php?amount=1&category=31&type=multiple") as url:
         data = json.loads(url.read().decode())
         return data['response_code']
 
@@ -33,12 +33,12 @@ def get_theme_response():
 
 
 def get_overwatch_response():
-    with urllib.request.urlopen("https://ow-api.com/v1/stats/pc/us/SirPlumPits-1892/complete") as url:
-        data = json.loads(url.read().decode())
-        if 'private' in data:
-            return 0
-        else:
-            return 1
+    req = Request("https://ow-api.com/v1/stats/pc/us/SirPlumPits-1892/complete", headers={'User-Agent': 'Mozilla/5.0'})
+    data = json.loads(urlopen(req).read().decode())
+    if 'private' in data:
+        return 0
+    else:
+        return 1
 
 
 def get_sketchify_response():
@@ -131,7 +131,7 @@ def get_dbl_response():
 
 
 def get_discord_response():
-    with urllib.request.urlopen("https://srhpyqt94yxb.statuspage.io/api/v2/status.json") as url:
+    with urlopen("https://srhpyqt94yxb.statuspage.io/api/v2/status.json") as url:
         data = json.loads(url.read().decode())
         return data['status']['description'] == 'All Systems Operational'
 
