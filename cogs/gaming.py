@@ -102,7 +102,12 @@ class Gaming(commands.Cog):
             Your Fortnite gamertag.
         """
         try:
-            player = self.fortnite.player(gamertag)
+            try:
+                player = self.fortnite.player(gamertag)
+            except fortnite_python.exceptions.UnknownPlayerError:
+                log.warning('fortnite: Player not found')
+                return await ctx.send('Player cannot be found.')
+
             stats = player.get_stats()
 
             embed = discord.Embed(color=config.embed_color, title="{0}'s Fortnite Stats".format(player.username))
