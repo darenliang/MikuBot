@@ -1,13 +1,12 @@
 """This test file contains tests for various apis"""
-
-from unittest import TestCase
+import unittest
 
 from config import config
 from framework import pastebin
 from tests import apis
 
 
-class TestAPIs(TestCase):
+class TestAPIs(unittest.TestCase):
     def test_get_trivia_response(self):
         self.assertEqual(apis.get_trivia_response(), 0)
 
@@ -61,3 +60,7 @@ class TestAPIs(TestCase):
 
     def test_get_pastebin_response(self):
         self.assertIsInstance(pastebin.get_url_data(config.whatsnew), str)
+
+
+if __name__ == '__main__':
+    unittest.main()
