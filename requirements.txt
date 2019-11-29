@@ -30,7 +30,7 @@ httplib2==0.13.1
 idna==2.8
 inflect==2.1.0
 jaraco.itertools==4.4.2
-jikanpy==3.4.1
+jikanpy==3.4.2
 jmespath==0.9.4
 jsonschema==2.6.0
 lxml==4.4.1
