@@ -85,8 +85,9 @@ class Info(commands.Cog):
                         value='[Invite Bot](https://discordapp.com/oauth2/authorize?client_id=' + str(
                             info.id) + '&scope=bot)\n'
                                        '[Support Server](https://discord.gg/Tpa3cJB)\n'
-                                       '[Github](https://github.com/darenliang/MikuBot)\n'
-                                       '[Status](https://mikubot.statuspal.io)',
+                                       '[Github Repo](https://github.com/darenliang/MikuBot)\n'
+                                       '[Build Status](https://travis-ci.org/darenliang/MikuBot)\n'
+                                       '[Service Status](https://mikubot.statuspal.io)',
                         inline=True)
         embed.add_field(name=server_prefix,
                         value=prefix_str,
