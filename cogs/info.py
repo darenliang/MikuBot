@@ -84,7 +84,7 @@ class Info(commands.Cog):
         embed.add_field(name='Links',
                         value='[Invite Bot](https://discordapp.com/oauth2/authorize?client_id=' + str(
                             info.id) + '&scope=bot)\n'
-                                       '[Support Server](https://discord.gg/vGcNVe9)\n'
+                                       '[Support Server](https://discord.gg/Tpa3cJB)\n'
                                        '[Github](https://github.com/darenliang/MikuBot)\n'
                                        '[Status](https://mikubot.statuspal.io)',
                         inline=True)
