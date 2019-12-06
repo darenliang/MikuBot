@@ -6,7 +6,11 @@ Anime/manga, trivia, questions, gaming, music, memes, pics, Reddit, utilities an
 
 Invite the bot here:
 
-[![MikuBot](https://discordbots.org/api/widget/status/512354713602228265.png)](https://discordbots.org/bot/512354713602228265) [![Travis](https://travis-ci.org/darenliang/MikuBot.svg?branch=master)](https://travis-ci.org/darenliang/MikuBot)
+[![MikuBot](https://discordbots.org/api/widget/status/512354713602228265.png)](https://discordbots.org/bot/512354713602228265)
+
+Build status:
+
+[![Travis](https://travis-ci.org/darenliang/MikuBot.svg?branch=master)](https://travis-ci.org/darenliang/MikuBot)
 
 Currently, self-hosting is not recommended since the bot requires many API keys and python packages. An easier setup process is seriously considered right now.
 
@@ -15,7 +19,7 @@ Currently, self-hosting is not recommended since the bot requires many API keys 
 #### Prefix
 
 The default prefix is `!`; however, you can change it with the command `prefix <prefix>`.
-Note: You must have admin to set the prefix.
+Note: You must have server admin to set the prefix.
 
 #### Help
 
