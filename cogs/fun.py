@@ -92,11 +92,12 @@ class Fun(commands.Cog):
         ------------
         question: str [Required]
             The question asked.
-        Please note that a question string is not necessary, but the bot enforces it.
+
+        Please note that a question string is necessary although it is not used.
         """
         choices = ['It is certain.', 'Outlook good.', 'You may rely on it.', 'Ask again later',
                    'Concentrate and ask again.', 'Reply hazy, try again.', 'My reply is no', 'My sources say no.']
-        await ctx.send(choices[random.randint(0, 7)])
+        await ctx.send(random.choice(choices))
 
     @commands.command(name='musicquiz', aliases=['mq', 'quiz'])
     async def musicquiz(self, ctx, *, answer=None):
