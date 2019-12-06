@@ -1,4 +1,7 @@
-"""This framework file contains a scraper and media downloader for openings.moe"""
+"""This framework file contains a scraper and media downloader for openings.moe
+
+Currently files are not deleted after converting and uploading.
+"""
 
 import random
 import subprocess
