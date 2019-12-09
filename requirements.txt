@@ -34,7 +34,7 @@ jikanpy==3.4.2
 jmespath==0.9.4
 jsonschema==2.6.0
 lxml==4.4.2
-mal-api==0.0.3
+mal-api==0.0.4
 more-itertools==7.2.0
 multidict==4.5.2
 orderedmultidict==1.0.1
