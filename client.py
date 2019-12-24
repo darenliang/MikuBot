@@ -9,6 +9,8 @@ MikuBot is a fast, clean and modular Discord bot written in Python using discord
 To invite the official MikuBot discord bot, you can do so with this link:
 https://discordapp.com/api/oauth2/authorize?client_id=512354713602228265&scope=bot&permissions=0
 
+MikuBot is licensed under the MIT License.
+
 Copyright (c) 2019 Daren Liang
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
