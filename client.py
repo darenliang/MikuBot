@@ -67,7 +67,6 @@ class BotClient(commands.AutoShardedBot):
         self.database.guild_update(self)
         self.database.temp_update(self)
 
-        logging.info('Guilds registered')
         logging.info('Bot is ready')
 
         if not config.anime_presence:
