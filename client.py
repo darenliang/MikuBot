@@ -49,14 +49,16 @@ logging.basicConfig(stream=sys.stdout, level=logging.INFO)
 
 
 class BotClient(commands.AutoShardedBot):
-    """Bot class"""
+    """Main bot class"""
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
         # create the background task and run it in the background
         self.bg_task = self.loop.create_task(self.presence_changer())
+        # load temporary database cache
         self.temp = temp_database.TempDatabase()
+        # load database service
         self.database = database.initialize_database()
 
     async def on_ready(self):
@@ -105,6 +107,7 @@ class BotClient(commands.AutoShardedBot):
                 await self.change_presence(
                     activity=discord.Activity(type=discord.ActivityType.watching, name=presence.get_presence()))
                 logging.info('Presence changed')
+            # sleep for an hour
             await asyncio.sleep(3600)
 
 
@@ -132,6 +135,8 @@ if __name__ == "__main__":
     # load cog extensions
     for extension in extensions:
         client.load_extension(f'cogs.{extension}')
+
+    # load error handler
     client.load_extension('framework.error_handler')
     logging.info('Extensions loaded')
 
