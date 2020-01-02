@@ -26,7 +26,7 @@ class TestAPIs(unittest.TestCase):
         self.assertIsInstance(apis.get_bitly_response(), str)
 
     def test_get_translate_response(self):
-        self.assertEqual(apis.get_translate_response(), 'Hi.')
+        self.assertEqual(apis.get_translate_response(), 'Hello.')
 
     def test_get_clarifai_response(self):
         self.assertIsInstance(apis.get_clarifai_response(), str)
