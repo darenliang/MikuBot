@@ -1,4 +1,9 @@
-"""This cog file contains the bot's music commands"""
+"""
+This cog file contains the bot's music commands
+
+Code excerpts where taken from EvieePy's music.py Gist:
+https://gist.github.com/EvieePy/ab667b74e9758433b3eb806c53a19f34
+"""
 
 import asyncio
 import itertools

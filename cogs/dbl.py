@@ -1,6 +1,8 @@
 """
 This cog file updates the correct server count on discordbots.org.
 Please note that when the bot is set to private status, this cog is disabled by default.
+
+Code excerpts taken from the official discordbots.org API reference.
 """
 
 import asyncio
