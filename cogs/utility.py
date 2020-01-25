@@ -78,7 +78,7 @@ class Utility(commands.Cog):
 
         await ctx.send(answers)
 
-    @commands.command(name='translate', aliases=['google_trans', 'gt', 'trans'])
+    @commands.command(name='translate', aliases=['google_trans', 'gt', 'trans', 'tr'])
     async def translate(self, ctx, *, arg):
         """Translate text to literally any language.
 
