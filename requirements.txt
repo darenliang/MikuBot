@@ -19,7 +19,7 @@ docutils==0.14
 fortnite-python==0.3.5
 furl==2.1.0
 future==0.17.1
-fuzzywuzzy==0.17.0
+fuzzywuzzy==0.18.0
 google-api-python-client==1.7.11
 google-auth==1.6.3
 google-auth-httplib2==0.0.3
