@@ -3,8 +3,8 @@ async-generator==1.10
 async-timeout==3.0.1
 attrs==19.1.0
 beautifulsoup4==4.8.2
-boto3==1.12.17
-botocore==1.15.17
+boto3==1.12.26
+botocore==1.15.26
 cachetools==3.1.1
 certifi==2019.6.16
 cffi==1.12.3
@@ -28,6 +28,7 @@ googletrans==2.4.0
 grpcio==1.22.0
 httplib2==0.13.1
 idna==2.8
+idna-ssl==1.1.0
 inflect==2.1.0
 jaraco.itertools==4.4.2
 jikanpy==3.4.2
@@ -53,10 +54,14 @@ python-dateutil==2.8.0
 ratelimiter==1.2.0.post0
 requests==2.22.0
 rsa==4.0
+ruamel.yaml==0.16.10
+ruamel.yaml.clib==0.2.0
 s3transfer==0.3.0
 six==1.12.0
 soupsieve==1.9.2
 tinydb==3.15.2
+toml==0.10.0
+typing-extensions==3.7.4.1
 update-checker==0.16
 uritemplate==3.0.0
 urllib3==1.25.3
