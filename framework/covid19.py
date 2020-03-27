@@ -37,6 +37,7 @@ LANGS = {'Afghanistan': 'AF', 'Albania': 'AL', 'Algeria': 'DZ', 'Andorra': 'AD',
 
 def get_language_code(search):
     """Get language code"""
+    search = search.capitalize()
     max_factor = -1
     max_language = None
     for language in LANGS:

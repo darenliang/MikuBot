@@ -183,23 +183,19 @@ class Utility(commands.Cog):
 
     @commands.command(name='covid19', aliases=['covid', 'coronavirus'])
     async def covid19(self, ctx, country=None):
-        """Return data for covid19
+        """Return data for COVID19
 
         Parameters
         ------------
         country: string [Optional]
             Country to get data from. If country isn't specified the latest global data will be used.
-
             You can provide the country code or the country name.
-
-            You can also query rank by "confirmed" or "deaths".
-
         """
         if not country:
             latest = self.covid19.getLatest()
             embed = discord.Embed(
                 color=config.embed_color,
-                title='Latest COVID19 data')
+                title='Latest global COVID19 data')
             for stat in latest:
                 if stat == 'recovered':
                     continue
@@ -207,17 +203,17 @@ class Utility(commands.Cog):
                                 value=f'{latest[stat]:,}',
                                 inline=False)
             return await ctx.send(embed=embed)
-        elif country.lower() in ['confirmed', 'deaths']:
-            country = country.lower()
-            rank = self.covid19.getLocations(rank_by=country)
-            embed = discord.Embed(
-                color=config.embed_color,
-                title=f'Latest {country} data')
-            for i in range(10):
-                embed.add_field(name=rank[i]['country'],
-                                value=f"{rank[i]['latest'][country]:,}",
-                                inline=False)
-            return await ctx.send(embed=embed)
+        # elif country.lower() in ['confirmed', 'deaths']:
+        #     country = country.lower()
+        #     rank = self.covid19.getLocations(rank_by=country)
+        #     embed = discord.Embed(
+        #         color=config.embed_color,
+        #         title=f'Latest {country} data')
+        #     for i in range(10):
+        #         embed.add_field(name=rank[i]['country'],
+        #                         value=f"{rank[i]['latest'][country]:,}",
+        #                         inline=False)
+        #     return await ctx.send(embed=embed)
         else:
             if len(country) == 2:
                 country = country.upper()
@@ -230,7 +226,7 @@ class Utility(commands.Cog):
                 data = self.covid19.getLocationByCountryCode(code)
             embed = discord.Embed(
                 color=config.embed_color,
-                title=f"Latest COVID19 data for {data[0]['country']}")
+                title=f"Latest COVID19 data for {data[0]['country']} ({data[0]['country_code']})")
             latest = {}
             for prov in data:
                 for stat in prov['latest']:
