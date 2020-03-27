@@ -4,6 +4,7 @@ import logging
 import os
 from math import floor
 
+import COVID19Py
 import discord
 import requests
 import wolframalpha
@@ -13,7 +14,7 @@ from googletrans import Translator
 
 import bitly_api
 from config import config
-from framework import google_trans, link_converter
+from framework import google_trans, link_converter, covid19
 
 # sketchify endpoint
 SKETCHIFY_API_ENDPOINT = "http://verylegit.link/sketchify"
@@ -40,6 +41,9 @@ class Utility(commands.Cog):
 
         # sets url shortener
         self.bitly = bitly_api.Connection(access_token=os.environ['BITLY_KEY'])
+
+        # sets up covid19 data
+        self.covid19 = COVID19Py.COVID19()
 
     @commands.command(name='ask', aliases=['question', 'wa', 'wolfram', 'wolfram_alpha'])
     async def ask(self, ctx, *, query):
@@ -176,6 +180,71 @@ class Utility(commands.Cog):
             log.error(e)
             return await ctx.send('Cannot sketchify the link you provided.')
         await ctx.send('Here is your sketchy link: ' + sketchy)
+
+    @commands.command(name='covid19', aliases=['covid', 'coronavirus'])
+    async def covid19(self, ctx, country=None):
+        """Return data for covid19
+
+        Parameters
+        ------------
+        country: string [Optional]
+            Country to get data from. If country isn't specified the latest global data will be used.
+
+            You can provide the country code or the country name.
+
+            You can also query rank by "confirmed" or "deaths".
+
+        """
+        if not country:
+            latest = self.covid19.getLatest()
+            embed = discord.Embed(
+                color=config.embed_color,
+                title='Latest COVID19 data')
+            for stat in latest:
+                if stat == 'recovered':
+                    continue
+                embed.add_field(name=stat.capitalize(),
+                                value=f'{latest[stat]:,}',
+                                inline=False)
+            return await ctx.send(embed=embed)
+        elif country.lower() in ['confirmed', 'deaths']:
+            country = country.lower()
+            rank = self.covid19.getLocations(rank_by=country)
+            embed = discord.Embed(
+                color=config.embed_color,
+                title=f'Latest {country} data')
+            for i in range(10):
+                embed.add_field(name=rank[i]['country'],
+                                value=f"{rank[i]['latest'][country]:,}",
+                                inline=False)
+            return await ctx.send(embed=embed)
+        else:
+            if len(country) == 2:
+                country = country.upper()
+                try:
+                    data = self.covid19.getLocationByCountryCode(country)
+                except requests.exceptions.HTTPError:
+                    return await ctx.send("Invalid country code.")
+            else:
+                code = covid19.get_language_code(country)
+                data = self.covid19.getLocationByCountryCode(code)
+            embed = discord.Embed(
+                color=config.embed_color,
+                title=f"Latest COVID19 data for {data[0]['country']}")
+            latest = {}
+            for prov in data:
+                for stat in prov['latest']:
+                    if stat not in latest:
+                        latest[stat] = prov['latest'][stat]
+                    else:
+                        latest[stat] += prov['latest'][stat]
+            for stat in latest:
+                if stat == 'recovered':
+                    continue
+                embed.add_field(name=stat.capitalize(),
+                                value=f'{latest[stat]:,}',
+                                inline=False)
+            return await ctx.send(embed=embed)
 
 
 def setup(client):
