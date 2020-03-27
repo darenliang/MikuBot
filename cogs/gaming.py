@@ -89,7 +89,7 @@ class Gaming(commands.Cog):
             log.warning('overwatch: Player not found')
             await ctx.send('Player cannot be found. Are you sure you entered the right battletag? (Case sensitive)')
 
-    @commands.command(name='fortnite', aliases=['fonibr'])
+    @commands.command(name='fortnite', aliases=['fonibr'], enabled=False)
     async def fortnite(self, ctx, *, gamertag):
         """Get Fortnite stats.
 
@@ -136,7 +136,7 @@ class Gaming(commands.Cog):
             log.error(e)
             await ctx.send('Player cannot be found.')
 
-    @commands.command(name='clashroyale', aliases=['cr'])
+    @commands.command(name='clashroyale', aliases=['cr'], enabled=False)
     async def clashroyale(self, ctx, *, cr_id):
         """Get Clash Royale stats.
 
