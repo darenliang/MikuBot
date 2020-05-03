@@ -1,5 +1,7 @@
 # MikuBot: The anime Discord bot
 
+### Superseded by MikuBotGo at https://github.com/darenliang/MikuBotGo
+
 [![Travis](https://travis-ci.org/darenliang/MikuBot.svg?branch=master)](https://travis-ci.org/darenliang/MikuBot)
 
 MikuBot is a general purpose anime Discord bot that doesn't require elevated privileges.
