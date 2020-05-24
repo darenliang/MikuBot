@@ -248,7 +248,7 @@ class Music(commands.Cog):
 
         await ctx.send(':information_source: Connected to: {0}'.format(channel), delete_after=20)
 
-    @commands.command(name='play', aliases=['music'])
+    @commands.command(name='play', aliases=['music', 'add'])
     @commands.guild_only()
     async def play_(self, ctx, *, search: str):
         if not search:
@@ -296,7 +296,7 @@ class Music(commands.Cog):
         vc.resume()
         await ctx.send(':arrow_forward: Resumed music.', delete_after=20)
 
-    @commands.command(name='skip', aliases=['pass'])
+    @commands.command(name='skip', aliases=['pass', 'next'])
     @commands.guild_only()
     async def skip_(self, ctx):
         """Skip the currently playing song."""
@@ -389,7 +389,7 @@ class Music(commands.Cog):
         player.volume = volume / 100
         await ctx.send(':information_source: Set the volume to {0}.'.format(volume), delete_after=20)
 
-    @commands.command(name='stop', aliases=['clear', 'leave', 'disconnect'])
+    @commands.command(name='stop', aliases=['leave', 'disconnect'])
     @commands.guild_only()
     async def stop_(self, ctx):
         """Stop the currently playing song and clear the player."""
