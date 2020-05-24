@@ -151,7 +151,7 @@ class MusicPlayer:
 
             self._guild.voice_client.play(source, after=lambda _: self.bot.loop.call_soon_threadsafe(self.next.set))
             self.np = await self._channel.send(f':musical_note: Now Playing: {source.title} requested by '
-                                               f'{source.requester}', delete_after=20)
+                                               f'{source.requester}.', delete_after=20)
             await self.next.wait()
 
             # Make sure the FFmpeg process is cleaned up.
@@ -361,7 +361,7 @@ class Music(commands.Cog):
             pass
 
         player.np = await ctx.send(f':musical_note: Now Playing: {vc.source.title} '
-                                   f'requested by {vc.source.requester}', delete_after=20)
+                                   f'requested by {vc.source.requester}.', delete_after=20)
 
     @commands.command(name='volume', aliases=['amp'])
     @commands.guild_only()
@@ -387,7 +387,7 @@ class Music(commands.Cog):
             vc.source.volume = volume / 100
 
         player.volume = volume / 100
-        await ctx.send(':information_source: Set the volume to {0}'.format(volume), delete_after=20)
+        await ctx.send(':information_source: Set the volume to {0}.'.format(volume), delete_after=20)
 
     @commands.command(name='stop', aliases=['clear', 'leave', 'disconnect'])
     @commands.guild_only()
