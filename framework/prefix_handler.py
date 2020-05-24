@@ -17,6 +17,4 @@ def return_prefix(client, ctx):
     """Return the correct prefix to use given the context"""
     if not ctx.guild:
         return config.prefix
-    for guild in client.database.temp:
-        if guild['Guild_Id'] == ctx.guild.id:
-            return guild['Prefix']
+    return client.database.temp[str(ctx.guild.id)]

@@ -11,7 +11,7 @@ https://discordapp.com/api/oauth2/authorize?client_id=512354713602228265&scope=b
 
 MikuBot is licensed under the MIT License.
 
-Copyright (c) 2019 Daren Liang
+Copyright (c) 2020 Daren Liang
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -32,17 +32,15 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-import asyncio
 import logging
 import os
 import sys
 from datetime import datetime
 
-import discord
 from discord.ext import commands
 
 from config import config
-from framework import prefix_handler, temp_database, presence, database
+from framework import prefix_handler, database
 
 # sets up logging
 logging.basicConfig(stream=sys.stdout, level=logging.INFO)
@@ -54,10 +52,6 @@ class BotClient(commands.AutoShardedBot):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        # create the background task and run it in the background
-        self.bg_task = self.loop.create_task(self.presence_changer())
-        # load temporary database cache
-        self.temp = temp_database.TempDatabase()
         # load database service
         self.database = database.initialize_database()
 
@@ -66,20 +60,14 @@ class BotClient(commands.AutoShardedBot):
         logging.info('Starting up')
 
         # register guilds in database
-        self.database.guild_update(self)
         self.database.temp_update(self)
 
         logging.info('Bot is ready')
-
-        if not config.anime_presence:
-            await self.change_presence(activity=discord.Game(name="with weebs"))
-            logging.info('Presence changed')
 
     async def on_guild_join(self, guild):
         """Runs when the bot joins a new server"""
 
         # add guild to database
-        self.database.guild_add(guild)
         self.database.temp_add(guild)
         logging.info('Guild added to database')
 
@@ -87,28 +75,8 @@ class BotClient(commands.AutoShardedBot):
         """Runs when the bot leaves a server"""
 
         # remove guild to database
-        self.database.guild_remove(guild)
         self.database.temp_remove(guild)
         logging.info('Guild removed in database')
-
-    async def on_guild_update(self, old_guild, new_guild):
-        """Runs when a server updates"""
-
-        # update guild info on database
-        self.database.guild_change(old_guild, new_guild)
-        logging.info('Guild information changed in database')
-
-    async def presence_changer(self):
-        """Sets presence to today's airing anime"""
-        await self.wait_until_ready()
-        while not self.is_closed():
-            if config.anime_presence:
-                # change watching presence
-                await self.change_presence(
-                    activity=discord.Activity(type=discord.ActivityType.watching, name=presence.get_presence()))
-                logging.info('Presence changed')
-            # sleep for an hour
-            await asyncio.sleep(3600)
 
 
 if __name__ == "__main__":
@@ -123,15 +91,6 @@ if __name__ == "__main__":
     # load extensions to memory
     extensions = config.activated_extensions[:]
 
-    # unload and load cogs according to public_bot status
-    if "PUBLIC_BOT" in os.environ:
-        if os.environ["PUBLIC_BOT"] == 'true':
-            if 'pic' in extensions:
-                extensions.remove('pic')
-        elif os.environ["PUBLIC_BOT"] == 'false':
-            if 'dbl' in extensions:
-                extensions.remove('dbl')
-
     # load cog extensions
     for extension in extensions:
         client.load_extension(f'cogs.{extension}')
@@ -139,6 +98,9 @@ if __name__ == "__main__":
     # load error handler
     client.load_extension('framework.error_handler')
     logging.info('Extensions loaded')
+
+    # remove help altogether
+    client.remove_command("help")
 
     # run bot instance
     client.run(os.environ['BOT_TOKEN'], bot=True, reconnect=True)

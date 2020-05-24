@@ -41,27 +41,26 @@ class CommandErrorHandler(commands.Cog):
         elif isinstance(error, commands.BadArgument):
             return await ctx.send(f'The command `{ctx.command}` encountered a bad argument.')
 
-        # missing required argument
-        elif isinstance(error, commands.MissingRequiredArgument):
-            return await ctx.send(f'The command `{ctx.command}` is missing a required argument.')
-
         # parsing error
         elif isinstance(error, commands.ArgumentParsingError):
-            return await ctx.send(f'The command `{ctx.command}` encountered a parsing error.')
+            return await ctx.send(f':information_source: The command `{ctx.command}` encountered a parsing error.')
 
         # missing permissions
         elif isinstance(error, commands.MissingPermissions):
-            return await ctx.send(f'You are missing the required permissions to run the `{ctx.command}` command.')
+            return await ctx.send(f':information_source: You are missing the required permissions to run '
+                                  f'the `{ctx.command}` command.')
 
         # NSFW channel required
         elif isinstance(error, commands.NSFWChannelRequired):
-            return await ctx.send(f'The command `{ctx.command}` can only be used on a NSFW channel.')
+            return await ctx.send(f':information_source: '
+                                  f'The command `{ctx.command}` can only be used on a NSFW channel.')
 
         # no private messages
         elif isinstance(error, commands.NoPrivateMessage):
             try:
                 return await ctx.author.send(
-                    f'The command `{ctx.command}` can not be used in private messages and can only be used in a guild.')
+                    f':information_source: '
+                    f'The command `{ctx.command}` cannot be used in DMs and can only be used in a guild.')
             except Exception as e:
                 log.error(e)
                 pass
@@ -69,7 +68,7 @@ class CommandErrorHandler(commands.Cog):
         # other
         elif isinstance(error, commands.BadArgument):
             if ctx.command.qualified_name == 'tag list':
-                return await ctx.send('I could not find that member. Please try again.')
+                return await ctx.send(':information_source: I could not find that member. Please try again.')
 
         print('Ignoring exception in command {}:'.format(ctx.command), file=sys.stderr)
         traceback.print_exception(type(error), error, error.__traceback__, file=sys.stderr)
