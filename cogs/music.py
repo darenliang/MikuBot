@@ -250,10 +250,11 @@ class Music(commands.Cog):
 
     @commands.command(name='play', aliases=['music', 'add'])
     @commands.guild_only()
-    async def play_(self, ctx, *, search: str):
+    async def play_(self, ctx, *, search: str = ""):
         if not search:
             return await ctx.send(
-                ':information_source: Usage: `{}play <url/id/name>`'.format(prefix_handler.get_prefix(self, ctx)))
+                ':information_source: Usage: `{}play <url/id/name>`'.format(
+                    prefix_handler.return_prefix(self.bot, ctx)))
 
         await ctx.trigger_typing()
 
