@@ -19,6 +19,7 @@
     "aws-sdk": "^2.683.0",
     "axios": "^0.19.2",
     "bufferutil": "^4.0.1",
+    "dblapi.js": "^2.4.0",
     "discord-akairo": "^8.0.0",
     "discord.js": "^12.2.0",
     "erlpack": "github:discordapp/erlpack",

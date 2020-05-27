@@ -19,7 +19,7 @@ console.log = function (...data: string[]) {
             data[idx] = helpers.pad(Array(20).join(' '), item, true);
         }
     }
-    if (!config.production) {
+    if (process.env.PRODUCTION == "false") {
         logCopy('[' + new Date().toUTCString() + ']', data.join(' | '));
     } else {
         logCopy(data.join(' | '));

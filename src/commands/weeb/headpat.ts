@@ -31,7 +31,7 @@ export default class HeadpatCommand extends Command {
     }
 
     async exec(message: Message, {user}: { user: User }) {
-        nekolife('headpat')
+        nekolife('pat')
             .then(resp => {
                 const ext = resp.data.url.split('.').pop();
                 const embed = new MBEmbed({
