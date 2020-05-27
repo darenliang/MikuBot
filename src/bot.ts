@@ -27,9 +27,9 @@ console.log = function (...data: string[]) {
 };
 
 export interface Song {
-    id: string,
     title: string,
-    url: string
+    url: string,
+    thumbnail: string
 }
 
 export interface MusicQueue {

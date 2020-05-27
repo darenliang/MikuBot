@@ -27,7 +27,7 @@ export default class NowPlayingCommand extends Command {
             title: 'Now playing'
         })
             .setDescription(`:musical_note: ${serverQueue.songs[0].title}`)
-            .setThumbnail(`https://img.youtube.com/vi/${serverQueue.songs[0].id}/maxresdefault.jpg`);
+            .setThumbnail(serverQueue.songs[0].thumbnail);
         return message.channel.send(embed);
     }
 }

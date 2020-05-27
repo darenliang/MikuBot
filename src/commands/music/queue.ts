@@ -38,7 +38,7 @@ export default class QueueCommand extends Command {
             title: 'Music Queue'
         })
             .setDescription('')
-            .setThumbnail(`https://img.youtube.com/vi/${serverQueue.songs[0].id}/maxresdefault.jpg`)
+            .setThumbnail(serverQueue.songs[0].thumbnail)
             .setFooter(`Page ${page} | Total # of songs queued: ${serverQueue.songs.length}`);
         for (const [idx, song] of queuedSongs.entries()) {
             embed.description += `\`${helpers.pad('  ', (idx + 1).toString(), true)}\` ${song.title}\n`;

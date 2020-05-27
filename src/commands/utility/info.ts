@@ -35,7 +35,7 @@ export default class InfoCommand extends Command {
                 return `${owner.username}#${owner.discriminator}`;
             }))
             .addField('Latency', `${client.ws.ping}ms`, true)
-            .addField('Servers', `${client.guilds.cache.size}`, true)
+            .addField('Servers', client.guilds.cache.size, true)
             .addField('Uptime', `${helpers.msToTime(client.uptime!)}`, true)
             .addField('Memory Usage', `${(process.memoryUsage().rss / 1048576) | 0}MiB`, true)
             .addField('Platform', process.platform, true)
