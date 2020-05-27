@@ -15,15 +15,10 @@ export default class LeaderboardCommand extends Command {
                         'value': 'Display your own music quiz score.'
                     },
                     {
-                        'name': 'local <optional page number>',
+                        'name': 'server <optional page number>',
                         'value': 'Display the anime music quiz leaderboard from the respective server.\n' +
-                            'Alias: `l`'
+                            'Alias: `s`'
                     },
-                    {
-                        'name': 'global <optional page number>',
-                        'value': 'Displays the global anime music quiz leaderboard.\n' +
-                            'Alias: `g`'
-                    }
                 ]
             },
             cooldown: 15000,
@@ -32,12 +27,7 @@ export default class LeaderboardCommand extends Command {
                 {
                     id: 'local',
                     match: 'flag',
-                    flag: ['local', 'l']
-                },
-                {
-                    id: 'global',
-                    match: 'flag',
-                    flag: ['global', 'g']
+                    flag: ['server', 's']
                 },
                 {
                     id: 'page',
@@ -48,7 +38,7 @@ export default class LeaderboardCommand extends Command {
         });
     }
 
-    async exec(message: Message, {global, local, page}: { global: boolean, local: boolean, page: number }) {
+    async exec(message: Message, {local, page}: { local: boolean, page: number }) {
         const client = this.client as Client;
         const scores = client.musicQuizDatabase.getScores();
         if (page < 1) return await message.channel.send('Please enter a positive integer as the page number.');
@@ -70,27 +60,10 @@ export default class LeaderboardCommand extends Command {
             if (sortedScores.length == 0) return await message.channel.send('There are no music score entries yet for this server.');
             embed.setFooter(`Page ${page} | Total entries for this server: ${sortedScores.length}`);
             sortedScores.sort((a, b) => b[1] - a[1]);
-            const selectedScores = sortedScores.slice((page - 1) * 25, page * 25);
-            if (selectedScores.length == 0) return await message.channel.send(`Your page number is too large. The last page number is ${Math.ceil(sortedScores.length / 25)}.`);
+            const selectedScores = sortedScores.slice((page - 1) * 10, page * 10);
+            if (selectedScores.length == 0) return await message.channel.send(`Your page number is too large. The last page number is ${Math.ceil(sortedScores.length / 10)}.`);
             for (const [idx, score] of selectedScores.entries()) {
-                embed.description += `\`${helpers.pad('    ', idx.toString(), true)} | ${helpers.pad('      ', (score[1] * 100).toString(), true)} |\` <@${score[0]}>\n`;
-            }
-            return await message.channel.send(embed);
-        } else if (global) {
-            const embed = new MBEmbed({
-                title: 'Global Music Quiz Leaderboard'
-            }).setDescription('`Rank |  Score |` User\n');
-            let sortedScores: [string, number][] = [];
-            for (const key in scores) {
-                sortedScores.push([key, scores[key].musicScore]);
-            }
-            if (sortedScores.length == 0) return await message.channel.send('There are no music score entries yet.');
-            embed.setFooter(`Page ${page} | Total entries: ${sortedScores.length}`);
-            sortedScores.sort((a, b) => b[1] - a[1]);
-            const selectedScores = sortedScores.slice((page - 1) * 25, page * 25);
-            if (selectedScores.length == 0) return await message.channel.send(`Your page number is too large. The last page number is ${Math.ceil(sortedScores.length / 25)}.`);
-            for (const [idx, score] of selectedScores.entries()) {
-                embed.description += `\`${helpers.pad('    ', idx.toString(), true)} | ${helpers.pad('      ', (score[1] * 100).toString(), true)} |\` <@${score[0]}>\n`;
+                embed.description += `\`${helpers.pad('    ', (idx + 1 + ((page - 1)) * 10).toString(), true)} | ${helpers.pad('      ', (score[1] * 100).toString(), true)} |\` <@${score[0]}>\n`;
             }
             return await message.channel.send(embed);
         } else {
@@ -102,7 +75,7 @@ export default class LeaderboardCommand extends Command {
                 color: message.member ? message.member.displayColor : undefined
             })
                 .addField('Score', score.musicScore * 100, true)
-                .addField('Global', helpers.ordinalSuffixOf(globalRank), true);
+                .addField('Global Rank', helpers.ordinalSuffixOf(globalRank), true);
             if (message.guild) {
                 const memberIDs = new Set();
                 for (const member of message.guild!.members.cache.values()) {
@@ -114,7 +87,7 @@ export default class LeaderboardCommand extends Command {
                         accumulator++;
                     }
                 }
-                embed.addField('Server', helpers.ordinalSuffixOf(accumulator), true);
+                embed.addField('Server Rank', helpers.ordinalSuffixOf(accumulator), true);
             }
             return await message.channel.send(embed);
         }
