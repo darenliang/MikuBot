@@ -1,0 +1,39 @@
+{
+  "compilerOptions": {
+    /* Basic Options */
+    "incremental": true,
+    "target": "esnext",
+    "module": "commonjs",
+    "sourceMap": true,
+    "outDir": "./dist",
+    "tsBuildInfoFile": "./dist/info.json",
+    "removeComments": true,
+    "downlevelIteration": true,
+    /* Strict Type-Checking Options */
+    "strict": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "strictFunctionTypes": true,
+    "strictBindCallApply": true,
+    "strictPropertyInitialization": true,
+    "noImplicitThis": true,
+    "alwaysStrict": true,
+    /* Additional Checks */
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    /* Module Resolution Options */
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    /* Experimental Options */
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    /* Advanced Options */
+    "forceConsistentCasingInFileNames": true
+  },
+  "exclude": [
+    "node_modules/"
+  ]
+}

@@ -1,1 +1,1 @@
-worker: python client.py
+web: npm start

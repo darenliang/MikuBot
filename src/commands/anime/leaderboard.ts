@@ -1,0 +1,122 @@
+import {Command} from 'discord-akairo';
+import {Message} from 'discord.js';
+import {Client} from '../../bot';
+import * as helpers from '../../utils/helpers';
+import {MBEmbed} from '../../utils/messageGenerator';
+
+export default class LeaderboardCommand extends Command {
+    constructor() {
+        super('leaderboard', {
+            aliases: ['leaderboard', 'lb'],
+            description: {
+                'fields': [
+                    {
+                        'name': '',
+                        'value': 'Display your own music quiz score.'
+                    },
+                    {
+                        'name': 'local <optional page number>',
+                        'value': 'Display the anime music quiz leaderboard from the respective server.\n' +
+                            'Alias: `l`'
+                    },
+                    {
+                        'name': 'global <optional page number>',
+                        'value': 'Displays the global anime music quiz leaderboard.\n' +
+                            'Alias: `g`'
+                    }
+                ]
+            },
+            cooldown: 15000,
+            ratelimit: 3,
+            args: [
+                {
+                    id: 'local',
+                    match: 'flag',
+                    flag: ['local', 'l']
+                },
+                {
+                    id: 'global',
+                    match: 'flag',
+                    flag: ['global', 'g']
+                },
+                {
+                    id: 'page',
+                    type: 'integer',
+                    default: 1
+                }
+            ]
+        });
+    }
+
+    async exec(message: Message, {global, local, page}: { global: boolean, local: boolean, page: number }) {
+        const client = this.client as Client;
+        const scores = client.musicQuizDatabase.getScores();
+        if (page < 1) return await message.channel.send('Please enter a positive integer as the page number.');
+        if (local && !message.guild) return await message.channel.send('The local leaderboard is only available in servers.');
+        if (local) {
+            const embed = new MBEmbed({
+                title: `Music Quiz Leaderboard for ${message.guild?.name}`
+            }).setDescription('`Rank |  Score |` User\n');
+            const memberIDs = new Set();
+            for (const member of message.guild!.members.cache.values()) {
+                memberIDs.add(member.id);
+            }
+            let sortedScores: [string, number][] = [];
+            for (const key in scores) {
+                if (memberIDs.has(key)) {
+                    sortedScores.push([key, scores[key].musicScore]);
+                }
+            }
+            if (sortedScores.length == 0) return await message.channel.send('There are no music score entries yet for this server.');
+            embed.setFooter(`Page ${page} | Total entries for this server: ${sortedScores.length}`);
+            sortedScores.sort((a, b) => b[1] - a[1]);
+            const selectedScores = sortedScores.slice((page - 1) * 25, page * 25);
+            if (selectedScores.length == 0) return await message.channel.send(`Your page number is too large. The last page number is ${Math.ceil(sortedScores.length / 25)}.`);
+            for (const [idx, score] of selectedScores.entries()) {
+                embed.description += `\`${helpers.pad('    ', idx.toString(), true)} | ${helpers.pad('      ', (score[1] * 100).toString(), true)} |\` <@${score[0]}>\n`;
+            }
+            return await message.channel.send(embed);
+        } else if (global) {
+            const embed = new MBEmbed({
+                title: 'Global Music Quiz Leaderboard'
+            }).setDescription('`Rank |  Score |` User\n');
+            let sortedScores: [string, number][] = [];
+            for (const key in scores) {
+                sortedScores.push([key, scores[key].musicScore]);
+            }
+            if (sortedScores.length == 0) return await message.channel.send('There are no music score entries yet.');
+            embed.setFooter(`Page ${page} | Total entries: ${sortedScores.length}`);
+            sortedScores.sort((a, b) => b[1] - a[1]);
+            const selectedScores = sortedScores.slice((page - 1) * 25, page * 25);
+            if (selectedScores.length == 0) return await message.channel.send(`Your page number is too large. The last page number is ${Math.ceil(sortedScores.length / 25)}.`);
+            for (const [idx, score] of selectedScores.entries()) {
+                embed.description += `\`${helpers.pad('    ', idx.toString(), true)} | ${helpers.pad('      ', (score[1] * 100).toString(), true)} |\` <@${score[0]}>\n`;
+            }
+            return await message.channel.send(embed);
+        } else {
+            const score = client.musicQuizDatabase.getScore(message.author);
+            const globalRank = Object.values(scores)
+                .map(s => s.musicScore).reduce((a, c) => a + ((c > score.musicScore) ? 1 : 0), 0) + 1;
+            const embed = new MBEmbed({
+                title: `${message.author.username}#${message.author.discriminator}'s Music Score`,
+                color: message.member ? message.member.displayColor : undefined
+            })
+                .addField('Score', score.musicScore * 100, true)
+                .addField('Global', helpers.ordinalSuffixOf(globalRank), true);
+            if (message.guild) {
+                const memberIDs = new Set();
+                for (const member of message.guild!.members.cache.values()) {
+                    memberIDs.add(member.id);
+                }
+                let accumulator = 1;
+                for (const key in scores) {
+                    if (memberIDs.has(key) && scores[key].musicScore > score.musicScore) {
+                        accumulator++;
+                    }
+                }
+                embed.addField('Server', helpers.ordinalSuffixOf(accumulator), true);
+            }
+            return await message.channel.send(embed);
+        }
+    }
+}

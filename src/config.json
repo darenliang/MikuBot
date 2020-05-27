@@ -1,0 +1,17 @@
+{
+  "name": "MikuBot",
+  "version": "3.0.0",
+  "defaultPrefix": "!",
+  "color": 3053734,
+  "helpWebsite": "https://darenliang.github.io/MikuBot-Docs",
+  "supportServer": "https://discord.gg/Tpa3cJB",
+  "githubRepo": "darenliang/MikuBot",
+  "owners": "301918383610265600",
+  "production": true,
+  "defaultTimeout": 20000,
+  "AWS": {
+    "region": "us-east-1",
+    "prefixTableName": "prefix_table_test",
+    "musicQuizTableName": "music_quiz_test"
+  }
+}
