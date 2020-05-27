@@ -54,7 +54,12 @@ export class Client extends AkairoClient {
     public listenerHandler: ListenerHandler;
 
     constructor(DDB: DocumentClient, config: any) {
-        super({ownerID: config.owners}, {disableMentions: 'everyone'});
+        super({ownerID: config.owners}, {
+            messageCacheMaxSize: 100,
+            messageCacheLifetime: 120,
+            messageSweepInterval: 60,
+            disableMentions: 'everyone'
+        });
 
         this.DDB = DDB;
         this.config = config;

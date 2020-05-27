@@ -33,7 +33,7 @@ export default class PrefixCommand extends Command {
 
     async exec(message: Message, {prefix}: { prefix: string }) {
         const client = this.client as Client;
-        if (!prefix) return await message.channel.send(`The current${message.guild ? ' server' : ''} prefix is: ${client.prefixDatabase.getPrefix(message.guild)}`);
+        if (!prefix) return await message.channel.send(`The current${message.guild ? ' server' : ''} prefix is: \`${client.prefixDatabase.getPrefix(message.guild)}\``);
         if (!message.guild) return await message.channel.send(`Cannot set prefix in private messages.`);
         if (!message.member?.hasPermission('MANAGE_GUILD')) return await message.channel.send(`You must have the \`manage guild\` permission to set prefix.`);
         if (!client.prefixDatabase.updateGuild(message.guild, prefix)) {
