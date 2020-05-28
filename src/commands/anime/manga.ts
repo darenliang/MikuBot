@@ -97,7 +97,7 @@ export default class MangaCommand extends Command {
                         .addFields(
                             {name: 'Type', value: anilist.mapFormats(manga.format), inline: true},
                             {name: 'Volumes', value: volumes, inline: true},
-                            {name: 'Status', value: helpers.capitalize(manga.status.toLowerCase()), inline: true},
+                            {name: 'Status', value: helpers.capitalize(manga.status.split('_').join(' ').toLowerCase()), inline: true},
                             {name: 'Published', value: published, inline: false},
                             {name: 'Genres', value: genres, inline: false},
                             {name: 'Staff', value: staff, inline: true},

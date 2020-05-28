@@ -98,7 +98,7 @@ export default class AnimeCommand extends Command {
                         .addFields(
                             {name: 'Type', value: anilist.mapFormats(anime.format), inline: true},
                             {name: 'Episodes', value: episodes, inline: true},
-                            {name: 'Status', value: helpers.capitalize(anime.status.toLowerCase()), inline: true},
+                            {name: 'Status', value: helpers.capitalize(anime.status.split('_').join(' ').toLowerCase()), inline: true},
                             {name: 'Aired', value: aired, inline: false},
                             {name: 'Genres', value: genres, inline: false},
                             {name: 'Studios', value: studios, inline: true},
