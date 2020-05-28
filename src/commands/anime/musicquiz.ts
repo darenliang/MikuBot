@@ -143,7 +143,7 @@ export default class MusicQuizCommand extends Command {
                         },
                         {
                             name: 'Season',
-                            value: `${helpers.capitalize(results[0].season.toLowerCase())} ${results[0].seasonYear}`,
+                            value: (results[0].season && results[0].seasonYear) ? `${helpers.capitalize(results[0].season.toLowerCase())} ${results[0].seasonYear}` : 'Unknown',
                             inline: true
                         }, {
                             name: 'Genres',
