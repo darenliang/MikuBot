@@ -1,5 +1,5 @@
 import {Listener} from 'discord-akairo';
-import {Guild} from 'discord.js';
+import {Guild, TextChannel} from 'discord.js';
 import {Client} from '../../bot';
 
 export default class GuildCreateListener extends Listener {
@@ -17,7 +17,7 @@ export default class GuildCreateListener extends Listener {
 
         const embed = {
             'title': `:tada: Thanks for inviting ${client.config.name}!`,
-            'description': `You can always mention the bot @${client.config.name} to call invoke commands. Anyways, here some few things you can do to get started.`,
+            'description': `You can always mention the bot @${client.config.name} to invoke commands. Anyways, here some few things you can do to get started.`,
             'color': client.config.color,
             'thumbnail': {
                 'url': client.user?.displayAvatarURL()
@@ -58,6 +58,17 @@ export default class GuildCreateListener extends Listener {
             ]
         };
 
-        return await guild.owner!.send({embed});
+        if (!guild.systemChannel) {
+            let channel: TextChannel | undefined;
+            for (let c of guild.channels.cache.values()) {
+                if (c.type == "text") {
+                    channel = c as TextChannel;
+                    break;
+                }
+            }
+            if (channel) return await channel.send({embed});
+        } else {
+            return await guild.systemChannel.send({embed})
+        }
     }
 }

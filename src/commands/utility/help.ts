@@ -35,7 +35,7 @@ export default class HelpCommand extends Command {
             const embed = new MBEmbed({
                 title: 'Command List',
                 url: client.config.helpWebsite
-            }).setDescription(`To get the current prefix use \`prefix\`.\nTo get help for a specific command use \`help <command>\`.`);
+            }).setDescription(`To get the current prefix use \`prefix\`.\nTo get help for a specific command use \`help <command>\`.\n\n[Help Website](${client.config.helpWebsite})`);
             for (const category of this.handler.categories.values()) {
                 embed.addField(helpers.capitalize(category.id), `\`\`\`\n${category.map(command => command.id).join(', ')}\n\`\`\``);
             }
