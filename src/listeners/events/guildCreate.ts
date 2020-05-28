@@ -40,7 +40,7 @@ export default class GuildCreateListener extends Listener {
                     'value': 'Figure out where an image is from.'
                 },
                 {
-                    'name': `${client.config.defaultPrefix}!catgirl`,
+                    'name': `${client.config.defaultPrefix}catgirl`,
                     'value': 'Get the tastiest catgirls!'
                 },
                 {
@@ -58,17 +58,11 @@ export default class GuildCreateListener extends Listener {
             ]
         };
 
-        if (!guild.systemChannel) {
-            let channel: TextChannel | undefined;
-            for (let c of guild.channels.cache.values()) {
-                if (c.type == "text") {
-                    channel = c as TextChannel;
-                    break;
-                }
-            }
-            if (channel) return await channel.send({embed});
-        } else {
+        if (guild.systemChannel && guild.systemChannel.permissionsFor(guild.me!)!.has("SEND_MESSAGES")) {
             return await guild.systemChannel.send({embed})
+        } else {
+            const defaultChannel = guild.channels.cache.find(channel => channel.type == "text" && channel.permissionsFor(guild.me!)!.has("SEND_MESSAGES"));
+            if (defaultChannel) return await (defaultChannel as TextChannel).send({embed});
         }
     }
 }
