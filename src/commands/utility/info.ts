@@ -37,10 +37,10 @@ export default class InfoCommand extends Command {
             }))
             .addField('Latency', `${client.ws.ping}ms`, true)
             .addField('Servers', client.guilds.cache.size, true)
-            .addField('Users', client.guilds.cache.reduce((sum, guild) => sum + guild.members.cache.size, 0), true)
+            .addField('Uptime', helpers.msToTime(client.uptime!), true)
             .addField('Memory Usage', `${(process.memoryUsage().rss / 1048576) | 0}MiB`, true)
             .addField('Platform', process.platform, true)
-            .addField('Uptime', `${helpers.msToTime(client.uptime!)}`, true);
+            .addField('Node Version', process.version, true);
         return await message.channel.send(embed);
     }
 }

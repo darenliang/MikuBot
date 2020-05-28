@@ -17,17 +17,26 @@ export default class LeaderboardCommand extends Command {
                     {
                         'name': 'server <optional page number>',
                         'value': 'Display the anime music quiz leaderboard from the respective server.\n' +
-                            'Alias: `s`'
+                            'Alias: `s <optional page number>`'
                     },
+                    {
+                        'name': 'global <optional page number>',
+                        'value': 'Displays the global anime music quiz leaderboard.\n' +
+                            'Alias: `g <optional page number>`'
+                    }
                 ]
             },
-            cooldown: 15000,
-            ratelimit: 3,
+            cooldown: 20000,
             args: [
                 {
                     id: 'local',
                     match: 'flag',
                     flag: ['server', 's']
+                },
+                {
+                    id: 'global',
+                    match: 'flag',
+                    flag: ['global', 'g']
                 },
                 {
                     id: 'page',
@@ -38,7 +47,7 @@ export default class LeaderboardCommand extends Command {
         });
     }
 
-    async exec(message: Message, {local, page}: { local: boolean, page: number }) {
+    async exec(message: Message, {local, global, page}: { local: boolean, global: boolean, page: number }) {
         const client = this.client as Client;
         const scores = client.musicQuizDatabase.getScores();
         if (page < 1) return await message.channel.send('Please enter a positive integer as the page number.');
@@ -46,7 +55,7 @@ export default class LeaderboardCommand extends Command {
         if (local) {
             const embed = new MBEmbed({
                 title: `Music Quiz Leaderboard for ${message.guild?.name}`
-            }).setDescription('`Rank |  Score |` User\n');
+            }).setDescription('```\nRank |  Score | User\n');
             const memberIDs = new Set();
             for (const member of message.guild!.members.cache.values()) {
                 memberIDs.add(member.id);
@@ -63,8 +72,29 @@ export default class LeaderboardCommand extends Command {
             const selectedScores = sortedScores.slice((page - 1) * 10, page * 10);
             if (selectedScores.length == 0) return await message.channel.send(`Your page number is too large. The last page number is ${Math.ceil(sortedScores.length / 10)}.`);
             for (const [idx, score] of selectedScores.entries()) {
-                embed.description += `\`${helpers.pad('    ', (idx + 1 + ((page - 1)) * 10).toString(), true)} | ${helpers.pad('      ', (score[1] * 100).toString(), true)} |\` <@${score[0]}>\n`;
+                const user = await message.guild!.members.fetch(score[0])
+                embed.description += `${helpers.pad('    ', (idx + 1 + ((page - 1)) * 10).toString(), true)} | ${helpers.pad('      ', (score[1] * 100).toString(), true)} | ${user.user.username}#${user.user.discriminator}\n`;
             }
+            embed.description += '```'
+            return await message.channel.send(embed);
+        } else if (global) {
+            const embed = new MBEmbed({
+                title: 'Global Music Quiz Leaderboard'
+            }).setDescription('```\nRank |  Score | User\n');
+            let sortedScores: [string, number][] = [];
+            for (const key in scores) {
+                sortedScores.push([key, scores[key].musicScore]);
+            }
+            if (sortedScores.length == 0) return await message.channel.send('There are no music score entries yet.');
+            embed.setFooter(`Page ${page} | Total entries: ${sortedScores.length}`);
+            sortedScores.sort((a, b) => b[1] - a[1]);
+            const selectedScores = sortedScores.slice((page - 1) * 10, page * 10);
+            if (selectedScores.length == 0) return await message.channel.send(`Your page number is too large. The last page number is ${Math.ceil(sortedScores.length / 10)}.`);
+            for (const [idx, score] of selectedScores.entries()) {
+                const user = await client.users.fetch(score[0])
+                embed.description += `${helpers.pad('    ', (idx + 1 + ((page - 1)) * 10).toString(), true)} | ${helpers.pad('      ', (score[1] * 100).toString(), true)} | ${user.username}#${user.discriminator}\n`;
+            }
+            embed.description += '```'
             return await message.channel.send(embed);
         } else {
             const score = client.musicQuizDatabase.getScore(message.author);
