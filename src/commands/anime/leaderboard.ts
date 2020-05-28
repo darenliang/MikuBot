@@ -26,7 +26,7 @@ export default class LeaderboardCommand extends Command {
                     }
                 ]
             },
-            cooldown: 20000,
+            cooldown: 15000,
             args: [
                 {
                     id: 'local',
