@@ -28,7 +28,8 @@ export default class InfoCommand extends Command {
                 `[Invite Bot](https://discord.com/oauth2/authorize?client_id=${client.user?.id}&scope=bot)
                 [Help Page](${client.config.helpWebsite})
                 [Support Server](${client.config.supportServer})
-                [GitHub Repository](https://github.com/${client.config.githubRepo})`, true)
+                [GitHub Repository](https://github.com/${client.config.githubRepo})
+                [Donate Link](https://www.paypal.me/DarenLiang)`, true)
             .addField(message.guild ? 'Server Prefix' : 'DM Prefix', client.prefixDatabase.getPrefix(message.guild), true)
             .addField('Created by', await client.fetchApplication().then(application => {
                 const owner = application.owner as User;
