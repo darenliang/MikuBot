@@ -19,7 +19,8 @@ export default class FeedCommand extends Command {
                     }
                 ]
             },
-            cooldown: 3000,
+            cooldown: 5000,
+            ratelimit: 2,
             typing: true,
             args: [
                 {

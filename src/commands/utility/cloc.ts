@@ -20,7 +20,7 @@ export default class ClocCommand extends Command {
                     }
                 ]
             },
-            cooldown: 30000,
+            cooldown: 20000,
             typing: true,
             args: [
                 {
