@@ -19,8 +19,6 @@ export default class KissCommand extends Command {
                     }
                 ]
             },
-            cooldown: 5000,
-            ratelimit: 2,
             typing: true,
             args: [
                 {

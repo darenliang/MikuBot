@@ -19,8 +19,6 @@ export default class SmugCommand extends Command {
                     }
                 ]
             },
-            cooldown: 5000,
-            ratelimit: 2,
             typing: true,
             args: [
                 {

@@ -32,7 +32,7 @@ export default class ImageCommand extends Command {
             },
             channel: 'guild',
             cooldown: 10000,
-            ratelimit: 2,
+            ratelimit: 3,
             typing: true,
             args: [
                 {

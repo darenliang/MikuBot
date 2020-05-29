@@ -7,8 +7,6 @@ export default class WaifuCommand extends Command {
         super('waifu', {
             aliases: ['waifu', 'laifu'],
             typing: true,
-            cooldown: 5000,
-            ratelimit: 2,
             description: {
                 'fields': [
                     {

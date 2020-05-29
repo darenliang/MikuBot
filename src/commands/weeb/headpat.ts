@@ -19,8 +19,6 @@ export default class HeadpatCommand extends Command {
                     }
                 ]
             },
-            cooldown: 5000,
-            ratelimit: 2,
             typing: true,
             args: [
                 {
