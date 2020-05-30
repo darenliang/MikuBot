@@ -31,6 +31,7 @@ export default class HelpCommand extends Command {
 
     async exec(message: Message, {commandAlias}: { commandAlias: Command }) {
         const client = this.client as Client;
+        let helpEmbed: any;
         if (!commandAlias) {
             const embed = new MBEmbed({
                 title: 'Command List',
@@ -39,7 +40,7 @@ export default class HelpCommand extends Command {
             for (const category of this.handler.categories.values()) {
                 embed.addField(helpers.capitalize(category.id), `\`\`\`\n${category.map(command => command.id).join(', ')}\n\`\`\``);
             }
-            await message.author.send(embed);
+            helpEmbed = embed;
         } else {
             const embed = JSON.parse(JSON.stringify(commandAlias.description));
             embed.author = {
@@ -59,8 +60,15 @@ export default class HelpCommand extends Command {
                     field.name = field.name.substring(1)
                 }
             }
-            await message.author.send({embed});
+            helpEmbed = {embed};
         }
-        if (message.guild) await message.channel.send(`​${message.author.username}, please check your private messages.`);
+        await message.author.send(helpEmbed)
+            .then(() => {
+                return message.channel.send(`​${message.author.username}, please check your private messages.`)
+            })
+            .catch(err => {
+                console.log('INFO', 'help', 'Sending in channel: ' + err)
+                return message.channel.send(helpEmbed)
+            })
     }
 }
