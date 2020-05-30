@@ -53,7 +53,11 @@ export default class HelpCommand extends Command {
             if (commandAlias.userPermissions) embed.description += `Permissions: \`${helpers.perms(commandAlias.userPermissions as string[])}\`\n`;
             embed.description += `Ratelimit: \`${commandAlias.ratelimit} every ${((commandAlias.cooldown || this.handler.defaultCooldown) / 1000) | 0}s\`\n`;
             for (const field of embed.fields) {
-                field.name = `${commandAlias.id} ${field.name}`;
+                if (!field.name.startsWith('?')) {
+                    field.name = `${commandAlias.id} ${field.name}`;
+                } else {
+                    field.name = field.name.substring(1)
+                }
             }
             await message.author.send({embed});
         }
