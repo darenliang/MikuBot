@@ -1,6 +1,5 @@
 import {Command} from 'discord-akairo';
 import {Message, MessageReaction} from 'discord.js';
-import {Client} from '../../bot';
 import axios from 'axios';
 import * as anilist from '../../utils/anilist';
 import * as helpers from '../../utils/helpers';
@@ -39,10 +38,9 @@ export default class AnimeCommand extends Command {
     }
 
     async exec(message: Message, {query}: { query: string }) {
-        const client = this.client as Client;
         axios({
             url: 'https://graphql.anilist.co',
-            timeout: client.config.defaultTimeout,
+            timeout: this.client.config.defaultTimeout,
             method: 'post',
             data: anilist.anilistAnimeSearchQuery(query, 5)
         }).then(resp => {
@@ -85,7 +83,7 @@ export default class AnimeCommand extends Command {
                         .map((studio: { node: { name: string; }; }) => studio.node.name);
                     const studios = studiosArr.length != 0 ? studiosArr.join(', ') : 'Unknown';
                     const score = anime.averageScore ? `${anime.averageScore}/100` : 'Unknown';
-                    const color = anime.coverImage.color ? parseInt(anime.coverImage.color.slice(1), 16) : client.config.color;
+                    const color = anime.coverImage.color ? parseInt(anime.coverImage.color.slice(1), 16) : this.client.config.color;
                     const malLink = anime.idMal ? `https://myanimelist.net/anime/${anime.idMal}` : 'Unknown';
                     const embed = new MBEmbed({
                         title: anime.title.userPreferred,

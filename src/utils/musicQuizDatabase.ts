@@ -1,4 +1,4 @@
-import {Client} from '../bot';
+import Client from '../struct/client';
 import {User} from 'discord.js';
 
 interface MusicQuizCache {

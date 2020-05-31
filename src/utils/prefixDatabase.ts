@@ -1,4 +1,4 @@
-import {Client} from '../bot';
+import Client from '../struct/client';
 import {Guild} from 'discord.js';
 
 interface PrefixCache {

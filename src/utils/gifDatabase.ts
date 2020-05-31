@@ -1,4 +1,4 @@
-import {Client} from '../bot';
+import Client from '../struct/client';
 import axios, {AxiosResponse} from 'axios';
 import {Guild, User} from 'discord.js';
 

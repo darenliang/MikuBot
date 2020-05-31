@@ -1,6 +1,5 @@
 import {Command} from 'discord-akairo';
 import {Message} from 'discord.js';
-import {Client} from '../../bot';
 import {MBEmbed} from '../../utils/messageGenerator';
 
 // Taken from https://github.com/iCrawl/discord-music-bot
@@ -21,7 +20,7 @@ export default class NowPlayingCommand extends Command {
     }
 
     async exec(message: Message) {
-        const serverQueue = (this.client as Client).musicQueue.get(message.guild!.id);
+        const serverQueue = this.client.musicQueue.get(message.guild!.id);
         if (!serverQueue) return message.channel.send('There is nothing playing.');
         const embed = new MBEmbed({
             title: 'Now playing'

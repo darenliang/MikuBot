@@ -1,6 +1,5 @@
 import {Command} from 'discord-akairo';
 import {Message, MessageAttachment} from 'discord.js';
-import {Client} from '../../bot';
 import {MBEmbed} from '../../utils/messageGenerator';
 
 export default class ImageCommand extends Command {
@@ -55,11 +54,10 @@ export default class ImageCommand extends Command {
     }
 
     async exec(message: Message, {url, del, id}: { url: string, del: boolean, id: string }) {
-        const client = this.client as Client;
         if (del) {
             if (id) {
                 if (/[0-9a-zA-Z]{7}/.test(id)) {
-                    client.gifDatabase.deleteGif(message.guild!, id)
+                    this.client.gifDatabase.deleteGif(message.guild!, id)
                         .then(() => {
                             return message.channel.send('Deleted image.');
                         })
@@ -73,14 +71,14 @@ export default class ImageCommand extends Command {
                 const embed = new MBEmbed({
                     title: 'Directions for deleting images'
                 }).setDescription('Go to the link provided and record the image id of a given image.\n**Example**: The image id of https://imgur.com/abcdefg is `abcdefg`.\nCall the command `image delete <hash>` to delete the given image.')
-                    .addField('Album Link', client.gifDatabase.getAlbumLink(message.guild!));
+                    .addField('Album Link', this.client.gifDatabase.getAlbumLink(message.guild!));
                 return await message.channel.send(embed);
             }
         } else {
             if (!url && message.attachments.size == 0) {
-                const gif = client.gifDatabase.getGif(message.guild!);
+                const gif = this.client.gifDatabase.getGif(message.guild!);
                 if (gif == null) {
-                    const prefix = client.prefixDatabase.getPrefix(message.guild);
+                    const prefix = this.client.prefixDatabase.getPrefix(message.guild);
                     return await message.channel.send(`There are no images on this server currently. To add images: \`${prefix}image <url or attachment>\``);
                 } else {
                     const ext = gif.link.split('.').pop();
@@ -98,9 +96,9 @@ export default class ImageCommand extends Command {
                 if (!url) {
                     url = message.attachments.first()!.url;
                 }
-                client.gifDatabase.createAlbum(message.guild!)
+                this.client.gifDatabase.createAlbum(message.guild!)
                     .then(_ => {
-                        client.gifDatabase.uploadGif(message.guild!, message.author, url)
+                        this.client.gifDatabase.uploadGif(message.guild!, message.author, url)
                             .then(() => {
                                 return message.channel.send('Image uploaded.');
                             })

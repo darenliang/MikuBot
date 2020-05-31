@@ -1,6 +1,5 @@
 import {Command} from 'discord-akairo';
 import {Message, MessageEmbed} from 'discord.js';
-import {Client} from '../../bot';
 import axios from 'axios';
 
 export default class ClocCommand extends Command {
@@ -33,14 +32,13 @@ export default class ClocCommand extends Command {
     }
 
     async exec(message: Message, {repo}: { repo: string }) {
-        const client = this.client as Client;
         if (!repo) {
-            repo = client.config.githubRepo;
+            repo = this.client.config.githubRepo;
         } else if (!/^[a-z\d](?:[a-z\d]|-(?=[a-z\d])){0,38}\/[^\/\s]{1,100}$/.test(repo.toLowerCase())) {
             return await message.channel.send('Invalid GitHub repo. Please make sure it\'s in the form `<github username/repo name>`.');
         }
         axios.get(`https://api.codetabs.com/v1/loc?github=${repo}`, {
-            timeout: client.config.defaultTimeout
+            timeout: this.client.config.defaultTimeout
         })
             .then(resp => {
                 if (resp.data.hasOwnProperty('Error')) {
@@ -53,7 +51,7 @@ export default class ClocCommand extends Command {
                 }
                 const embed = new MessageEmbed()
                     .setTitle(`How many lines of code in ${repo}?`)
-                    .setColor(client.config.color)
+                    .setColor(this.client.config.color)
                     .setURL(`https://github.com/${repo}`);
                 for (const [idx, language] of resp.data.entries()) {
                     if (idx == 24 || idx == resp.data.length - 1) break;

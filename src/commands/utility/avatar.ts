@@ -1,6 +1,5 @@
 import {Command} from 'discord-akairo';
 import {Message, User} from 'discord.js';
-import {Client} from '../../bot';
 import {MBEmbed} from '../../utils/messageGenerator';
 
 export default class AvatarCommand extends Command {
@@ -29,8 +28,7 @@ export default class AvatarCommand extends Command {
     }
 
     async exec(message: Message, {user}: { user: User }) {
-        const client = this.client as Client;
-        let color = client.config.color;
+        let color = this.client.config.color;
         if (!user) {
             user = message.author;
         }

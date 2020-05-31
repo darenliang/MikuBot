@@ -1,6 +1,5 @@
 import {Command} from 'discord-akairo';
 import {Message, MessageEmbed, User} from 'discord.js';
-import {Client} from '../../bot';
 import * as helpers from '../../utils/helpers';
 
 export default class InfoCommand extends Command {
@@ -19,25 +18,24 @@ export default class InfoCommand extends Command {
     }
 
     async exec(message: Message) {
-        const client = this.client as Client;
         const embed = new MessageEmbed()
-            .setColor(client.config.color)
-            .setTitle(`${client.config.name} ${client.config.version}`)
+            .setColor(this.client.config.color)
+            .setTitle(`${this.client.config.name} ${this.client.config.version}`)
             .setDescription('(づ｡◕‿‿◕｡)づ Made with :heart:.')
             .addField('Links',
-                `[Invite Bot](https://discordapp.com/oauth2/authorize?client_id=${client.user?.id}&scope=bot&permissions=36817984)
-                [Help Page](${client.config.helpWebsite})
-                [Support Server](${client.config.supportServer})
-                [GitHub Repository](https://github.com/${client.config.githubRepo})
+                `[Invite Bot](https://discordapp.com/oauth2/authorize?client_id=${this.client.user?.id}&scope=bot&permissions=36817984)
+                [Help Page](${this.client.config.helpWebsite})
+                [Support Server](${this.client.config.supportServer})
+                [GitHub Repository](https://github.com/${this.client.config.githubRepo})
                 [Donate Link](https://www.paypal.me/DarenLiang)`, true)
-            .addField(message.guild ? 'Server Prefix' : 'DM Prefix', client.prefixDatabase.getPrefix(message.guild), true)
-            .addField('Created by', await client.fetchApplication().then(application => {
+            .addField(message.guild ? 'Server Prefix' : 'DM Prefix', this.client.prefixDatabase.getPrefix(message.guild), true)
+            .addField('Created by', await this.client.fetchApplication().then(application => {
                 const owner = application.owner as User;
                 return `${owner.username}#${owner.discriminator}`;
             }))
-            .addField('Latency', `${client.ws.ping}ms`, true)
-            .addField('Servers', client.guilds.cache.size, true)
-            .addField('Uptime', helpers.msToTime(client.uptime!), true)
+            .addField('Latency', `${this.client.ws.ping}ms`, true)
+            .addField('Servers', this.client.guilds.cache.size, true)
+            .addField('Uptime', helpers.msToTime(this.client.uptime!), true)
             .addField('Memory Usage', `${(process.memoryUsage().rss / 1048576) | 0}MiB`, true)
             .addField('Platform', process.platform, true)
             .addField('Node Version', process.version, true);

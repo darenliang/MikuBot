@@ -1,6 +1,5 @@
 import {Command} from 'discord-akairo';
 import {Message} from 'discord.js';
-import {Client} from '../../bot';
 import * as helpers from '../../utils/helpers';
 import {MBEmbed} from '../../utils/messageGenerator';
 
@@ -30,13 +29,12 @@ export default class HelpCommand extends Command {
     }
 
     async exec(message: Message, {commandAlias}: { commandAlias: Command }) {
-        const client = this.client as Client;
         let helpEmbed: any;
         if (!commandAlias) {
             const embed = new MBEmbed({
                 title: 'Command List',
-                url: client.config.helpWebsite
-            }).setDescription(`To get the current prefix use \`@${client.config.name} prefix\`.\nTo get help for a specific command use \`@${client.config.name} help <command>\`.\n\n[Help Website](${client.config.helpWebsite})`);
+                url: this.client.config.helpWebsite
+            }).setDescription(`To get the current prefix use \`@${this.client.config.name} prefix\`.\nTo get help for a specific command use \`@${this.client.config.name} help <command>\`.\n\n[Help Website](${this.client.config.helpWebsite})`);
             for (const category of this.handler.categories.values()) {
                 embed.addField(helpers.capitalize(category.id), `\`\`\`\n${category.map(command => command.id).join(', ')}\n\`\`\``);
             }
@@ -45,9 +43,9 @@ export default class HelpCommand extends Command {
             const embed = JSON.parse(JSON.stringify(commandAlias.description));
             embed.author = {
                 name: `${commandAlias.id}`,
-                url: `${client.config.helpWebsite}/#/?id=${commandAlias.id}`
+                url: `${this.client.config.helpWebsite}/#/?id=${commandAlias.id}`
             };
-            embed.color = client.config.color;
+            embed.color = this.client.config.color;
             embed.description = '';
             if (commandAlias.aliases.length > 1) embed.description += `Aliases: ${commandAlias.aliases.slice(1).map(alias => `\`${alias}\``).join(', ')}\n`;
             if (commandAlias.channel) embed.description += `Channel: \`${commandAlias.channel}\`\n`;

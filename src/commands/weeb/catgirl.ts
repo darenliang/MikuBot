@@ -1,6 +1,5 @@
 import {Command} from 'discord-akairo';
 import {Message, MessageAttachment} from 'discord.js';
-import {Client} from '../../bot';
 import axios from 'axios';
 import {MBEmbed} from '../../utils/messageGenerator';
 
@@ -21,10 +20,9 @@ export default class CatgirlCommand extends Command {
     }
 
     async exec(message: Message) {
-        const client = this.client as Client;
         axios({
             url: `https://danbooru.donmai.us/posts.json?login=${process.env.DANBOORU_USERNAME}&api_key=${process.env.DANBOORU_TOKEN}&random=true&limit=20&tags=${encodeURIComponent('cat_girl score:>=35 rating:safe')}`,
-            timeout: client.config.defaultTimeout,
+            timeout: this.client.config.defaultTimeout,
             method: 'get'
         }).then(resp => {
             let url = '';

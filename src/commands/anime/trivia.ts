@@ -1,6 +1,5 @@
 import {Command} from 'discord-akairo';
 import {Message, MessageReaction} from 'discord.js';
-import {Client} from '../../bot';
 import axios from 'axios';
 import * as helpers from '../../utils/helpers';
 import {MBEmbed} from '../../utils/messageGenerator';
@@ -26,10 +25,9 @@ export default class TriviaCommand extends Command {
     }
 
     async exec(message: Message) {
-        const client = this.client as Client;
         axios({
             url: 'https://opentdb.com/api.php?amount=1&category=31&type=multiple',
-            timeout: client.config.defaultTimeout,
+            timeout: this.client.config.defaultTimeout,
             method: 'get'
         }).then(resp => {
             const question = resp.data.results[0];

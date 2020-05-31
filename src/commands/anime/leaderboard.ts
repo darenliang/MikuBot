@@ -1,6 +1,5 @@
 import {Command} from 'discord-akairo';
 import {Message} from 'discord.js';
-import {Client} from '../../bot';
 import * as helpers from '../../utils/helpers';
 import {MBEmbed} from '../../utils/messageGenerator';
 
@@ -48,8 +47,7 @@ export default class LeaderboardCommand extends Command {
     }
 
     async exec(message: Message, {local, global, page}: { local: boolean, global: boolean, page: number }) {
-        const client = this.client as Client;
-        const scores = client.musicQuizDatabase.getScores();
+        const scores = this.client.musicQuizDatabase.getScores();
         if (page < 1) return await message.channel.send('Please enter a positive integer as the page number.');
         if (local && !message.guild) return await message.channel.send('The local leaderboard is only available in servers.');
         if (local) {
@@ -91,13 +89,13 @@ export default class LeaderboardCommand extends Command {
             const selectedScores = sortedScores.slice((page - 1) * 10, page * 10);
             if (selectedScores.length == 0) return await message.channel.send(`Your page number is too large. The last page number is ${Math.ceil(sortedScores.length / 10)}.`);
             for (const [idx, score] of selectedScores.entries()) {
-                const user = await client.users.fetch(score[0])
+                const user = await this.client.users.fetch(score[0])
                 embed.description += `${helpers.pad('    ', (idx + 1 + ((page - 1)) * 10).toString(), true)} | ${helpers.pad('      ', (score[1] * 100).toString(), true)} | ${user.username}#${user.discriminator}\n`;
             }
             embed.description += '```'
             return await message.channel.send(embed);
         } else {
-            const score = client.musicQuizDatabase.getScore(message.author);
+            const score = this.client.musicQuizDatabase.getScore(message.author);
             const globalRank = Object.values(scores)
                 .map(s => s.musicScore).reduce((a, c) => a + ((c > score.musicScore) ? 1 : 0), 0) + 1;
             const embed = new MBEmbed({

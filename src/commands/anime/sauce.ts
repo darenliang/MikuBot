@@ -1,6 +1,5 @@
 import {Command} from 'discord-akairo';
 import {Message} from 'discord.js';
-import {Client} from '../../bot';
 import axios from 'axios';
 import * as helpers from '../../utils/helpers';
 import {MBEmbed} from '../../utils/messageGenerator';
@@ -33,7 +32,6 @@ export default class SauceCommand extends Command {
     }
 
     async exec(message: Message, {url}: { url: string }) {
-        const client = this.client as Client;
         if (!url && message.attachments.size == 0) {
             return await message.channel.send('Please provide an url or an attachment.');
         }
@@ -42,7 +40,7 @@ export default class SauceCommand extends Command {
         }
         axios({
             url: `https://saucenao.com/search.php?db=999&api_key=${process.env.SAUCENAO_TOKEN}&output_type=2&numres=1&url=${encodeURIComponent(url)}`,
-            timeout: client.config.defaultTimeout,
+            timeout: this.client.config.defaultTimeout,
             method: 'get'
         }).then(resp => {
             if (resp.data.header.status != 0) {
