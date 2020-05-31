@@ -55,18 +55,18 @@ export default class HelpCommand extends Command {
                 if (!field.name.startsWith('?')) {
                     field.name = `${commandAlias.id} ${field.name}`;
                 } else {
-                    field.name = field.name.substring(1)
+                    field.name = field.name.substring(1);
                 }
             }
             helpEmbed = {embed};
         }
         await message.author.send(helpEmbed)
             .then(() => {
-                if (message.guild) return message.channel.send(`​${message.author.username}, please check your private messages.`)
+                if (message.guild) return message.channel.send(`​${message.author.username}, please check your private messages.`);
             })
             .catch(err => {
-                console.log('INFO', 'help', 'Sending in channel: ' + err)
-                return message.channel.send(helpEmbed)
-            })
+                console.log('INFO', 'help', 'Sending in channel: ' + err);
+                return message.channel.send(helpEmbed);
+            });
     }
 }

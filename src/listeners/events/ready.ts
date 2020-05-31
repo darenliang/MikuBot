@@ -1,5 +1,5 @@
 import {Listener} from 'discord-akairo';
-import DBL from 'dblapi.js'
+import DBL from 'dblapi.js';
 
 export default class ReadyListener extends Listener {
     constructor() {
@@ -12,7 +12,7 @@ export default class ReadyListener extends Listener {
     async exec() {
         // Set every minute
         setInterval(() => {
-            this.client.user!.setPresence({activity: {name: `@${this.client.config.name} help`}, status: 'online'})
+            this.client.user!.setPresence({activity: {name: `@${this.client.config.name} help`}, status: 'online'});
         }, 60000);
 
         for (const guild of this.client.guilds.cache.array()) {
@@ -22,7 +22,7 @@ export default class ReadyListener extends Listener {
             }
         }
 
-        if (process.env.PRODUCTION == "true") {
+        if (process.env.PRODUCTION == 'true') {
             const dbl = new DBL(process.env.DBL_TOKEN!, this.client);
 
             setInterval(() => {

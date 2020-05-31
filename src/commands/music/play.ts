@@ -2,7 +2,7 @@ import {Command} from 'discord-akairo';
 import {Message, TextChannel} from 'discord.js';
 import {MusicQueue} from '../../struct/client';
 
-const youtubedl = require('youtube-dl')
+const youtubedl = require('youtube-dl');
 
 // Taken from https://github.com/iCrawl/discord-music-bot
 export default class PlayCommand extends Command {
@@ -90,6 +90,6 @@ export default class PlayCommand extends Command {
                 channel.leave();
                 return message.channel.send('Cannot join voice channel');
             }
-        })
+        });
     }
 }

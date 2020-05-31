@@ -70,10 +70,10 @@ export default class LeaderboardCommand extends Command {
             const selectedScores = sortedScores.slice((page - 1) * 10, page * 10);
             if (selectedScores.length == 0) return await message.channel.send(`Your page number is too large. The last page number is ${Math.ceil(sortedScores.length / 10)}.`);
             for (const [idx, score] of selectedScores.entries()) {
-                const user = await message.guild!.members.fetch(score[0])
+                const user = await message.guild!.members.fetch(score[0]);
                 embed.description += `${helpers.pad('    ', (idx + 1 + ((page - 1)) * 10).toString(), true)} | ${helpers.pad('      ', (score[1] * 100).toString(), true)} | ${user.user.username}#${user.user.discriminator}\n`;
             }
-            embed.description += '```'
+            embed.description += '```';
             return await message.channel.send(embed);
         } else if (global) {
             const embed = new MBEmbed({
@@ -89,10 +89,10 @@ export default class LeaderboardCommand extends Command {
             const selectedScores = sortedScores.slice((page - 1) * 10, page * 10);
             if (selectedScores.length == 0) return await message.channel.send(`Your page number is too large. The last page number is ${Math.ceil(sortedScores.length / 10)}.`);
             for (const [idx, score] of selectedScores.entries()) {
-                const user = await this.client.users.fetch(score[0])
+                const user = await this.client.users.fetch(score[0]);
                 embed.description += `${helpers.pad('    ', (idx + 1 + ((page - 1)) * 10).toString(), true)} | ${helpers.pad('      ', (score[1] * 100).toString(), true)} | ${user.username}#${user.discriminator}\n`;
             }
-            embed.description += '```'
+            embed.description += '```';
             return await message.channel.send(embed);
         } else {
             const score = this.client.musicQuizDatabase.getScore(message.author);
