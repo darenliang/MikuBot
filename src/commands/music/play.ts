@@ -18,7 +18,8 @@ export default class PlayCommand extends Command {
                 ]
             },
             channel: 'guild',
-            cooldown: 5000,
+            cooldown: 10000,
+            ratelimit: 3,
             typing: true,
             clientPermissions: ['CONNECT', 'SPEAK'],
             args: [

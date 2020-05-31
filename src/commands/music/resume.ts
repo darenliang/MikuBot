@@ -14,7 +14,7 @@ export default class ResumeCommand extends Command {
                     }
                 ]
             },
-            cooldown: 3000,
+            cooldown: 2000,
             channel: 'guild'
         });
     }

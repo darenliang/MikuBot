@@ -14,7 +14,7 @@ export default class PauseCommand extends Command {
                     }
                 ]
             },
-            cooldown: 3000,
+            cooldown: 2000,
             channel: 'guild'
         });
     }
