@@ -30,7 +30,6 @@ export default class MusicQuizCommand extends Command {
                 ]
             },
             cooldown: 10000,
-            typing: true,
             ratelimit: 3,
             args: [
                 {
