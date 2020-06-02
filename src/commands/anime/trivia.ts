@@ -68,7 +68,7 @@ export default class TriviaCommand extends Command {
                     }
                     return message.channel.send(embed);
                 }).catch(_ => {
-                    return message.channel.send(embed);
+                    return message.channel.send('An error has occurred for `trivia`.');
                 }).finally(() => {
                     return msg.delete();
                 });
