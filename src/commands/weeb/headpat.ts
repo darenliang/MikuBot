@@ -34,7 +34,7 @@ export default class HeadpatCommand extends Command {
         })
             .setImage(`attachment://headpat.gif`)
             .attachFiles(
-                [new MessageAttachment(`https://gitlab.com/darenliang/gifs/-/raw/master/data/headpats/${Math.floor(Math.random() * 139) + 1}.gif`,
+                [new MessageAttachment(`https://gitlab.com/darenliang/gifs/-/raw/master/data/headpats/${Math.floor(Math.random() * 140) + 1}.gif`,
                     'headpat.gif')]);
         return message.channel.send(embed);
     }
