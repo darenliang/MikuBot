@@ -8,6 +8,7 @@ import {join} from 'path';
 import config from '../config.json';
 import musicQuizDataset from '../data/musicquiz_dataset.json';
 import catgirlDataset from '../data/catgirl_dataset.json';
+import triviaDataset from '../data/trivia_dataset.json';
 import {TextChannel, VoiceChannel, VoiceConnection} from 'discord.js';
 
 declare module 'discord-akairo' {
@@ -15,6 +16,7 @@ declare module 'discord-akairo' {
         config: any;
         musicQuizDataset: any;
         catgirlDataset: any;
+        triviaDataset: any;
         DDB: DocumentClient;
         prefixDatabase: PrefixDatabase;
         musicQuizDatabase: MusicQuizDatabase;
@@ -54,6 +56,7 @@ export default class Client extends AkairoClient {
         this.config = config;
         this.musicQuizDataset = musicQuizDataset;
         this.catgirlDataset = catgirlDataset;
+        this.triviaDataset = triviaDataset;
         this.prefixDatabase = new PrefixDatabase(this);
         this.musicQuizDatabase = new MusicQuizDatabase(this);
         this.musicQuizSession = new MusicQuizSession();
