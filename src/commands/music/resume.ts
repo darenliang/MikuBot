@@ -26,6 +26,6 @@ export default class ResumeCommand extends Command {
             serverQueue.connection!.dispatcher.resume();
             return message.channel.send('Resumed music.');
         }
-        return message.channel.send('There is nothing playing.');
+        return message.channel.send('There is nothing playing or there is nothing to resume.');
     }
 }

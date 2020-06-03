@@ -26,6 +26,6 @@ export default class PauseCommand extends Command {
             serverQueue.connection!.dispatcher.pause();
             return message.channel.send('Paused music.');
         }
-        return message.channel.send('There is nothing playing.');
+        return message.channel.send('There is nothing playing or there is nothing to pause.');
     }
 }
