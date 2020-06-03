@@ -20,7 +20,6 @@ export default class WaifuCommand extends Command {
 
     async exec(message: Message) {
         const selection = Math.floor(Math.random() * Math.floor(100000));
-        console.log('', '', selection);
         const embed = new MBEmbed({
             title: 'Here\'s your waifu.'
         })
