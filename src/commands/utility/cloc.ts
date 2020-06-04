@@ -35,7 +35,9 @@ export default class ClocCommand extends Command {
         if (!repo) {
             repo = this.client.config.githubRepo;
         } else if (!/^[a-z\d](?:[a-z\d]|-(?=[a-z\d])){0,38}\/[^\/\s]{1,100}$/.test(repo.toLowerCase())) {
-            return await message.channel.send('Invalid GitHub repo. Please make sure it\'s in the form `<github username/repo name>`.');
+            return await message.channel
+                .send('Invalid GitHub repo. Please make sure it\'s in the form `<github username/repo name>`.')
+                .catch(err => console.log('ERROR', 'cloc', 'Failed to send message: ' + err));
         }
         axios.get(`https://api.codetabs.com/v1/loc?github=${repo}`, {
             timeout: this.client.config.defaultTimeout
@@ -43,11 +45,15 @@ export default class ClocCommand extends Command {
             .then(resp => {
                 if (resp.data.hasOwnProperty('Error')) {
                     console.log('warn', 'cloc', 'Repo fail.');
-                    return message.channel.send(`Failed to count lines of code in ${repo}.`);
+                    return message.channel
+                        .send(`Failed to count lines of code in ${repo}.`)
+                        .catch(err => console.log('ERROR', 'cloc', 'Failed to send message: ' + err));
                 }
                 if (resp.data.length == 0) {
                     console.log('warn', 'cloc', `Empty repo.`);
-                    return message.channel.send(':thinking: No programming languages detected.');
+                    return message.channel
+                        .send(':thinking: No programming languages detected.')
+                        .catch(err => console.log('ERROR', 'cloc', 'Failed to send message: ' + err));
                 }
                 const embed = new MessageEmbed()
                     .setTitle(`How many lines of code in ${repo}?`)
@@ -59,11 +65,15 @@ export default class ClocCommand extends Command {
                 }
                 const lastLanguage = resp.data[resp.data.length - 1];
                 embed.addField(lastLanguage.language, lastLanguage.linesOfCode);
-                return message.channel.send(embed);
+                return message.channel
+                    .send(embed)
+                    .catch(err => console.log('ERROR', 'cloc', 'Failed to send message: ' + err));
             })
             .catch(err => {
                 console.log('ERROR', 'cloc', err);
-                return message.channel.send(`Failed to count lines of code in ${repo}.`);
+                return message.channel
+                    .send(`Failed to count lines of code in ${repo}.`)
+                    .catch(err => console.log('ERROR', 'cloc', 'Failed to send message: ' + err));
             });
     }
 }

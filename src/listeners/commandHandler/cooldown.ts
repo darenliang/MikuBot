@@ -11,6 +11,8 @@ export default class CooldownListener extends Listener {
 
     async exec(message: Message, command: Command, remaining: number) {
         console.log('INFO', 'cooldown', `${command.id}:${remaining}ms`);
-        return await message.channel.send(`:timer: You must wait another ${(remaining / 1000).toFixed(2)} seconds before using the \`${command.id}\` command.`);
+        return await message.channel
+            .send(`:timer: You must wait another ${(remaining / 1000).toFixed(2)} seconds before using the \`${command.id}\` command.`)
+            .catch(err => console.log('ERROR', 'cooldown', 'Failed to send message: ' + err));
     }
 }

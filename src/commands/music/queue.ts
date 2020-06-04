@@ -28,11 +28,17 @@ export default class QueueCommand extends Command {
     }
 
     async exec(message: Message, {page}: { page: number }) {
-        if (page < 1) return await message.channel.send('Please enter a positive integer as the page number.');
+        if (page < 1) return await message.channel
+            .send('Please enter a positive integer as the page number.')
+            .catch(err => console.log('ERROR', 'queue', 'Failed to send message: ' + err));
         const serverQueue = this.client.musicQueue.get(message.guild!.id);
-        if (!serverQueue) return message.channel.send('There is nothing playing.');
+        if (!serverQueue) return message.channel
+            .send('There is nothing playing.')
+            .catch(err => console.log('ERROR', 'queue', 'Failed to send message: ' + err));
         const queuedSongs = serverQueue.songs.slice((page - 1) * 10, page * 10);
-        if (queuedSongs.length == 0) return await message.channel.send(`Your page number is too large. The last page number is ${Math.ceil(queuedSongs.length / 25)}.`);
+        if (queuedSongs.length == 0) return await message.channel
+            .send(`Your page number is too large. The last page number is ${Math.ceil(queuedSongs.length / 25)}.`)
+            .catch(err => console.log('ERROR', 'queue', 'Failed to send message: ' + err));
         const embed = new MBEmbed({
             title: 'Music Queue'
         })
@@ -42,6 +48,8 @@ export default class QueueCommand extends Command {
         for (const [idx, song] of queuedSongs.entries()) {
             embed.description += `\`${helpers.pad('  ', (idx + 1).toString(), true)}\` ${song.title}\n`;
         }
-        return message.channel.send(embed);
+        return message.channel
+            .send(embed)
+            .catch(err => console.log('ERROR', 'queue', 'Failed to send message: ' + err));
     }
 }

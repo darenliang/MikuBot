@@ -40,11 +40,15 @@ export default class SmugCommand extends Command {
                     .attachFiles(
                         [new MessageAttachment(resp.data.url,
                             `smug.${ext}`)]);
-                return message.channel.send(embed);
+                return message.channel
+                    .send(embed)
+                    .catch(err => console.log('ERROR', 'smug', 'Failed to send message: ' + err));
             })
             .catch(err => {
                 console.log('ERROR', 'smug', `Network failure on ${err}`);
-                return message.channel.send(':timer: Request timed out for `smug`.');
+                return message.channel
+                    .send(':timer: Request timed out for `smug`.')
+                    .catch(err => console.log('ERROR', 'smug', 'Failed to send message: ' + err));
             });
     }
 }

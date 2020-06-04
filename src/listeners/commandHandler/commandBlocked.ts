@@ -13,7 +13,9 @@ export default class CommandBlockedListener extends Listener {
         console.log('INFO', 'commandBlocked', command.id);
         switch (reason) {
             case 'guild':
-                return await message.channel.send(`:octagonal_sign: The \`${command.id}\` command is blocked in private messages.`);
+                return await message.channel
+                    .send(`:octagonal_sign: The \`${command.id}\` command is blocked in private messages.`)
+                    .catch(err => console.log('ERROR', 'commandBlocked', 'Failed to send message: ' + err));
         }
         return;
     }

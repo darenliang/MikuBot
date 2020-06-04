@@ -31,13 +31,23 @@ export default class PrefixCommand extends Command {
     }
 
     async exec(message: Message, {prefix}: { prefix: string }) {
-        if (!prefix) return await message.channel.send(`The current${message.guild ? ' server' : ''} prefix is: \`${this.client.prefixDatabase.getPrefix(message.guild)}\``);
-        if (!message.guild) return await message.channel.send(`Cannot set prefix in private messages.`);
-        if (!message.member!.hasPermission('MANAGE_GUILD')) return await message.channel.send(`You must have the \`manage guild\` permission to set prefix.`);
+        if (!prefix) return await message.channel
+            .send(`The current${message.guild ? ' server' : ''} prefix is: \`${this.client.prefixDatabase.getPrefix(message.guild)}\``)
+            .catch(err => console.log('ERROR', 'prefix', 'Failed to send message: ' + err));
+        if (!message.guild) return await message.channel
+            .send(`Cannot set prefix in private messages.`)
+            .catch(err => console.log('ERROR', 'prefix', 'Failed to send message: ' + err));
+        if (!message.member!.hasPermission('MANAGE_GUILD')) return await message.channel
+            .send(`You must have the \`manage guild\` permission to set prefix.`)
+            .catch(err => console.log('ERROR', 'prefix', 'Failed to send message: ' + err));
         if (!this.client.prefixDatabase.updateGuild(message.guild, prefix)) {
             console.log('ERROR', 'prefix', 'Failed to set prefix');
-            return await message.channel.send(`Failed to set prefix to ${prefix}`);
+            return await message.channel
+                .send(`Failed to set prefix to ${prefix}`)
+                .catch(err => console.log('ERROR', 'prefix', 'Failed to send message: ' + err));
         }
-        return await message.channel.send(`The prefix has been set to ${prefix}`);
+        return await message.channel
+            .send(`The prefix has been set to ${prefix}`)
+            .catch(err => console.log('ERROR', 'prefix', 'Failed to send message: ' + err));
     }
 }

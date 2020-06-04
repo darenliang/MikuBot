@@ -25,8 +25,12 @@ export default class EightBallCommand extends Command {
     }
 
     async exec(message: Message, {msg}: { msg: string }) {
-        if (!msg) return await message.channel.send('Please provide a question.');
-        if (!msg.endsWith('?')) return await message.channel.send('Are you sure that you are asking a question?');
+        if (!msg) return await message.channel
+            .send('Please provide a question.')
+            .catch(err => console.log('ERROR', '8ball', 'Failed to send message: ' + err));
+        if (!msg.endsWith('?')) return await message.channel
+            .send('Are you sure that you are asking a question?')
+            .catch(err => console.log('ERROR', '8ball', 'Failed to send message: ' + err));
 
         const responses = ['It is certain.', 'It is decidedly so.', 'Without a doubt.', 'Yes - definitely.',
             'You may rely on it.', 'As I see it, yes.', 'Most likely.', 'Outlook good.',
@@ -35,6 +39,8 @@ export default class EightBallCommand extends Command {
             'Don\'t count on it.', 'My reply is no.', 'My sources say no.', 'Outlook not so good.',
             'Very doubtful.'];
 
-        return await message.channel.send(responses[Math.floor(Math.random() * responses.length)]);
+        return await message.channel
+            .send(responses[Math.floor(Math.random() * responses.length)])
+            .catch(err => console.log('ERROR', '8ball', 'Failed to send message: ' + err));
     }
 }

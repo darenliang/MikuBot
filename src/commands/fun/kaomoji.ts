@@ -37,6 +37,8 @@ export default class KaomojiCommand extends Command {
             '(° ͜ʖ͡°)╭∩╮', 'ʕʘ̅͜ʘ̅ʔ', 'ح(•̀ж•́)ง † ', '-`ღ´-', '(⩾﹏⩽)', 'ヽ( •_)ᕗ',
             '~(^-^)~', '\\(ᵔᵕᵔ)/'];
 
-        return await message.channel.send(emojis[Math.floor(Math.random() * emojis.length)]);
+        return await message.channel
+            .send(emojis[Math.floor(Math.random() * emojis.length)])
+            .catch(err => console.log('ERROR', 'kaomoji', 'Failed to send message: ' + err));
     }
 }

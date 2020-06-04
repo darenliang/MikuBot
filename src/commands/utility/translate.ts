@@ -41,14 +41,20 @@ export default class TranslateCommand extends Command {
     }
 
     async exec(message: Message, {lang, msg}: { lang: string, msg: string }) {
-        if (!msg) return await message.channel.send('Please provide a message to translate.');
+        if (!msg) return await message.channel
+            .send('Please provide a message to translate.')
+            .catch(err => console.log('ERROR', 'translate', 'Failed to send message: ' + err));
         try {
             const result = await translate(msg, {
                 to: lang
             });
-            return await message.channel.send(result.data[0]);
+            return await message.channel
+                .send(result.data[0])
+                .catch(err => console.log('ERROR', 'translate', 'Failed to send message: ' + err));
         } catch {
-            return await message.channel.send('We cannot translate your message. Please check to make sure that you used a valid language code.');
+            return await message.channel
+                .send('We cannot translate your message. Please check to make sure that you used a valid language code.')
+                .catch(err => console.log('ERROR', 'translate', 'Failed to send message: ' + err));
         }
     }
 }

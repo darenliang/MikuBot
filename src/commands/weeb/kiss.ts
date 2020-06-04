@@ -40,11 +40,15 @@ export default class KissCommand extends Command {
                     .attachFiles(
                         [new MessageAttachment(resp.data.url,
                             `kiss.${ext}`)]);
-                return message.channel.send(embed);
+                return message.channel
+                    .send(embed)
+                    .catch(err => console.log('ERROR', 'kiss', 'Failed to send message: ' + err));
             })
             .catch(err => {
                 console.log('ERROR', 'kiss', `Network failure on ${err}`);
-                return message.channel.send(':timer: Request timed out for `kiss`.');
+                return message.channel
+                    .send(':timer: Request timed out for `kiss`.')
+                    .catch(err => console.log('ERROR', 'kiss', 'Failed to send message: ' + err));
             });
     }
 }

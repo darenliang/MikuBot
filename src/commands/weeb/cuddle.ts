@@ -40,11 +40,15 @@ export default class CuddleCommand extends Command {
                     .attachFiles(
                         [new MessageAttachment(resp.data.url,
                             `cuddle.${ext}`)]);
-                return message.channel.send(embed);
+                return message.channel
+                    .send(embed)
+                    .catch(err => console.log('ERROR', 'cuddle', 'Failed to send message: ' + err));
             })
             .catch(err => {
                 console.log('ERROR', 'cuddle', `Network failure on ${err}`);
-                return message.channel.send(':timer: Request timed out for `cuddle`.');
+                return message.channel
+                    .send(':timer: Request timed out for `cuddle`.')
+                    .catch(err => console.log('ERROR', 'cuddle', 'Failed to send message: ' + err));
             });
     }
 }

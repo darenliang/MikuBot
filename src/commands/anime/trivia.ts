@@ -49,7 +49,9 @@ export default class TriviaCommand extends Command {
                 const reaction = collected.first();
                 if (typeof reaction === 'undefined') {
                     console.log('ERROR', 'anime', 'Weird emoji ERROR');
-                    return message.channel.send(':thinking: Huh, that\s really weird. We got invalid emoji.');
+                    return message.channel
+                        .send(':thinking: Huh, that\s really weird. We got invalid emoji.')
+                        .catch(err => console.log('ERROR', 'trivia', 'Failed to send message: ' + err));
                 }
                 if (question.correct_answer == answers[helpers.getValueFromEmoji(reaction.emoji.toString()) - 1]) {
                     embed.author!.name = 'Correct';
@@ -58,9 +60,13 @@ export default class TriviaCommand extends Command {
                     embed.author!.name = 'Incorrect';
                     embed.color = 16007990;
                 }
-                return message.channel.send(embed);
+                return message.channel
+                    .send(embed)
+                    .catch(err => console.log('ERROR', 'trivia', 'Failed to send message: ' + err));
             }).catch(_ => {
-                return message.channel.send('An error has occurred for `trivia`.');
+                return message.channel
+                    .send('An error has occurred for `trivia`.')
+                    .catch(err => console.log('ERROR', 'trivia', 'Failed to send message: ' + err));
             }).finally(() => {
                 return msg.delete();
             });

@@ -40,11 +40,15 @@ export default class TickleCommand extends Command {
                     .attachFiles(
                         [new MessageAttachment(resp.data.url,
                             `tickle.${ext}`)]);
-                return message.channel.send(embed);
+                return message.channel
+                    .send(embed)
+                    .catch(err => console.log('ERROR', 'tickle', 'Failed to send message: ' + err));
             })
             .catch(err => {
                 console.log('ERROR', 'tickle', `Network failure on ${err}`);
-                return message.channel.send(':timer: Request timed out for `tickle`.');
+                return message.channel
+                    .send(':timer: Request timed out for `tickle`.')
+                    .catch(err => console.log('ERROR', 'tickle', 'Failed to send message: ' + err));
             });
     }
 }

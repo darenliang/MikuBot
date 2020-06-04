@@ -40,11 +40,15 @@ export default class FeedCommand extends Command {
                     .attachFiles(
                         [new MessageAttachment(resp.data.url,
                             `feed.${ext}`)]);
-                return message.channel.send(embed);
+                return message.channel
+                    .send(embed)
+                    .catch(err => console.log('ERROR', 'feed', 'Failed to send message: ' + err));
             })
             .catch(err => {
                 console.log('ERROR', 'feed', `Network failure on ${err}`);
-                return message.channel.send(':timer: Request timed out for `feed`.');
+                return message.channel
+                    .send(':timer: Request timed out for `feed`.')
+                    .catch(err => console.log('ERROR', 'feed', 'Failed to send message: ' + err));
             });
     }
 }
