@@ -26,7 +26,10 @@ export default class ReadyListener extends Listener {
             const dbl = new DBL(process.env.DBL_TOKEN!, this.client);
 
             setInterval(() => {
-                dbl.postStats(this.client.guilds.cache.size);
+                dbl.postStats(
+                    this.client.guilds.cache.size,
+                    this.client.options.shards as number,
+                    this.client.options.shardCount);
             }, 1800000);
         }
 

@@ -35,11 +35,11 @@ export default class InfoCommand extends Command {
                 return `${owner.username}#${owner.discriminator}`;
             }))
             .addField('Latency', `${this.client.ws.ping}ms`, true)
-            .addField('Servers', this.client.guilds.cache.size, true)
+            .addField('Shard ID', this.client.options.shards, true)
+            .addField('Shards', this.client.options.shardCount, true)
             .addField('Uptime', helpers.msToTime(this.client.uptime!), true)
             .addField('Memory Usage', `${(process.memoryUsage().rss / 1048576) | 0}MiB`, true)
-            .addField('Platform', process.platform, true)
-            .addField('Node Version', process.version, true);
+            .addField('Platform', process.platform, true);
         return await message.channel.send(embed);
     }
 }

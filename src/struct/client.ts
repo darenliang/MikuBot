@@ -46,6 +46,8 @@ export interface MusicQueue {
 export default class Client extends AkairoClient {
     constructor(DDB: DocumentClient) {
         super({ownerID: config.owners}, {
+            shards: parseInt(process.env.SHARD_ID!, 10),
+            shardCount: parseInt(process.env.SHARD_COUNT!, 10),
             messageCacheMaxSize: 10,
             messageCacheLifetime: 120,
             messageSweepInterval: 60,
