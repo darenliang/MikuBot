@@ -31,8 +31,6 @@ export default class PingCommand extends Command {
             embed.setColor(16007990);
         }
 
-        return await message.channel
-            .send(embed)
-            .catch(err => console.log('ERROR', 'ping', 'Failed to send message: ' + err));
+        return await message.channel.send(embed);
     }
 }

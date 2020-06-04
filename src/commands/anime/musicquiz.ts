@@ -45,22 +45,16 @@ export default class MusicQuizCommand extends Command {
         if (guess) {
             const entry = this.client.musicQuizSession.load(message.channel);
             if (!entry) {
-                return await message.channel
-                    .send('There is no active quiz currently in this channel.')
-                    .catch(err => console.log('ERROR', 'musicquiz', 'Failed to send message: ' + err));
+                return await message.channel.send('There is no active quiz currently in this channel.');
             }
             switch (guess) {
                 case 'giveup':
                     entry.embed.author!.name = `Answer: ${entry.embed.author!.name}`;
                     entry.embed.color = 16007990;
                     this.client.musicQuizSession.delete(message.channel);
-                    return await message.channel
-                        .send(entry.embed)
-                        .catch(err => console.log('ERROR', 'musicquiz', 'Failed to send message: ' + err));
+                    return await message.channel.send(entry.embed);
                 case 'hint':
-                    return await message.channel
-                        .send(entry.hintEmbed)
-                        .catch(err => console.log('ERROR', 'musicquiz', 'Failed to send message: ' + err));
+                    return await message.channel.send(entry.hintEmbed);
                 default:
                     axios({
                         url: 'https://graphql.anilist.co',
@@ -68,9 +62,7 @@ export default class MusicQuizCommand extends Command {
                         method: 'post',
                         data: anilist.anilistAnimeSearchQuery(guess, 5)
                     }).then(resp => {
-                        if (resp.data.data.Page.media.length == 0) return message.channel
-                            .send('Sorry, anime not found.')
-                            .catch(err => console.log('ERROR', 'musicquiz', 'Failed to send message: ' + err));
+                        if (resp.data.data.Page.media.length == 0) return message.channel.send('Sorry, anime not found.');
                         const answers = resp.data.data.Page.media.map((result: { title: { userPreferred: any; }; }) => result.title.userPreferred);
                         if (entry.nameCache.some(r => answers.indexOf(r) >= 0)) {
                             entry.embed.author!.name = `Correct: ${entry.embed.author!.name}`;
@@ -88,13 +80,9 @@ export default class MusicQuizCommand extends Command {
                                 });
                             }
                             this.client.musicQuizSession.delete(message.channel);
-                            return message.channel
-                                .send(entry.embed)
-                                .catch(err => console.log('ERROR', 'musicquiz', 'Failed to send message: ' + err));
+                            return message.channel.send(entry.embed);
                         } else {
-                            return message.channel
-                                .send('You are incorrect. Please try again.')
-                                .catch(err => console.log('ERROR', 'musicquiz', 'Failed to send message: ' + err));
+                            return message.channel.send('You are incorrect. Please try again.');
                         }
                     }).catch(err => {
                         console.log('ERROR', 'musicquiz', `Network failure on ${err}`);

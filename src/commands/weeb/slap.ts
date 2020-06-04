@@ -40,15 +40,11 @@ export default class SlapCommand extends Command {
                     .attachFiles(
                         [new MessageAttachment(resp.data.url,
                             `slap.${ext}`)]);
-                return message.channel
-                    .send(embed)
-                    .catch(err => console.log('ERROR', 'slap', 'Failed to send message: ' + err));
+                return message.channel.send(embed);
             })
             .catch(err => {
                 console.log('ERROR', 'slap', `Network failure on ${err}`);
-                return message.channel
-                    .send(':timer: Request timed out for `slap`.')
-                    .catch(err => console.log('ERROR', 'slap', 'Failed to send message: ' + err));
+                return message.channel.send(':timer: Request timed out for `slap`.');
             });
     }
 }

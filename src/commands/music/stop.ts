@@ -20,19 +20,13 @@ export default class StopCommand extends Command {
 
     async exec(message: Message) {
         const {channel} = message.member!.voice;
-        if (!channel) return message.channel
-            .send('You have to be in the same voice channel to stop music.')
-            .catch(err => console.log('ERROR', 'stop', 'Failed to send message: ' + err));
+        if (!channel) return message.channel.send('You have to be in the same voice channel to stop music.');
         const serverQueue = this.client.musicQueue.get(message.guild!.id);
-        if (!serverQueue) return message.channel
-            .send('There is nothing playing.')
-            .catch(err => console.log('ERROR', 'stop', 'Failed to send message: ' + err));
+        if (!serverQueue) return message.channel.send('There is nothing playing.');
         serverQueue.songs = [];
         if (serverQueue.connection != null) {
             serverQueue.connection.dispatcher.end();
         }
-        return await message.channel
-            .send('Stopped music. Queue cleared.')
-            .catch(err => console.log('ERROR', 'stop', 'Failed to send message: ' + err));
+        return await message.channel.send('Stopped music. Queue cleared.');
     }
 }

@@ -39,8 +39,6 @@ export default class InfoCommand extends Command {
             .addField('Memory Usage', `${(process.memoryUsage().rss / 1048576) | 0}MiB`, true)
             .addField('Platform', process.platform, true)
             .addField('Node Version', process.version, true);
-        return await message.channel
-            .send(embed)
-            .catch(err => console.log('ERROR', 'info', 'Failed to send message: ' + err));
+        return await message.channel.send(embed);
     }
 }

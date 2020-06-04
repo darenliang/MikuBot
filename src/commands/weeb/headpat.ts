@@ -36,7 +36,6 @@ export default class HeadpatCommand extends Command {
             .attachFiles(
                 [new MessageAttachment(`https://gitlab.com/darenliang/gifs/-/raw/master/data/headpats/${Math.floor(Math.random() * 140) + 1}.gif`,
                     'headpat.gif')]);
-        return message.channel.send(embed)
-            .catch(err => console.log('ERROR', 'headpat', 'Failed to send message: ' + err));
+        return message.channel.send(embed);
     }
 }

@@ -40,15 +40,11 @@ export default class HugCommand extends Command {
                     .attachFiles(
                         [new MessageAttachment(resp.data.url,
                             `hug.${ext}`)]);
-                return message.channel
-                    .send(embed)
-                    .catch(err => console.log('ERROR', 'hug', 'Failed to send message: ' + err));
+                return message.channel.send(embed);
             })
             .catch(err => {
                 console.log('ERROR', 'hug', `Network failure on ${err}`);
-                return message.channel
-                    .send(':timer: Request timed out for `hug`.')
-                    .catch(err => console.log('ERROR', 'hug', 'Failed to send message: ' + err));
+                return message.channel.send(':timer: Request timed out for `hug`.');
             });
     }
 }

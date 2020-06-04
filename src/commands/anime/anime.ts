@@ -44,9 +44,7 @@ export default class AnimeCommand extends Command {
             method: 'post',
             data: anilist.anilistAnimeSearchQuery(query, 5)
         }).then(resp => {
-            if (resp.data.data.Page.media.length == 0) return message.channel
-                .send(':thinking: We cannot find the anime you are looking for.')
-                .catch(err => console.log('ERROR', 'anime', 'Failed to send message: ' + err));
+            if (resp.data.data.Page.media.length == 0) return message.channel.send(':thinking: We cannot find the anime you are looking for.');
             const selection = new MBEmbed({
                 title: `Anime search results for ${query.substring(0, 30)}${query.length > 30 ? '...' : ''}`
             }).setDescription('');
@@ -68,9 +66,7 @@ export default class AnimeCommand extends Command {
                     const reaction = collected.first();
                     if (typeof reaction === 'undefined') {
                         console.log('ERROR', 'anime', 'Weird emoji ERROR');
-                        return message.channel
-                            .send(':thinking: Huh, that\s really weird. We got invalid emoji.')
-                            .catch(err => console.log('ERROR', 'anime', 'Failed to send message: ' + err));
+                        return message.channel.send(':thinking: Huh, that\s really weird. We got invalid emoji.');
                     }
                     const anime = animes[helpers.getValueFromEmoji(reaction.emoji.toString()) - 1];
                     const episodes = anime.episodes ? anime.episodes.toString() : 'Unknown';
@@ -116,22 +112,16 @@ export default class AnimeCommand extends Command {
                             {name: 'Score', value: score, inline: true},
                             {name: 'MAL Link', value: malLink, inline: false}
                         );
-                    return message.channel
-                        .send(embed)
-                        .catch(err => console.log('ERROR', 'anime', 'Failed to send message: ' + err));
+                    return message.channel.send(embed);
                 }).catch(_ => {
-                    return message.channel
-                        .send(':timer: Failed to get a response for `anime`.')
-                        .catch(err => console.log('ERROR', 'anime', 'Failed to send message: ' + err));
+                    return message.channel.send(':timer: Failed to get a response for `anime`.');
                 }).finally(() => {
                     return msg.delete();
                 });
             });
         }).catch(err => {
             console.log('ERROR', 'anime', `Network failure on ${err}`);
-            return message.channel
-                .send(':timer: Request timed out for `anime`.')
-                .catch(err => console.log('ERROR', 'anime', 'Failed to send message: ' + err));
+            return message.channel.send(':timer: Request timed out for `anime`.');
         });
     }
 }

@@ -28,8 +28,6 @@ export default class CatgirlCommand extends Command {
             .attachFiles(
                 [new MessageAttachment(`https://gitlab.com/darenliang/cg/-/raw/master/data/${fileName}`,
                     `catgirl.${ext}`)]);
-        return message.channel
-            .send(embed)
-            .catch(err => console.log('ERROR', 'catgirl', 'Failed to send message: ' + err));
+        return message.channel.send(embed);
     }
 }

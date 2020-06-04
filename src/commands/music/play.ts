@@ -35,20 +35,14 @@ export default class PlayCommand extends Command {
     async exec(message: Message, {query}: { query: string }) {
         const client = this.client;
         const {channel} = message.member!.voice;
-        if (!channel) return message.channel
-            .send('You need to be in a voice channel to play music.')
-            .catch(err => console.log('ERROR', 'play', 'Failed to send message: ' + err));
+        if (!channel) return message.channel.send('You need to be in a voice channel to play music.');
         const serverQueue = client.musicQueue.get(message.guild!.id);
         if (serverQueue && serverQueue.songs.length >= 100) {
-            return message.channel
-                .send('You can only queue a maximum of 100 songs at this moment.')
-                .catch(err => console.log('ERROR', 'play', 'Failed to send message: ' + err));
+            return message.channel.send('You can only queue a maximum of 100 songs at this moment.');
         }
 
         youtubedl.getInfo(query, [], async function (err: any, info: any) {
-            if (err) return message.channel
-                .send('Cannot find the song you are looking for.')
-                .catch(err => console.log('ERROR', 'play', 'Failed to send message: ' + err));
+            if (err) return message.channel.send('Cannot find the song you are looking for.');
 
             const song = {
                 title: info.title,
@@ -58,9 +52,7 @@ export default class PlayCommand extends Command {
 
             if (serverQueue) {
                 serverQueue.songs.push(song);
-                return message.channel
-                    .send(`**${song.title}** has been added to the queue.`)
-                    .catch(err => console.log('ERROR', 'play', 'Failed to send message: ' + err));
+                return message.channel.send(`**${song.title}** has been added to the queue.`);
             }
             const queueConstruct: MusicQueue = {
                 textChannel: message.channel as TextChannel,
@@ -86,9 +78,7 @@ export default class PlayCommand extends Command {
                     })
                     .on('error', error => console.error('ERROR', 'play', error));
                 dispatcher.setVolumeLogarithmic(queue!.volume / 5);
-                await queue!.textChannel
-                    .send(`Playing: **${song.title}**`)
-                    .catch(err => console.log('ERROR', 'play', 'Failed to send message: ' + err));
+                await queue!.textChannel.send(`Playing: **${song.title}**`);
             };
 
             try {
@@ -98,9 +88,7 @@ export default class PlayCommand extends Command {
                 console.error('ERROR', 'play', error);
                 client.musicQueue.delete(message.guild!.id);
                 channel.leave();
-                return message.channel
-                    .send('Cannot join voice channel')
-                    .catch(err => console.log('ERROR', 'play', 'Failed to send message: ' + err));
+                return message.channel.send('Cannot join voice channel');
             }
         });
     }

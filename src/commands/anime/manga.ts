@@ -44,9 +44,7 @@ export default class MangaCommand extends Command {
             method: 'post',
             data: anilist.anilistMangaSearchQuery(query, 5)
         }).then(resp => {
-            if (resp.data.data.Page.media.length == 0) return message.channel
-                .send(':thinking: Sorry, manga not found.')
-                .catch(err => console.log('ERROR', 'manga', 'Failed to send message: ' + err));
+            if (resp.data.data.Page.media.length == 0) return message.channel.send(':thinking: Sorry, manga not found.');
             const selection = new MBEmbed({
                 title: `Manga search results for ${query.substring(0, 30)}${query.length > 30 ? '...' : ''}`
             }).setDescription('');
@@ -68,9 +66,7 @@ export default class MangaCommand extends Command {
                     const reaction = collected.first();
                     if (typeof reaction === 'undefined') {
                         console.log('ERROR', 'manga', 'Weird emoji ERROR');
-                        return message.channel
-                            .send(':thinking: Huh, that\s really weird. We got invalid emoji.')
-                            .catch(err => console.log('ERROR', 'manga', 'Failed to send message: ' + err));
+                        return message.channel.send(':thinking: Huh, that\s really weird. We got invalid emoji.');
                     }
                     const manga = mangas[helpers.getValueFromEmoji(reaction.emoji.toString()) - 1];
                     const volumes = manga.volumes ? manga.volumes.toString() : 'Unknown';
@@ -115,22 +111,16 @@ export default class MangaCommand extends Command {
                             {name: 'Score', value: score, inline: true},
                             {name: 'MAL Link', value: malLink, inline: false}
                         );
-                    return message.channel
-                        .send(embed)
-                        .catch(err => console.log('ERROR', 'manga', 'Failed to send message: ' + err));
+                    return message.channel.send(embed);
                 }).catch(_ => {
-                    return message.channel
-                        .send(':timer: Failed to get a response for `manga`.')
-                        .catch(err => console.log('ERROR', 'manga', 'Failed to send message: ' + err));
+                    return message.channel.send(':timer: Failed to get a response for `manga`.');
                 }).finally(() => {
                     return msg.delete();
                 });
             });
         }).catch(err => {
             console.log('ERROR', 'manga', `Network failure on ${err}`);
-            return message.channel
-                .send(':timer: Request timed out for `manga`.')
-                .catch(err => console.log('ERROR', 'manga', 'Failed to send message: ' + err));
+            return message.channel.send(':timer: Request timed out for `manga`.');
         });
     }
 }

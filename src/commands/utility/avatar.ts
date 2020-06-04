@@ -39,8 +39,6 @@ export default class AvatarCommand extends Command {
             title: `Here is ${user.username}#${user.discriminator}'s profile picture.`,
             color: color
         }).setImage(user.displayAvatarURL({size: 4096, dynamic: true}));
-        return await message.channel
-            .send(embed)
-            .catch(err => console.log('ERROR', 'avatar', 'Failed to send message: ' + err));
+        return await message.channel.send(embed);
     }
 }

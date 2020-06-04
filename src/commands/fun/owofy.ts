@@ -24,18 +24,14 @@ export default class OwofyCommand extends Command {
     }
 
     async exec(message: Message, {msg}: { msg: string }) {
-        if (!msg) return await message.channel
-            .send('Please provide a message to owofy.')
-            .catch(err => console.log('ERROR', 'owofy', 'Failed to send message: ' + err));
+        if (!msg) return await message.channel.send('Please provide a message to owofy.');
 
-        return await message.channel
-            .send(
-                msg.replace(/(?:l|r)/g, 'w')
-                    .replace(/(?:L|R)/g, 'W')
-                    .replace(/n([aeiou])/g, 'ny$1')
-                    .replace(/N([aeiou])/g, 'Ny$1')
-                    .replace(/N([AEIOU])/g, 'Ny$1')
-                    .replace(/ove/g, 'uv'))
-            .catch(err => console.log('ERROR', 'owofy', 'Failed to send message: ' + err));
+        return await message.channel.send(
+            msg.replace(/(?:l|r)/g, 'w')
+                .replace(/(?:L|R)/g, 'W')
+                .replace(/n([aeiou])/g, 'ny$1')
+                .replace(/N([aeiou])/g, 'Ny$1')
+                .replace(/N([AEIOU])/g, 'Ny$1')
+                .replace(/ove/g, 'uv'));
     }
 }

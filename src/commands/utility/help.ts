@@ -62,15 +62,11 @@ export default class HelpCommand extends Command {
         }
         await message.author.send(helpEmbed)
             .then(() => {
-                if (message.guild) return message.channel
-                    .send(`​${message.author.username}, please check your private messages.`)
-                    .catch(err => console.log('ERROR', 'help', 'Failed to send message: ' + err));
+                if (message.guild) return message.channel.send(`​${message.author.username}, please check your private messages.`);
             })
             .catch(err => {
                 console.log('INFO', 'help', 'Sending in channel: ' + err);
-                return message.channel
-                    .send(helpEmbed)
-                    .catch(err => console.log('ERROR', 'help', 'Failed to send message: ' + err));
+                return message.channel.send(helpEmbed);
             });
     }
 }

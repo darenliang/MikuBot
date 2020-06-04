@@ -21,16 +21,12 @@ export default class NowPlayingCommand extends Command {
 
     async exec(message: Message) {
         const serverQueue = this.client.musicQueue.get(message.guild!.id);
-        if (!serverQueue) return message.channel
-            .send('There is nothing playing.')
-            .catch(err => console.log('ERROR', 'nowplaying', 'Failed to send message: ' + err));
+        if (!serverQueue) return message.channel.send('There is nothing playing.');
         const embed = new MBEmbed({
             title: 'Now playing'
         })
             .setDescription(`:musical_note: ${serverQueue.songs[0].title}`)
             .setThumbnail(serverQueue.songs[0].thumbnail);
-        return message.channel
-            .send(embed)
-            .catch(err => console.log('ERROR', 'nowplaying', 'Failed to send message: ' + err));
+        return message.channel.send(embed);
     }
 }

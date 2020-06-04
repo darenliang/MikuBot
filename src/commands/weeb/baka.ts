@@ -40,15 +40,11 @@ export default class BakaCommand extends Command {
                     .attachFiles(
                         [new MessageAttachment(resp.data.url,
                             `baka.${ext}`)]);
-                return message.channel
-                    .send(embed)
-                    .catch(err => console.log('ERROR', 'baka', 'Failed to send message: ' + err));
+                return message.channel.send(embed);
             })
             .catch(err => {
                 console.log('ERROR', 'baka', `Network failure on ${err}`);
-                return message.channel
-                    .send(':timer: Request timed out for `baka`.')
-                    .catch(err => console.log('ERROR', 'baka', 'Failed to send message: ' + err));
+                return message.channel.send(':timer: Request timed out for `baka`.');
             });
     }
 }

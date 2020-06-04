@@ -24,12 +24,8 @@ export default class ResumeCommand extends Command {
         if (serverQueue && !serverQueue.playing) {
             serverQueue.playing = true;
             serverQueue.connection!.dispatcher.resume();
-            return message.channel
-                .send('Resumed music.')
-                .catch(err => console.log('ERROR', 'resume', 'Failed to send message: ' + err));
+            return message.channel.send('Resumed music.');
         }
-        return message.channel
-            .send('There is nothing playing or there is nothing to resume.')
-            .catch(err => console.log('ERROR', 'resume', 'Failed to send message: ' + err));
+        return message.channel.send('There is nothing playing or there is nothing to resume.');
     }
 }

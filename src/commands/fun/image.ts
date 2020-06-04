@@ -59,37 +59,27 @@ export default class ImageCommand extends Command {
                 if (/[0-9a-zA-Z]{7}/.test(id)) {
                     this.client.gifDatabase.deleteGif(message.guild!, id)
                         .then(() => {
-                            return message.channel
-                                .send('Deleted image.')
-                                .catch(err => console.log('ERROR', 'image', 'Failed to send message: ' + err));
+                            return message.channel.send('Deleted image.');
                         })
                         .catch(_ => {
-                            return message.channel
-                                .send('Failed to delete image. Please make sure that the id you have provided is valid.')
-                                .catch(err => console.log('ERROR', 'image', 'Failed to send message: ' + err));
+                            return message.channel.send('Failed to delete image. Please make sure that the id you have provided is valid.');
                         });
                 } else {
-                    return await message.channel
-                        .send('Looks like you have an invalid image id.')
-                        .catch(err => console.log('ERROR', 'image', 'Failed to send message: ' + err));
+                    return await message.channel.send('Looks like you have an invalid image id.');
                 }
             } else {
                 const embed = new MBEmbed({
                     title: 'Directions for deleting images'
                 }).setDescription('Go to the link provided and record the image id of a given image.\n**Example**: The image id of https://imgur.com/abcdefg is `abcdefg`.\nCall the command `image delete <hash>` to delete the given image.')
                     .addField('Album Link', this.client.gifDatabase.getAlbumLink(message.guild!));
-                return await message.channel
-                    .send(embed)
-                    .catch(err => console.log('ERROR', 'image', 'Failed to send message: ' + err));
+                return await message.channel.send(embed);
             }
         } else {
             if (!url && message.attachments.size == 0) {
                 const gif = this.client.gifDatabase.getGif(message.guild!);
                 if (gif == null) {
                     const prefix = this.client.prefixDatabase.getPrefix(message.guild);
-                    return await message.channel
-                        .send(`There are no images on this server currently. To add images: \`${prefix}image <url or attachment>\``)
-                        .catch(err => console.log('ERROR', 'image', 'Failed to send message: ' + err));
+                    return await message.channel.send(`There are no images on this server currently. To add images: \`${prefix}image <url or attachment>\``);
                 } else {
                     const ext = gif.link.split('.').pop();
                     const embed = new MBEmbed({
@@ -100,9 +90,7 @@ export default class ImageCommand extends Command {
                         .attachFiles(
                             [new MessageAttachment(gif.link,
                                 `image.${ext}`)]);
-                    return message.channel
-                        .send(embed)
-                        .catch(err => console.log('ERROR', 'image', 'Failed to send message: ' + err));
+                    return message.channel.send(embed);
                 }
             } else {
                 if (!url) {
@@ -112,21 +100,15 @@ export default class ImageCommand extends Command {
                     .then(_ => {
                         this.client.gifDatabase.uploadGif(message.guild!, message.author, url)
                             .then(() => {
-                                return message.channel
-                                    .send('Image uploaded.')
-                                    .catch(err => console.log('ERROR', 'image', 'Failed to send message: ' + err));
+                                return message.channel.send('Image uploaded.');
                             })
                             .catch(_ => {
-                                return message.channel
-                                    .send('Image failed to upload. You might want to try another image.')
-                                    .catch(err => console.log('ERROR', 'image', 'Failed to send message: ' + err));
+                                return message.channel.send('Image failed to upload. You might want to try another image.');
                             });
                     })
                     .catch(_ => {
                         console.log('ERROR', 'image', 'Failed to create album.');
-                        return message.channel
-                            .send('An unexpected error has occurred.')
-                            .catch(err => console.log('ERROR', 'image', 'Failed to send message: ' + err));
+                        return message.channel.send('An unexpected error has occurred.');
                     })
                 ;
             }

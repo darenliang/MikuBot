@@ -33,9 +33,7 @@ export default class SauceCommand extends Command {
 
     async exec(message: Message, {url}: { url: string }) {
         if (!url && message.attachments.size == 0) {
-            return await message.channel
-                .send('Please provide an url or an attachment.')
-                .catch(err => console.log('ERROR', 'sauce', 'Failed to send message: ' + err));
+            return await message.channel.send('Please provide an url or an attachment.');
         }
         if (!url) {
             url = message.attachments.first()!.url;
@@ -46,14 +44,10 @@ export default class SauceCommand extends Command {
             method: 'get'
         }).then(resp => {
             if (resp.data.header.status != 0) {
-                return message.channel
-                    .send('There\'s an issue with processing your image.')
-                    .catch(err => console.log('ERROR', 'sauce', 'Failed to send message: ' + err));
+                return message.channel.send('There\'s an issue with processing your image.');
             }
             if (resp.data.results.length == 0) {
-                return message.channel
-                    .send('There are no possible matches to your image.')
-                    .catch(err => console.log('ERROR', 'sauce', 'Failed to send message: ' + err));
+                return message.channel.send('There are no possible matches to your image.');
             }
             const result = resp.data.results[0];
             const embed = new MBEmbed({
@@ -69,14 +63,10 @@ export default class SauceCommand extends Command {
                 embed.addField(key.split('_').map(el => helpers.capitalize(el)).join(' '), result.data[key] ? result.data[key] : 'Unknown', true);
             }
             embed.addField('Link', result.data.ext_urls[0], false);
-            return message.channel
-                .send(embed)
-                .catch(err => console.log('ERROR', 'sauce', 'Failed to send message: ' + err));
+            return message.channel.send(embed);
         }).catch(err => {
             console.log('ERROR', 'trivia', `Network failure on ${err}`);
-            return message.channel
-                .send(':timer: Request timed out for `sauce`.')
-                .catch(err => console.log('ERROR', 'sauce', 'Failed to send message: ' + err));
+            return message.channel.send(':timer: Request timed out for `sauce`.');
         });
     }
 }

@@ -24,12 +24,8 @@ export default class PauseCommand extends Command {
         if (serverQueue && serverQueue.playing) {
             serverQueue.playing = false;
             serverQueue.connection!.dispatcher.pause();
-            return message.channel
-                .send('Paused music.')
-                .catch(err => console.log('ERROR', 'pause', 'Failed to send message: ' + err));
+            return message.channel.send('Paused music.');
         }
-        return message.channel
-            .send('There is nothing playing or there is nothing to pause.')
-            .catch(err => console.log('ERROR', 'pause', 'Failed to send message: ' + err));
+        return message.channel.send('There is nothing playing or there is nothing to pause.');
     }
 }
