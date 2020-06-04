@@ -23,6 +23,7 @@ declare module 'discord-akairo' {
         musicQuizSession: MusicQuizSession;
         gifDatabase: GifDatabase;
         musicQueue: Map<string, MusicQueue>;
+        guildCount: number;
         commandHandler: CommandHandler;
         listenerHandler: ListenerHandler
     }
@@ -64,6 +65,8 @@ export default class Client extends AkairoClient {
         this.musicQuizSession = new MusicQuizSession();
         this.gifDatabase = new GifDatabase(this);
         this.musicQueue = new Map();
+        // Set default before waiting for ready event.
+        this.guildCount = 0;
 
         this.commandHandler = new CommandHandler(this, {
             directory: join(__dirname, '..', 'commands'),

@@ -37,9 +37,9 @@ export default class InfoCommand extends Command {
             .addField('Latency', `${this.client.ws.ping}ms`, true)
             .addField('Shard ID', this.client.options.shards, true)
             .addField('Shards', this.client.options.shardCount, true)
+            .addField('Servers', this.client.guildCount, true)
             .addField('Uptime', helpers.msToTime(this.client.uptime!), true)
-            .addField('Memory Usage', `${(process.memoryUsage().rss / 1048576) | 0}MiB`, true)
-            .addField('Platform', process.platform, true);
+            .addField('Memory Usage', `${(process.memoryUsage().rss / 1048576) | 0}MiB`, true);
         return await message.channel.send(embed);
     }
 }

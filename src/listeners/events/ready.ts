@@ -10,9 +10,14 @@ export default class ReadyListener extends Listener {
     }
 
     async exec() {
-        // Set every minute
-        setInterval(() => {
+        const setPresence = () => {
             this.client.user!.setPresence({activity: {name: `@${this.client.config.name} help`}, status: 'online'});
+        };
+
+        // Set every minute
+        setPresence();
+        setInterval(() => {
+            setPresence();
         }, 60000);
 
         for (const guild of this.client.guilds.cache.array()) {
@@ -25,11 +30,20 @@ export default class ReadyListener extends Listener {
         if (process.env.PRODUCTION == 'true') {
             const dbl = new DBL(process.env.DBL_TOKEN!, this.client);
 
-            setInterval(() => {
+            const postAndGetStats = () => {
                 dbl.postStats(
                     this.client.guilds.cache.size,
                     this.client.options.shards as number,
                     this.client.options.shardCount);
+
+                dbl.getStats(this.client.user!.id).then(bot => {
+                    this.client.guildCount = bot.server_count;
+                });
+            };
+
+            postAndGetStats();
+            setInterval(() => {
+                postAndGetStats();
             }, 1800000);
         }
 
