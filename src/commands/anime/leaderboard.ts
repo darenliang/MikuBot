@@ -25,6 +25,7 @@ export default class LeaderboardCommand extends Command {
                     }
                 ]
             },
+            clientPermissions: ['SEND_MESSAGES'],
             cooldown: 5000,
             args: [
                 {

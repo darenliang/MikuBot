@@ -14,7 +14,7 @@ export default class CatgirlCommand extends Command {
                     }
                 ]
             },
-            typing: true
+            clientPermissions: ['SEND_MESSAGES'],
         });
     }
 

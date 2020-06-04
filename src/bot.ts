@@ -1,4 +1,4 @@
-import Client from './struct/client'
+import Client from './struct/client';
 import config from './config.json';
 import * as helpers from './utils/helpers';
 import AWS from 'aws-sdk';

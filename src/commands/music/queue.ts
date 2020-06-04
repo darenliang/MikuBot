@@ -16,6 +16,7 @@ export default class QueueCommand extends Command {
                     }
                 ]
             },
+            clientPermissions: ['SEND_MESSAGES'],
             channel: 'guild',
             args: [
                 {

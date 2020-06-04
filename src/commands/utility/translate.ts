@@ -22,6 +22,7 @@ export default class TranslateCommand extends Command {
                     },
                 ]
             },
+            clientPermissions: ['SEND_MESSAGES'],
             cooldown: 10000,
             ratelimit: 3,
             args: [

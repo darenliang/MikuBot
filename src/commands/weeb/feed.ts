@@ -19,7 +19,7 @@ export default class FeedCommand extends Command {
                     }
                 ]
             },
-            typing: true,
+            clientPermissions: ['SEND_MESSAGES'],
             args: [
                 {
                     id: 'user',

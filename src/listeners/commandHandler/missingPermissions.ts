@@ -15,9 +15,11 @@ export default class MissingPermissionsListener extends Listener {
         const permStr = helpers.perms(missing);
         switch (type) {
             case 'client':
-                return await message.channel.send(`:octagonal_sign: The bot doesn't have the ${permStr} permission(s) to use the \`${command.id}\` command.`);
+                return await message.channel.send(`:octagonal_sign: The bot doesn't have the ${permStr} permission(s) to use the \`${command.id}\` command.`)
+                    .catch(err => console.log('ERROR', 'missingPermissions', 'DEADLOCK: ' + err));
             case 'user':
-                return await message.channel.send(`:octagonal_sign: You are missing the ${permStr} permission(s) to use the \`${command.id}\` command.`);
+                return await message.channel.send(`:octagonal_sign: You are missing the ${permStr} permission(s) to use the \`${command.id}\` command.`)
+                    .catch(err => console.log('ERROR', 'missingPermissions', 'DEADLOCK: ' + err));
         }
         return;
     }

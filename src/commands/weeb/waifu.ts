@@ -6,7 +6,6 @@ export default class WaifuCommand extends Command {
     constructor() {
         super('waifu', {
             aliases: ['waifu', 'laifu'],
-            typing: true,
             description: {
                 'fields': [
                     {
@@ -14,7 +13,8 @@ export default class WaifuCommand extends Command {
                         'value': 'Get an AI generated waifu.'
                     }
                 ]
-            }
+            },
+            clientPermissions: ['SEND_MESSAGES'],
         });
     }
 

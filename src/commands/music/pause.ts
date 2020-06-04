@@ -14,6 +14,7 @@ export default class PauseCommand extends Command {
                     }
                 ]
             },
+            clientPermissions: ['SEND_MESSAGES'],
             cooldown: 2000,
             channel: 'guild'
         });

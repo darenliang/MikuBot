@@ -21,7 +21,7 @@ export default class PlayCommand extends Command {
             cooldown: 10000,
             ratelimit: 3,
             typing: true,
-            clientPermissions: ['CONNECT', 'SPEAK'],
+            clientPermissions: ['CONNECT', 'SPEAK', 'SEND_MESSAGES'],
             args: [
                 {
                     id: 'query',

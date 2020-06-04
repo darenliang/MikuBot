@@ -13,6 +13,7 @@ export default class OwofyCommand extends Command {
                     }
                 ]
             },
+            clientPermissions: ['SEND_MESSAGES'],
             args: [
                 {
                     id: 'msg',

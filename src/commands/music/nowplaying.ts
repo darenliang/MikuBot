@@ -15,6 +15,7 @@ export default class NowPlayingCommand extends Command {
                     }
                 ]
             },
+            clientPermissions: ['SEND_MESSAGES'],
             channel: 'guild'
         });
     }

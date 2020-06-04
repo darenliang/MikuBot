@@ -14,6 +14,7 @@ export default class SkipCommand extends Command {
                     }
                 ]
             },
+            clientPermissions: ['SEND_MESSAGES'],
             channel: 'guild'
         });
     }

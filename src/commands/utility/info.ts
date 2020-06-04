@@ -13,7 +13,8 @@ export default class InfoCommand extends Command {
                         'value': 'Get info on the bot.'
                     }
                 ]
-            }
+            },
+            clientPermissions: ['SEND_MESSAGES'],
         });
     }
 

@@ -19,6 +19,7 @@ export default class ClocCommand extends Command {
                     }
                 ]
             },
+            clientPermissions: ['SEND_MESSAGES'],
             cooldown: 10000,
             typing: true,
             args: [

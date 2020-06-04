@@ -18,6 +18,7 @@ export default class AvatarCommand extends Command {
                     }
                 ]
             },
+            clientPermissions: ['SEND_MESSAGES'],
             args: [
                 {
                     id: 'user',

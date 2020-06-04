@@ -13,7 +13,8 @@ export default class PingCommand extends Command {
                         'value': 'Pings bot.'
                     }
                 ]
-            }
+            },
+            clientPermissions: ['SEND_MESSAGES'],
         });
     }
 

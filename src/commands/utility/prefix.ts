@@ -18,6 +18,7 @@ export default class PrefixCommand extends Command {
                     }
                 ]
             },
+            clientPermissions: ['SEND_MESSAGES'],
             cooldown: 10000,
             ratelimit: 2,
             args: [

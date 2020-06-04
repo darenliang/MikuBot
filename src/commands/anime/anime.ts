@@ -20,6 +20,7 @@ export default class AnimeCommand extends Command {
                     }
                 ]
             },
+            clientPermissions: ['SEND_MESSAGES'],
             cooldown: 15000,
             ratelimit: 2,
             args: [

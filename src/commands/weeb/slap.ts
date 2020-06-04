@@ -19,7 +19,7 @@ export default class SlapCommand extends Command {
                     }
                 ]
             },
-            typing: true,
+            clientPermissions: ['SEND_MESSAGES'],
             args: [
                 {
                     id: 'user',

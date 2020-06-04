@@ -19,7 +19,7 @@ export default class SmugCommand extends Command {
                     }
                 ]
             },
-            typing: true,
+            clientPermissions: ['SEND_MESSAGES'],
             args: [
                 {
                     id: 'user',

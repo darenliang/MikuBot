@@ -18,6 +18,7 @@ export default class SauceCommand extends Command {
                     }
                 ]
             },
+            clientPermissions: ['SEND_MESSAGES'],
             cooldown: 15000,
             ratelimit: 3,
             typing: true,

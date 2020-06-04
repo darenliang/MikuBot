@@ -12,7 +12,8 @@ export default class KaomojiCommand extends Command {
                         'value': `Get a random kaomoji.`
                     }
                 ]
-            }
+            },
+            clientPermissions: ['SEND_MESSAGES'],
         });
     }
 

@@ -29,6 +29,7 @@ export default class ImageCommand extends Command {
                     }
                 ]
             },
+            clientPermissions: ['SEND_MESSAGES'],
             channel: 'guild',
             cooldown: 5000,
             ratelimit: 3,
