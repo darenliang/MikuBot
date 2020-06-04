@@ -19,7 +19,6 @@ export default class HelpCommand extends Command {
                     }
                 ]
             },
-            clientPermissions: ['SEND_MESSAGES'],
             args: [
                 {
                     id: 'commandAlias',
@@ -63,11 +62,15 @@ export default class HelpCommand extends Command {
         }
         await message.author.send(helpEmbed)
             .then(() => {
-                if (message.guild) return message.channel.send(`​${message.author.username}, please check your private messages.`);
+                if (message.guild) return message.channel
+                    .send(`​${message.author.username}, please check your private messages.`)
+                    .catch(err => console.log('ERROR', 'help', 'Failed to send message to check private messages: ' + err));
             })
             .catch(err => {
                 console.log('INFO', 'help', 'Sending in channel: ' + err);
-                return message.channel.send(helpEmbed);
+                return message.channel
+                    .send(helpEmbed)
+                    .catch(err => console.log('ERROR', 'help', 'Failed to default to normal channel: ' + err));
             });
     }
 }
