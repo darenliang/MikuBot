@@ -44,7 +44,7 @@ export default class SauceCommand extends Command {
             timeout: this.client.config.defaultTimeout,
             method: 'get'
         }).then(resp => {
-            if (resp.data.header.status != 0) {
+            if (resp.data.header.status < 0) {
                 return message.channel.send('There\'s an issue with processing your image.');
             }
             if (resp.data.results.length == 0) {
