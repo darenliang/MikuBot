@@ -2,7 +2,6 @@ import {Command} from 'discord-akairo';
 import {Message} from 'discord.js';
 import {MBEmbed} from '../../utils/messageGenerator';
 
-// Taken from https://github.com/iCrawl/discord-music-bot
 export default class NowPlayingCommand extends Command {
     constructor() {
         super('nowplaying', {

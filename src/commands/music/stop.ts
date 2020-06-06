@@ -1,7 +1,6 @@
 import {Command} from 'discord-akairo';
 import {Message} from 'discord.js';
 
-// Taken from https://github.com/iCrawl/discord-music-bot
 export default class StopCommand extends Command {
     constructor() {
         super('stop', {

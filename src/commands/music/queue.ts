@@ -3,7 +3,6 @@ import {Message} from 'discord.js';
 import {MBEmbed} from '../../utils/messageGenerator';
 import * as helpers from '../../utils/helpers';
 
-// Taken from https://github.com/iCrawl/discord-music-bot
 export default class QueueCommand extends Command {
     constructor() {
         super('queue', {

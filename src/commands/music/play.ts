@@ -4,7 +4,6 @@ import {MusicQueue} from '../../struct/client';
 
 const youtubedl = require('youtube-dl');
 
-// Taken from https://github.com/iCrawl/discord-music-bot
 export default class PlayCommand extends Command {
     constructor() {
         super('play', {
