@@ -8,7 +8,7 @@ const logCopy = console.log.bind(console);
 console.log = function (...data: string[]) {
     for (const [idx, item] of data.entries()) {
         if (idx < 2) {
-            data[idx] = helpers.pad(Array(20).join(' '), item, true);
+            data[idx] = helpers.pad(Array(20).join('_'), item, true);
         }
     }
     if (process.env.PRODUCTION == 'false') {
