@@ -2,6 +2,9 @@ import {Command} from 'discord-akairo';
 import {Message, MessageEmbed, User} from 'discord.js';
 import * as helpers from '../../utils/helpers';
 
+const countapi = require('countapi-js');
+const humanize = require('humanize-plus');
+
 export default class InfoCommand extends Command {
     constructor() {
         super('info', {
@@ -19,6 +22,10 @@ export default class InfoCommand extends Command {
     }
 
     async exec(message: Message) {
+        let commands = 'Unknown';
+        await countapi.get(this.client.config.name, 'commands').then((res: { value: { toString: () => string; }; }) => {
+            commands = humanize.compactInteger(res.value, 2);
+        });
         const embed = new MessageEmbed()
             .setColor(this.client.config.color)
             .setTitle(`${this.client.config.name} ${this.client.config.version}`)
@@ -34,6 +41,7 @@ export default class InfoCommand extends Command {
                 const owner = application.owner as User;
                 return `${owner.username}#${owner.discriminator}`;
             }))
+            .addField('Commands Served', commands)
             .addField('Latency', `${this.client.ws.ping}ms`, true)
             .addField('Shard ID', this.client.options.shards, true)
             .addField('Shards', this.client.options.shardCount, true)
