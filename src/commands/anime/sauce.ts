@@ -66,8 +66,8 @@ export default class SauceCommand extends Command {
             embed.addField('Link', result.data.ext_urls[0], false);
             return message.channel.send(embed);
         }).catch(err => {
-            console.log('ERROR', 'trivia', `Network failure on ${err}`);
-            return message.channel.send(':timer: Request timed out for `sauce`.');
+            console.log('ERROR', 'sauce', `Network failure on ${err}`);
+            return message.channel.send(':timer: Request failed or timed out for `sauce`.');
         });
     }
 }
