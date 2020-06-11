@@ -23,7 +23,7 @@ export default class SkipCommand extends Command {
         if (!channel) return message.channel.send('You have to be in the same voice channel to skip music.');
         const serverQueue = this.client.musicQueue.get(message.guild!.id);
         if (!serverQueue) return message.channel.send('There is nothing playing.');
-        if (serverQueue.connection) {
+        if (serverQueue.connection && serverQueue.connection.dispatcher) {
             serverQueue.connection.dispatcher.end();
         }
         return await message.channel.send('Skipped music.');

@@ -21,7 +21,7 @@ export default class ResumeCommand extends Command {
 
     async exec(message: Message) {
         const serverQueue = this.client.musicQueue.get(message.guild!.id);
-        if (serverQueue && serverQueue.connection && !serverQueue.playing) {
+        if (serverQueue && serverQueue.connection && serverQueue.connection.dispatcher && !serverQueue.playing) {
             serverQueue.playing = true;
             serverQueue.connection.dispatcher.resume();
             return message.channel.send('Resumed music.');

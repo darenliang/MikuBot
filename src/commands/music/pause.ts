@@ -21,7 +21,7 @@ export default class PauseCommand extends Command {
 
     async exec(message: Message) {
         const serverQueue = this.client.musicQueue.get(message.guild!.id);
-        if (serverQueue && serverQueue.connection && serverQueue.playing) {
+        if (serverQueue && serverQueue.connection && serverQueue.connection.dispatcher && serverQueue.playing) {
             serverQueue.playing = false;
             serverQueue.connection.dispatcher.pause();
             return message.channel.send('Paused music.');
