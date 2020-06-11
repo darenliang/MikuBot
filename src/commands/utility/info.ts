@@ -24,7 +24,7 @@ export default class InfoCommand extends Command {
     async exec(message: Message) {
         let commands = 'Unknown';
         await countapi.get(this.client.config.name, 'commands').then((res: { value: { toString: () => string; }; }) => {
-            commands = humanize.compactInteger(res.value, 2);
+            commands = humanize.intComma(res.value);
         });
         const embed = new MessageEmbed()
             .setColor(this.client.config.color)
