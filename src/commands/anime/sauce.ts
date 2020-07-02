@@ -63,7 +63,9 @@ export default class SauceCommand extends Command {
                 }
                 embed.addField(key.split('_').map(el => helpers.capitalize(el)).join(' '), result.data[key] ? result.data[key] : 'Unknown', true);
             }
-            embed.addField('Link', result.data.ext_urls[0], false);
+            if (result.data.hasOwnProperty('ext_urls')) {
+                embed.addField('Link', result.data.ext_urls[0], false);
+            }
             return message.channel.send(embed);
         }).catch(err => {
             console.log('ERROR', 'sauce', `Network failure on ${err}`);
