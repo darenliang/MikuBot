@@ -156,7 +156,7 @@ export default class MusicQuizCommand extends Command {
                 });
                 const prefix = this.client.prefixDatabase.getPrefix(message.guild);
                 const attachment = new MessageAttachment(
-                    `https://gitlab.com/darenliang/mq/-/raw/master/data/${song.url}`,
+                    `https://gitlab.com/darenliang/mq2/-/raw/master/data/${song.url}`,
                     Math.random().toString(36).substring(2, 15) + '.mp3');
                 return message.channel.send(
                     `\`${prefix}musicquiz <guess>\` to guess anime, \`${prefix}musicquiz hint\` to get hints or \`${prefix}musicquiz giveup\` to give up.`,
