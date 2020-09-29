@@ -9,11 +9,9 @@ WORKDIR /usr/src/bot
 COPY package.json /usr/src/bot
 RUN npm install
 
-# copy project files
+# copy project files and build
 COPY . /usr/src/bot
-
-# build project
-CMD ["npm", "run", "build"]
+RUN npm run build
 
 # start project
 CMD ["npm", "run", "spawn"]
