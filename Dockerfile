@@ -1,6 +1,9 @@
 # get latest node
 FROM node:latest
 
+# install ffmpeg
+RUN apt-get update && apt-get install -y ffmpeg
+
 # make workdir
 RUN mkdir -p /usr/src/bot
 WORKDIR /usr/src/bot
