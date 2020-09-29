@@ -60,7 +60,8 @@ export default class TriviaCommand extends Command {
                     embed.color = 16007990;
                 }
                 return message.channel.send(embed);
-            }).catch(_ => {
+            }).catch(err => {
+                console.log('ERROR', 'anime', `Error occurred: ${err}`);
                 return message.channel.send('An error has occurred for `trivia`.');
             }).finally(() => {
                 return msg.delete();

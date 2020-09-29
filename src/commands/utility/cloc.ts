@@ -43,11 +43,11 @@ export default class ClocCommand extends Command {
         })
             .then(resp => {
                 if (resp.data.hasOwnProperty('Error')) {
-                    console.log('warn', 'cloc', 'Repo fail.');
+                    console.log('WARN', 'cloc', 'Repo fail.');
                     return message.channel.send(`Failed to count lines of code in ${repo}.`);
                 }
                 if (resp.data.length == 0) {
-                    console.log('warn', 'cloc', `Empty repo.`);
+                    console.log('WARN', 'cloc', `Empty repo.`);
                     return message.channel.send(':thinking: No programming languages detected.');
                 }
                 const embed = new MessageEmbed()
