@@ -121,7 +121,7 @@ export default class AnimeCommand extends Command {
                 });
             });
         }).catch(err => {
-            console.log('ERROR', 'anime', `Network failure on ${JSON.stringify(err)}`);
+            console.log('ERROR', 'anime', `Network failure on ${err.toString()}`);
             return message.channel.send(':timer: Request timed out for `anime`.');
         });
     }

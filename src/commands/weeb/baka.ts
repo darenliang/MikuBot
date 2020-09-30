@@ -43,7 +43,7 @@ export default class BakaCommand extends Command {
                 return message.channel.send(embed);
             })
             .catch(err => {
-                console.log('ERROR', 'baka', `Network failure on ${JSON.stringify(err)}`);
+                console.log('ERROR', 'baka', `Network failure on ${err.toString()}`);
                 return message.channel.send(':timer: Request timed out for `baka`.');
             });
     }

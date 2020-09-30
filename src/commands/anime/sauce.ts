@@ -68,7 +68,7 @@ export default class SauceCommand extends Command {
             }
             return message.channel.send(embed);
         }).catch(err => {
-            console.log('ERROR', 'sauce', `Network failure on ${JSON.stringify(err)}`);
+            console.log('ERROR', 'sauce', `Network failure on ${err.toString()}`);
             return message.channel.send(':timer: Request failed or timed out for `sauce`.');
         });
     }

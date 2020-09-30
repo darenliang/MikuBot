@@ -120,7 +120,7 @@ export default class MangaCommand extends Command {
                 });
             });
         }).catch(err => {
-            console.log('ERROR', 'manga', `Network failure on ${JSON.stringify(err)}`);
+            console.log('ERROR', 'manga', `Network failure on ${err.toString()}`);
             return message.channel.send(':timer: Request timed out for `manga`.');
         });
     }

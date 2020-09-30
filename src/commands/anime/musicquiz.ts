@@ -86,7 +86,7 @@ export default class MusicQuizCommand extends Command {
                             return message.channel.send('You are incorrect. Please try again.');
                         }
                     }).catch(err => {
-                        console.log('ERROR', 'musicquiz', `Network failure on ${JSON.stringify(err)}`);
+                        console.log('ERROR', 'musicquiz', `Network failure on ${err.toString()}`);
                         return message.channel.send('Sorry, anime not found.');
                     });
             }
@@ -162,7 +162,7 @@ export default class MusicQuizCommand extends Command {
                     `\`${prefix}musicquiz <guess>\` to guess anime, \`${prefix}musicquiz hint\` to get hints or \`${prefix}musicquiz giveup\` to give up.`,
                     attachment);
             }).catch(err => {
-                console.log('ERROR', 'musicquiz', `Network failure on ${JSON.stringify(err)}`);
+                console.log('ERROR', 'musicquiz', `Network failure on ${err.toString()}`);
                 return message.channel.send('Sorry, anime not found.');
             });
         }
