@@ -43,7 +43,7 @@ export default class CuddleCommand extends Command {
                 return message.channel.send(embed);
             })
             .catch(err => {
-                console.log('ERROR', 'cuddle', `Network failure on ${err}`);
+                console.log('ERROR', 'cuddle', `Network failure on ${JSON.stringify(err)}`);
                 return message.channel.send(':timer: Request timed out for `cuddle`.');
             });
     }

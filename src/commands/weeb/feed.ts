@@ -43,7 +43,7 @@ export default class FeedCommand extends Command {
                 return message.channel.send(embed);
             })
             .catch(err => {
-                console.log('ERROR', 'feed', `Network failure on ${err}`);
+                console.log('ERROR', 'feed', `Network failure on ${JSON.stringify(err)}`);
                 return message.channel.send(':timer: Request timed out for `feed`.');
             });
     }

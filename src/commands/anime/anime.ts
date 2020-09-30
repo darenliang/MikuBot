@@ -67,7 +67,7 @@ export default class AnimeCommand extends Command {
                     const reaction = collected.first();
                     if (typeof reaction === 'undefined') {
                         console.log('ERROR', 'anime', 'Weird emoji ERROR');
-                        return message.channel.send(':thinking: Huh, that\s really weird. We got invalid emoji.');
+                        return message.channel.send(':thinking: Huh, that\'s really weird. We got invalid emoji.');
                     }
                     const anime = animes[helpers.getValueFromEmoji(reaction.emoji.toString()) - 1];
                     const episodes = anime.episodes ? anime.episodes.toString() : 'Unknown';
@@ -121,7 +121,7 @@ export default class AnimeCommand extends Command {
                 });
             });
         }).catch(err => {
-            console.log('ERROR', 'anime', `Network failure on ${err}`);
+            console.log('ERROR', 'anime', `Network failure on ${JSON.stringify(err)}`);
             return message.channel.send(':timer: Request timed out for `anime`.');
         });
     }

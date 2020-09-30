@@ -42,7 +42,7 @@ export default class PlayCommand extends Command {
 
         youtubedl.getInfo(query, [], async function (err: any, info: any) {
             if (err) {
-                console.error('INFO', 'play', `Cannot find song: ${err}`);
+                console.error('INFO', 'play', `Cannot find song: ${JSON.stringify(err)}`);
                 return message.channel.send('Cannot find the song you are looking for.');
             }
 

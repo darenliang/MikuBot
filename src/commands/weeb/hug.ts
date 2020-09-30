@@ -43,7 +43,7 @@ export default class HugCommand extends Command {
                 return message.channel.send(embed);
             })
             .catch(err => {
-                console.log('ERROR', 'hug', `Network failure on ${err}`);
+                console.log('ERROR', 'hug', `Network failure on ${JSON.stringify(err)}`);
                 return message.channel.send(':timer: Request timed out for `hug`.');
             });
     }

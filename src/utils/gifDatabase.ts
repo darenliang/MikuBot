@@ -146,11 +146,11 @@ export class GifDatabase {
                             })
                         };
                     }).catch(err =>
-                        console.log('ERROR', 'setAlbums', `Failed to get images in an album: ${err}`)
+                        console.log('ERROR', 'setAlbums', `Failed to get images in an album: ${JSON.stringify(err)}`)
                     );
                 }), Promise.resolve());
         }).catch(err =>
-            console.log('ERROR', 'setAlbums', `Failed to get albums: ${err}`)
+            console.log('ERROR', 'setAlbums', `Failed to get albums: ${JSON.stringify(err)}`)
         );
     }
 }

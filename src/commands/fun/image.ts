@@ -104,12 +104,12 @@ export default class ImageCommand extends Command {
                                 return message.channel.send('Image uploaded.');
                             })
                             .catch(err => {
-                                console.log('INFO', 'image', `Failed to create album: ${err}`);
+                                console.log('INFO', 'image', `Failed to create album: ${JSON.stringify(err)}`);
                                 return message.channel.send('Image failed to upload. You might want to try another image.');
                             });
                     })
                     .catch(err => {
-                        console.log('ERROR', 'image', `Failed to create album: ${err}`);
+                        console.log('ERROR', 'image', `Failed to create album: ${JSON.stringify(err)}`);
                         return message.channel.send('An unexpected error has occurred.');
                     });
             }
