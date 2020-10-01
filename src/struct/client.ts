@@ -40,16 +40,13 @@ export interface MusicQueue {
     voiceChannel: VoiceChannel,
     connection: VoiceConnection | null,
     songs: Song[],
-    volume: 2,
+    volume: 5,
     playing: boolean
 }
 
 export default class Client extends AkairoClient {
     constructor(DDB: DocumentClient) {
         super({ownerID: config.owners}, {
-            messageCacheMaxSize: 10,
-            messageCacheLifetime: 120,
-            messageSweepInterval: 60,
             disableMentions: 'everyone'
         });
 

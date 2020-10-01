@@ -42,7 +42,6 @@ export default class PlayCommand extends Command {
 
         youtubedl.getInfo(query, [], async function (err: any, info: any) {
             if (err) {
-                console.error('INFO', 'play', `Cannot find song: ${err.toString()}`);
                 return message.channel.send('Cannot find the song you are looking for.');
             }
 
@@ -61,7 +60,7 @@ export default class PlayCommand extends Command {
                 voiceChannel: channel,
                 connection: null,
                 songs: [],
-                volume: 2,
+                volume: 5,
                 playing: true
             };
             client.musicQueue.set(message.guild!.id, queueConstruct);
@@ -73,12 +72,13 @@ export default class PlayCommand extends Command {
                     client.musicQueue.delete(message.guild!.id);
                     return;
                 }
-                const dispatcher = queue!.connection!.play(song.url)
+                // Delay audio for 1 second to improve stream smoothness
+                const dispatcher = queue!.connection!.play(song.url, {highWaterMark: 50})
                     .on('finish', () => {
                         queue!.songs.shift();
                         play(queue!.songs[0]);
                     })
-                    .on('error', error => console.error('ERROR', 'play', error));
+                    .on('error', error => console.log('ERROR', 'play', error));
                 dispatcher.setVolumeLogarithmic(queue!.volume / 5);
                 await queue!.textChannel.send(`Playing: **${song.title}**`);
             };
@@ -87,7 +87,7 @@ export default class PlayCommand extends Command {
                 queueConstruct.connection = await channel.join();
                 await play(queueConstruct.songs[0]);
             } catch (error) {
-                console.error('ERROR', 'play', error);
+                console.log('ERROR', 'play', error);
                 client.musicQueue.delete(message.guild!.id);
                 channel.leave();
                 return message.channel.send('Cannot join voice channel');
