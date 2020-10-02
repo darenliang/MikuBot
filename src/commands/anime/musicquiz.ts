@@ -87,7 +87,7 @@ export default class MusicQuizCommand extends Command {
                         }
                     }).catch(err => {
                         console.log('ERROR', 'musicquiz', `Network failure on ${err.toString()}`);
-                        return message.channel.send('Sorry, anime not found.');
+                        return message.channel.send('Cannot connect to musicquiz service. Please try again later.');
                     });
             }
         } else {
@@ -163,7 +163,7 @@ export default class MusicQuizCommand extends Command {
                     attachment);
             }).catch(err => {
                 console.log('ERROR', 'musicquiz', `Network failure on ${err.toString()}`);
-                return message.channel.send('Sorry, anime not found.');
+                return message.channel.send('Cannot connect to musicquiz service. Please try again later.');
             });
         }
     }
