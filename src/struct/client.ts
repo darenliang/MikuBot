@@ -9,7 +9,7 @@ import config from '../config.json';
 import musicQuizDataset from '../data/musicquiz_dataset.json';
 import catgirlDataset from '../data/catgirl_dataset.json';
 import triviaDataset from '../data/trivia_dataset.json';
-import {TextChannel, VoiceChannel, VoiceConnection} from 'discord.js';
+import {Message, TextChannel, VoiceChannel, VoiceConnection} from 'discord.js';
 
 declare module 'discord-akairo' {
     interface AkairoClient {
@@ -23,6 +23,7 @@ declare module 'discord-akairo' {
         musicQuizSession: MusicQuizSession;
         gifDatabase: GifDatabase;
         musicQueue: Map<string, MusicQueue>;
+        deleteCache: Map<string, Message>
         guildCount: number;
         commandHandler: CommandHandler;
         listenerHandler: ListenerHandler
@@ -59,7 +60,8 @@ export default class Client extends AkairoClient {
         this.musicQuizDatabase = new MusicQuizDatabase(this);
         this.musicQuizSession = new MusicQuizSession();
         this.gifDatabase = new GifDatabase(this);
-        this.musicQueue = new Map();
+        this.musicQueue = new Map<string, MusicQueue>();
+        this.deleteCache = new Map<string, Message>();
         // Set default before waiting for ready event.
         this.guildCount = 0;
 
