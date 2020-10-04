@@ -28,8 +28,8 @@ export default class OwofyCommand extends Command {
         if (!msg) return await message.channel.send('Please provide a message to owofy.');
 
         return await message.channel.send(
-            msg.replace(/(?:l|r)/g, 'w')
-                .replace(/(?:L|R)/g, 'W')
+            msg.replace(/[lr]/g, 'w')
+                .replace(/[LR]/g, 'W')
                 .replace(/n([aeiou])/g, 'ny$1')
                 .replace(/N([aeiou])/g, 'Ny$1')
                 .replace(/N([AEIOU])/g, 'Ny$1')
