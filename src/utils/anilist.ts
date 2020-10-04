@@ -1,3 +1,8 @@
+import axios, {AxiosResponse} from 'axios';
+import {MessageEmbed} from 'discord.js';
+import {MBEmbed} from './messageGenerator';
+import * as helpers from './helpers';
+
 export function anilistAnimeSearchQuery(query: string, perPage: number): any {
     return {
         query: `
@@ -140,4 +145,25 @@ export function mapFormats(format: string): string {
         ANIME: 'Anime'
     };
     return data[format] ? data[format] : 'Unknown';
+}
+
+export function anilistRequest(query: string, timeout: number): Promise<AxiosResponse> {
+    return axios({
+        url: 'https://graphql.anilist.co',
+        timeout: timeout,
+        method: 'post',
+        data: anilistAnimeSearchQuery(query, 5)
+    });
+}
+
+export function createSelectionEmbed(type: string, items: any, query: string): MessageEmbed {
+    const selection = new MBEmbed({
+        title: `${type} search results for ${query.substring(0, 30)}${query.length > 30 ? '...' : ''}`
+    }).setDescription('');
+
+    for (const [idx, item] of items.entries()) {
+        selection.description += `${helpers.getEmojiNumber(idx + 1)} ${item.title.userPreferred}\n`;
+    }
+
+    return selection;
 }

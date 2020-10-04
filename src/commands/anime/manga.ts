@@ -1,7 +1,7 @@
 import {Command} from 'discord-akairo';
 import {Message, MessageReaction} from 'discord.js';
-import axios from 'axios';
 import * as anilist from '../../utils/anilist';
+import {anilistRequest, createSelectionEmbed} from '../../utils/anilist';
 import * as helpers from '../../utils/helpers';
 import moment from 'moment';
 import {MBEmbed} from '../../utils/messageGenerator';
@@ -39,23 +39,23 @@ export default class MangaCommand extends Command {
     }
 
     async exec(message: Message, {query}: { query: string }) {
-        axios({
-            url: 'https://graphql.anilist.co',
-            timeout: this.client.config.defaultTimeout,
-            method: 'post',
-            data: anilist.anilistMangaSearchQuery(query, 5)
-        }).then(resp => {
-            if (resp.data.data.Page.media.length == 0) return message.channel.send(':thinking: Sorry, manga not found.');
-            const selection = new MBEmbed({
-                title: `Manga search results for ${query.substring(0, 30)}${query.length > 30 ? '...' : ''}`
-            }).setDescription('');
+        anilistRequest(
+            anilist.anilistMangaSearchQuery(query, 5),
+            this.client.config.defaultTimeout
+        ).then(resp => {
             const mangas = resp.data.data.Page.media;
-            for (const [idx, manga] of mangas.entries()) {
-                selection.description += `${helpers.getEmojiNumber(idx + 1)} ${manga.title.userPreferred}\n`;
+
+            if (mangas.length == 0) {
+                return message.channel.send(':thinking: Sorry, manga not found.');
             }
+
+            const selection = createSelectionEmbed('Manga', mangas, query);
+
             message.channel.send(selection).then((msg) => {
+                // react to selection embed
                 [...Array(mangas.length)].reduce((p: Promise<MessageReaction>, _, i) =>
                     p.then(_ => msg.react(helpers.getEmojiNumber(i + 1))).catch(_ => _), Promise.resolve());
+
                 msg.awaitReactions((reaction, user) => {
                     const idx = helpers.getValueFromEmoji(reaction.emoji.name);
                     return 1 <= idx && idx <= mangas.length && user.id == message.author.id;

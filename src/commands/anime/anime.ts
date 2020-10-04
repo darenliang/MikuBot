@@ -1,7 +1,7 @@
 import {Command} from 'discord-akairo';
 import {Message, MessageReaction} from 'discord.js';
-import axios from 'axios';
 import * as anilist from '../../utils/anilist';
+import {anilistRequest, createSelectionEmbed} from '../../utils/anilist';
 import * as helpers from '../../utils/helpers';
 import moment from 'moment';
 import {MBEmbed} from '../../utils/messageGenerator';
@@ -38,24 +38,27 @@ export default class AnimeCommand extends Command {
         });
     }
 
+
     async exec(message: Message, {query}: { query: string }) {
-        axios({
-            url: 'https://graphql.anilist.co',
-            timeout: this.client.config.defaultTimeout,
-            method: 'post',
-            data: anilist.anilistAnimeSearchQuery(query, 5)
-        }).then(resp => {
-            if (resp.data.data.Page.media.length == 0) return message.channel.send(':thinking: We cannot find the anime you are looking for.');
-            const selection = new MBEmbed({
-                title: `Anime search results for ${query.substring(0, 30)}${query.length > 30 ? '...' : ''}`
-            }).setDescription('');
+        // make anime request
+        anilistRequest(
+            anilist.anilistAnimeSearchQuery(query, 5),
+            this.client.config.defaultTimeout
+        ).then(resp => {
             const animes = resp.data.data.Page.media;
-            for (const [idx, anime] of animes.entries()) {
-                selection.description += `${helpers.getEmojiNumber(idx + 1)} ${anime.title.userPreferred}\n`;
+
+            // if results are empty
+            if (animes.length == 0) {
+                return message.channel.send(':thinking: We cannot find the anime you are looking for.');
             }
+
+            const selection = createSelectionEmbed('Anime', animes, query);
+
             message.channel.send(selection).then((msg) => {
+                // react to selection embed
                 [...Array(animes.length)].reduce((p: Promise<MessageReaction>, _, i) =>
                     p.then(_ => msg.react(helpers.getEmojiNumber(i + 1))).catch(_ => _), Promise.resolve());
+
                 msg.awaitReactions((reaction, user) => {
                     const idx = helpers.getValueFromEmoji(reaction.emoji.name);
                     return 1 <= idx && idx <= animes.length && user.id == message.author.id;
