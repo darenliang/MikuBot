@@ -48,7 +48,10 @@ export interface MusicQueue {
 export default class Client extends AkairoClient {
     constructor(DDB: DocumentClient) {
         super({ownerID: config.owners}, {
-            disableMentions: 'everyone'
+            disableMentions: 'everyone',
+            messageCacheMaxSize: 10,
+            messageCacheLifetime: 120,
+            messageSweepInterval: 60,
         });
 
         this.DDB = DDB;
