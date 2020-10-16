@@ -152,7 +152,7 @@ export function anilistRequest(query: string, timeout: number): Promise<AxiosRes
         url: 'https://graphql.anilist.co',
         timeout: timeout,
         method: 'post',
-        data: anilistAnimeSearchQuery(query, 5)
+        data: query
     });
 }
 
