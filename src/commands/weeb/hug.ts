@@ -30,21 +30,20 @@ export default class HugCommand extends Command {
     }
 
     async exec(message: Message, {user}: { user: User }) {
-        nekolife('hug')
-            .then(resp => {
-                const ext = resp.data.url.split('.').pop();
-                const embed = new MBEmbed({
-                    title: user ? `${message.author.username} hugs ${user.username}` : 'Here\'s your hug.'
-                })
-                    .setImage(`attachment://hug.${ext}`)
-                    .attachFiles(
-                        [new MessageAttachment(resp.data.url,
-                            `hug.${ext}`)]);
-                return message.channel.send(embed);
+        try {
+            const resp = await nekolife('hug');
+            const ext = resp.data.url.split('.').pop();
+            const embed = new MBEmbed({
+                title: user ? `${message.author.username} hugs ${user.username}` : 'Here\'s your hug.'
             })
-            .catch(err => {
-                console.log('ERROR', 'hug', `Network failure on ${err.toString()}`);
-                return message.channel.send(':timer: Request timed out for `hug`.');
-            });
+                .setImage(`attachment://hug.${ext}`)
+                .attachFiles(
+                    [new MessageAttachment(resp.data.url,
+                        `hug.${ext}`)]);
+            return message.channel.send(embed);
+        } catch (e) {
+            console.log('ERROR', 'hug', `Network failure on ${e.toString()}`);
+            return message.channel.send(':timer: Request timed out for `hug`.');
+        }
     }
 }

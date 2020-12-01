@@ -30,21 +30,20 @@ export default class TickleCommand extends Command {
     }
 
     async exec(message: Message, {user}: { user: User }) {
-        nekolife('tickle')
-            .then(resp => {
-                const ext = resp.data.url.split('.').pop();
-                const embed = new MBEmbed({
-                    title: user ? `${message.author.username} tickles ${user.username}` : 'Here\'s your tickle!'
-                })
-                    .setImage(`attachment://tickle.${ext}`)
-                    .attachFiles(
-                        [new MessageAttachment(resp.data.url,
-                            `tickle.${ext}`)]);
-                return message.channel.send(embed);
+        try {
+            const resp = await nekolife('tickle');
+            const ext = resp.data.url.split('.').pop();
+            const embed = new MBEmbed({
+                title: user ? `${message.author.username} tickles ${user.username}` : 'Here\'s your tickle!'
             })
-            .catch(err => {
-                console.log('ERROR', 'tickle', `Network failure on ${err.toString()}`);
-                return message.channel.send(':timer: Request timed out for `tickle`.');
-            });
+                .setImage(`attachment://tickle.${ext}`)
+                .attachFiles(
+                    [new MessageAttachment(resp.data.url,
+                        `tickle.${ext}`)]);
+            return message.channel.send(embed);
+        } catch (e) {
+            console.log('ERROR', 'tickle', `Network failure on ${e.toString()}`);
+            return message.channel.send(':timer: Request timed out for `tickle`.');
+        }
     }
 }

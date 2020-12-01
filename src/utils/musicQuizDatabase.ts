@@ -99,7 +99,7 @@ export class MusicQuizDatabase {
             ProjectionExpression: 'UserId, MusicScore, TotalAttempts'
         };
 
-        return new Promise(function (resolve, reject) {
+        return new Promise<void>(function (resolve, reject) {
             const onScan = (err: any, data: any) => {
                 if (err) {
                     return reject(err);

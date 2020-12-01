@@ -57,12 +57,14 @@ export default class MusicQuizCommand extends Command {
                 case 'hint':
                     return await message.channel.send(entry.hintEmbed);
                 default:
-                    axios({
-                        url: 'https://graphql.anilist.co',
-                        timeout: this.client.config.defaultTimeout,
-                        method: 'post',
-                        data: anilist.anilistAnimeSearchQuery(guess, 5)
-                    }).then(resp => {
+                    try {
+                        const resp = await axios({
+                            url: 'https://graphql.anilist.co',
+                            timeout: this.client.config.defaultTimeout,
+                            method: 'post',
+                            data: anilist.anilistAnimeSearchQuery(guess, 5)
+                        });
+
                         if (resp.data.data.Page.media.length == 0) return message.channel.send('Sorry, anime not found.');
                         const answers = resp.data.data.Page.media.map((result: { title: { userPreferred: any; }; }) => result.title.userPreferred);
                         if (entry.nameCache.some(r => answers.indexOf(r) >= 0)) {
@@ -85,10 +87,10 @@ export default class MusicQuizCommand extends Command {
                         } else {
                             return message.channel.send('You are incorrect. Please try again.');
                         }
-                    }).catch(err => {
-                        console.log('ERROR', 'musicquiz', `Network failure on ${err.toString()}`);
+                    } catch (e) {
+                        console.log('ERROR', 'musicquiz', `Network failure on ${e.toString()}`);
                         return message.channel.send('Cannot connect to musicquiz service. Please try again later.');
-                    });
+                    }
             }
         } else {
             if (this.client.musicQuizSession.load(message.channel)) {
@@ -106,13 +108,16 @@ export default class MusicQuizCommand extends Command {
                     totalAttempts: scores.totalAttempts + 1
                 });
             }
+
             const anime = this.client.musicQuizDataset[Math.floor(Math.random() * this.client.musicQuizDataset.length)];
-            axios({
-                url: 'https://graphql.anilist.co',
-                timeout: this.client.config.defaultTimeout,
-                method: 'post',
-                data: anilist.anilistAnimeSearchQuery(anime.name, 5)
-            }).then(resp => {
+
+            try {
+                const resp = await axios({
+                    url: 'https://graphql.anilist.co',
+                    timeout: this.client.config.defaultTimeout,
+                    method: 'post',
+                    data: anilist.anilistAnimeSearchQuery(anime.name, 5)
+                });
                 if (resp.data.data.Page.media.length == 0) return message.channel.send('Sorry, anime not found.');
                 const results = resp.data.data.Page.media;
                 const song = anime.songs[Math.floor(Math.random() * anime.songs.length)];
@@ -161,10 +166,10 @@ export default class MusicQuizCommand extends Command {
                 return message.channel.send(
                     `\`${prefix}musicquiz <guess>\` to guess anime, \`${prefix}musicquiz hint\` to get hints or \`${prefix}musicquiz giveup\` to give up.`,
                     attachment);
-            }).catch(err => {
-                console.log('ERROR', 'musicquiz', `Network failure on ${err.toString()}`);
+            } catch (e) {
+                console.log('ERROR', 'musicquiz', `Network failure on ${e.toString()}`);
                 return message.channel.send('Cannot connect to musicquiz service. Please try again later.');
-            });
+            }
         }
     }
 }

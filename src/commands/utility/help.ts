@@ -60,17 +60,16 @@ export default class HelpCommand extends Command {
             }
             helpEmbed = {embed};
         }
-        await message.author.send(helpEmbed)
-            .then(() => {
-                if (message.guild) return message.channel
-                    .send(`​${message.author.username}, please check your private messages.`)
-                    .catch(err => console.log('ERROR', 'help', 'Failed to send message to check private messages: ' + err));
-            })
-            .catch(err => {
-                console.log('INFO', 'help', 'Sending in channel: ' + err);
-                return message.channel
-                    .send(helpEmbed)
-                    .catch(err => console.log('ERROR', 'help', 'Failed to default to normal channel: ' + err));
-            });
+        try {
+            await message.author.send(helpEmbed);
+            if (message.guild) return message.channel
+                .send(`​${message.author.username}, please check your private messages.`)
+                .catch(err => console.log('ERROR', 'help', 'Failed to send message to check private messages: ' + err));
+        } catch (e) {
+            console.log('INFO', 'help', 'Sending in channel: ' + e);
+            return message.channel
+                .send(helpEmbed)
+                .catch(err => console.log('ERROR', 'help', 'Failed to default to normal channel: ' + err));
+        }
     }
 }

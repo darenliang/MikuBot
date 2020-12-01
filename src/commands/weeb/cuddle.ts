@@ -30,21 +30,20 @@ export default class CuddleCommand extends Command {
     }
 
     async exec(message: Message, {user}: { user: User }) {
-        nekolife('cuddle')
-            .then(resp => {
-                const ext = resp.data.url.split('.').pop();
-                const embed = new MBEmbed({
-                    title: user ? `${message.author.username} cuddles ${user.username}` : ':smirk: UwU...'
-                })
-                    .setImage(`attachment://cuddle.${ext}`)
-                    .attachFiles(
-                        [new MessageAttachment(resp.data.url,
-                            `cuddle.${ext}`)]);
-                return message.channel.send(embed);
+        try {
+            const resp = await nekolife('cuddle');
+            const ext = resp.data.url.split('.').pop();
+            const embed = new MBEmbed({
+                title: user ? `${message.author.username} cuddles ${user.username}` : ':smirk: UwU...'
             })
-            .catch(err => {
-                console.log('ERROR', 'cuddle', `Network failure on ${err.toString()}`);
-                return message.channel.send(':timer: Request timed out for `cuddle`.');
-            });
+                .setImage(`attachment://cuddle.${ext}`)
+                .attachFiles(
+                    [new MessageAttachment(resp.data.url,
+                        `cuddle.${ext}`)]);
+            return message.channel.send(embed);
+        } catch (e) {
+            console.log('ERROR', 'cuddle', `Network failure on ${e.toString()}`);
+            return message.channel.send(':timer: Request timed out for `cuddle`.');
+        }
     }
 }

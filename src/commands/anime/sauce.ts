@@ -39,11 +39,13 @@ export default class SauceCommand extends Command {
         if (!url) {
             url = message.attachments.first()!.url;
         }
-        axios({
-            url: `https://saucenao.com/search.php?db=999&api_key=${process.env.SAUCENAO_TOKEN}&output_type=2&numres=1&url=${encodeURIComponent(url)}`,
-            timeout: this.client.config.defaultTimeout,
-            method: 'get'
-        }).then(resp => {
+
+        try {
+            const resp = await axios({
+                url: `https://saucenao.com/search.php?db=999&api_key=${process.env.SAUCENAO_TOKEN}&output_type=2&numres=1&url=${encodeURIComponent(url)}`,
+                timeout: this.client.config.defaultTimeout,
+                method: 'get'
+            });
             if (resp.data.header.status < 0) {
                 return message.channel.send('There\'s an issue with processing your image.');
             }
@@ -67,9 +69,9 @@ export default class SauceCommand extends Command {
                 embed.addField('Link', result.data.ext_urls[0], false);
             }
             return message.channel.send(embed);
-        }).catch(err => {
-            console.log('ERROR', 'sauce', `Network failure on ${err.toString()}`);
+        } catch (e) {
+            console.log('ERROR', 'sauce', `Network failure on ${e.toString()}`);
             return message.channel.send(':timer: Request failed or timed out for `sauce`.');
-        });
+        }
     }
 }

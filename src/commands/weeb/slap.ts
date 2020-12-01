@@ -30,21 +30,20 @@ export default class SlapCommand extends Command {
     }
 
     async exec(message: Message, {user}: { user: User }) {
-        nekolife('slap')
-            .then(resp => {
-                const ext = resp.data.url.split('.').pop();
-                const embed = new MBEmbed({
-                    title: user ? `${message.author.username} slaps ${user.username}` : 'Slap!'
-                })
-                    .setImage(`attachment://slap.${ext}`)
-                    .attachFiles(
-                        [new MessageAttachment(resp.data.url,
-                            `slap.${ext}`)]);
-                return message.channel.send(embed);
+        try {
+            const resp = await nekolife('slap');
+            const ext = resp.data.url.split('.').pop();
+            const embed = new MBEmbed({
+                title: user ? `${message.author.username} slaps ${user.username}` : 'Slap!'
             })
-            .catch(err => {
-                console.log('ERROR', 'slap', `Network failure on ${err.toString()}`);
-                return message.channel.send(':timer: Request timed out for `slap`.');
-            });
+                .setImage(`attachment://slap.${ext}`)
+                .attachFiles(
+                    [new MessageAttachment(resp.data.url,
+                        `slap.${ext}`)]);
+            return message.channel.send(embed);
+        } catch (e) {
+            console.log('ERROR', 'slap', `Network failure on ${e.toString()}`);
+            return message.channel.send(':timer: Request timed out for `slap`.');
+        }
     }
 }

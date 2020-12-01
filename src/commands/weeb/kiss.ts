@@ -30,21 +30,20 @@ export default class KissCommand extends Command {
     }
 
     async exec(message: Message, {user}: { user: User }) {
-        nekolife('kiss')
-            .then(resp => {
-                const ext = resp.data.url.split('.').pop();
-                const embed = new MBEmbed({
-                    title: user ? `${message.author.username} kisses ${user.username}` : ':flushed: OwO...'
-                })
-                    .setImage(`attachment://kiss.${ext}`)
-                    .attachFiles(
-                        [new MessageAttachment(resp.data.url,
-                            `kiss.${ext}`)]);
-                return message.channel.send(embed);
+        try {
+            const resp = await nekolife('kiss');
+            const ext = resp.data.url.split('.').pop();
+            const embed = new MBEmbed({
+                title: user ? `${message.author.username} kisses ${user.username}` : ':flushed: OwO...'
             })
-            .catch(err => {
-                console.log('ERROR', 'kiss', `Network failure on ${err.toString()}`);
-                return message.channel.send(':timer: Request timed out for `kiss`.');
-            });
+                .setImage(`attachment://kiss.${ext}`)
+                .attachFiles(
+                    [new MessageAttachment(resp.data.url,
+                        `kiss.${ext}`)]);
+            return message.channel.send(embed);
+        } catch (e) {
+            console.log('ERROR', 'kiss', `Network failure on ${e.toString()}`);
+            return message.channel.send(':timer: Request timed out for `kiss`.');
+        }
     }
 }

@@ -26,6 +26,11 @@ export class GifDatabase {
         this.cache = {};
     }
 
+    /**
+     * Get gif from cache
+     * @param {Guild} guild
+     * @return {GifImage | null}
+     */
     getGif(guild: Guild): GifImage | null {
         if (!this.cache.hasOwnProperty(guild.id)) {
             return null;
@@ -36,6 +41,11 @@ export class GifDatabase {
         }
     }
 
+    /**
+     * Create album. If album exists, then do nothing.
+     * @param {Guild} guild
+     * @return {Promise<any>}
+     */
     createAlbum(guild: Guild): Promise<any> {
         if (!this.cache.hasOwnProperty(guild.id)) {
             return axios({
@@ -58,9 +68,16 @@ export class GifDatabase {
                     };
                 });
         }
-        return new Promise((resolve => resolve()));
+        return Promise.resolve();
     }
 
+    /**
+     * Upload gif.
+     * @param {Guild} guild
+     * @param {User} user
+     * @param {string} imgURL
+     * @return {Promise<any>}
+     */
     uploadGif(guild: Guild, user: User, imgURL: string): Promise<any> {
         return axios({
             url: 'https://api.imgur.com/3/upload/?',
@@ -85,7 +102,12 @@ export class GifDatabase {
         });
     };
 
-
+    /**
+     * Delete gif.
+     * @param {Guild} guild
+     * @param {string} hash
+     * @return {Promise<any>}
+     */
     deleteGif(guild: Guild, hash: string): Promise<any> {
         return axios({
             url: `https://api.imgur.com/3/image/${hash}`,
@@ -109,14 +131,42 @@ export class GifDatabase {
         });
     }
 
+    /**
+     * Get album link.
+     * @param {Guild} guild
+     * @return {string | null}
+     */
     getAlbumLink(guild: Guild): string | null {
         if (!this.cache.hasOwnProperty(guild.id)) return null;
         return `https://imgur.com/a/${this.cache[guild.id].id}`;
     }
 
+    /**
+     * Populate album cache.
+     * @return {Promise<any>}
+     */
     setAlbums(): Promise<any> {
         return axios({
-            url: `https://api.imgur.com/3/account/${process.env.IMGUR_USERNAME}/albums`,
+            url: `https://api.imgur.com/3/account/${process.env.IMGUR_USERNAME}/albums/count`,
+            timeout: this.client.config.defaultTimeout,
+            method: 'get',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${process.env.IMGUR_TOKEN}`
+            }
+        }).then(async resp => {
+            const pages = Math.ceil(resp.data.data / 50);
+            for (let i = 0; i < pages; i++) {
+                await this.setAlbumsPage(i);
+            }
+        }).catch(err =>
+            console.log('ERROR', 'setAlbums', `Failed to get albums: ${err.toString()}`)
+        );
+    }
+
+    setAlbumsPage(page: number): Promise<any> {
+        return axios({
+            url: `https://api.imgur.com/3/account/${process.env.IMGUR_USERNAME}/albums/${page}`,
             timeout: this.client.config.defaultTimeout,
             method: 'get',
             headers: {
@@ -146,11 +196,9 @@ export class GifDatabase {
                             })
                         };
                     }).catch(err =>
-                        console.log('ERROR', 'setAlbums', `Failed to get images in an album: ${err.toString()}`)
+                        console.log('ERROR', 'setAlbumsPage', `Failed to get images in an album: ${err.toString()}`)
                     );
                 }), Promise.resolve());
-        }).catch(err =>
-            console.log('ERROR', 'setAlbums', `Failed to get albums: ${err.toString()}`)
-        );
+        });
     }
 }

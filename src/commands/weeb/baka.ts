@@ -30,21 +30,20 @@ export default class BakaCommand extends Command {
     }
 
     async exec(message: Message, {user}: { user: User }) {
-        nekolife('baka')
-            .then(resp => {
-                const ext = resp.data.url.split('.').pop();
-                const embed = new MBEmbed({
-                    title: user ? `${message.author.username} bakas at ${user.username}` : 'Baka!'
-                })
-                    .setImage(`attachment://baka.${ext}`)
-                    .attachFiles(
-                        [new MessageAttachment(resp.data.url,
-                            `baka.${ext}`)]);
-                return message.channel.send(embed);
+        try {
+            const resp = await nekolife('baka');
+            const ext = resp.data.url.split('.').pop();
+            const embed = new MBEmbed({
+                title: user ? `${message.author.username} bakas at ${user.username}` : 'Baka!'
             })
-            .catch(err => {
-                console.log('ERROR', 'baka', `Network failure on ${err.toString()}`);
-                return message.channel.send(':timer: Request timed out for `baka`.');
-            });
+                .setImage(`attachment://baka.${ext}`)
+                .attachFiles(
+                    [new MessageAttachment(resp.data.url,
+                        `baka.${ext}`)]);
+            return message.channel.send(embed);
+        } catch (e) {
+            console.log('ERROR', 'baka', `Network failure on ${e.toString()}`);
+            return message.channel.send(':timer: Request timed out for `baka`.');
+        }
     }
 }

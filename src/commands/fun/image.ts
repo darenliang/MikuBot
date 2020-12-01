@@ -58,13 +58,12 @@ export default class ImageCommand extends Command {
         if (del) {
             if (id) {
                 if (/[0-9a-zA-Z]{7}/.test(id)) {
-                    this.client.gifDatabase.deleteGif(message.guild!, id)
-                        .then(() => {
-                            return message.channel.send('Deleted image.');
-                        })
-                        .catch(_ => {
-                            return message.channel.send('Failed to delete image. Please make sure that the id you have provided is valid.');
-                        });
+                    try {
+                        await this.client.gifDatabase.deleteGif(message.guild!, id);
+                        return message.channel.send('Deleted image.');
+                    } catch (e) {
+                        return message.channel.send('Failed to delete image. Please make sure that the id you have provided is valid.');
+                    }
                 } else {
                     return await message.channel.send('Looks like you have an invalid image id.');
                 }
@@ -97,21 +96,19 @@ export default class ImageCommand extends Command {
                 if (!url) {
                     url = message.attachments.first()!.url;
                 }
-                this.client.gifDatabase.createAlbum(message.guild!)
-                    .then(_ => {
-                        this.client.gifDatabase.uploadGif(message.guild!, message.author, url)
-                            .then(() => {
-                                return message.channel.send('Image uploaded.');
-                            })
-                            .catch(err => {
-                                console.log('INFO', 'image', `Failed to create album: ${err.toString()}`);
-                                return message.channel.send('Image failed to upload. You might want to try another image.');
-                            });
-                    })
-                    .catch(err => {
-                        console.log('ERROR', 'image', `Failed to create album: ${err.toString()}`);
-                        return message.channel.send('An unexpected error has occurred.');
-                    });
+                try {
+                    await this.client.gifDatabase.createAlbum(message.guild!);
+                    try {
+                        await this.client.gifDatabase.uploadGif(message.guild!, message.author, url);
+                        return message.channel.send('Image uploaded.');
+                    } catch (e) {
+                        console.log('INFO', 'image', `Failed to create album: ${e.toString()}`);
+                        return message.channel.send('Image failed to upload. You might want to try another image.');
+                    }
+                } catch (e) {
+                    console.log('ERROR', 'image', `Failed to create album: ${e.toString()}`);
+                    return message.channel.send('An unexpected error has occurred.');
+                }
             }
         }
     }
