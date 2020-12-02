@@ -5,7 +5,7 @@ FROM node:latest
 RUN apt-get update && apt-get install -y ffmpeg
 
 # make workdir
-WORKDIR /usr/src/bot
+WORKDIR /app
 
 # install deps
 COPY package*.json ./

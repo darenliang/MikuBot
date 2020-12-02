@@ -6,8 +6,7 @@
   "scripts": {
     "start": "node dist/bot.js",
     "spawn": "node dist/main.js",
-    "build": "tsc --build tsconfig.json",
-    "postinstall": "npm run build"
+    "build": "tsc --build tsconfig.json"
   },
   "engines": {
     "node": "15.x"
