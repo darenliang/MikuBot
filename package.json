@@ -10,13 +10,15 @@
     "postinstall": "npm run build"
   },
   "engines": {
-    "node": "14.x"
+    "node": "15.x"
   },
   "keywords": [],
   "author": "Daren Liang",
   "license": "MIT",
   "dependencies": {
     "@discordjs/opus": "^0.3.3",
+    "@types/node": "^14.14.10",
+    "@types/ws": "^7.4.0",
     "aws-sdk": "^2.799.0",
     "axios": "^0.21.0",
     "bufferutil": "^4.0.2",
@@ -30,13 +32,9 @@
     "humanize-plus": "^1.8.2",
     "libsodium-wrappers": "^0.7.8",
     "moment": "^2.29.1",
+    "typescript": "^4.1.2",
     "utf-8-validate": "^5.0.3",
     "youtube-dl": "^3.0.2",
     "zlib-sync": "^0.1.7"
-  },
-  "devDependencies": {
-    "@types/node": "^14.14.10",
-    "@types/ws": "^7.4.0",
-    "typescript": "^4.1.2"
   }
 }
