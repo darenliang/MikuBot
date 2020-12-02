@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node dist/bot.js",
     "spawn": "node dist/main.js",
-    "build": "tsc",
+    "build": "tsc --build tsconfig.json",
     "postinstall": "npm run build"
   },
   "engines": {

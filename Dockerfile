@@ -13,6 +13,7 @@ RUN npm install
 
 # copy project files and build
 COPY . .
+RUN npm run build
 
 # start project
 CMD ["npm", "run", "spawn"]
