@@ -8,6 +8,7 @@
   "githubRepo": "darenliang/MikuBot",
   "owners": "301918383610265600",
   "defaultTimeout": 20000,
+  "selectionTimeout": 60000,
   "AWS": {
     "region": "us-east-1",
     "prefixTableName": "prefix_table",

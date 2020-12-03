@@ -48,7 +48,8 @@ export default class TranslateCommand extends Command {
                 to: lang
             });
             return await message.channel.send(result.data[0]);
-        } catch {
+        } catch (e) {
+            console.log('ERROR', 'translate', `Cannot translate: ${e.toString()}`);
             return await message.channel.send('We cannot translate your message. Please check to make sure that you used a valid language code.');
         }
     }

@@ -45,9 +45,11 @@ export default class MusicQuizCommand extends Command {
     async exec(message: Message, {guess}: { guess: string }) {
         if (guess) {
             const entry = this.client.musicQuizSession.load(message.channel);
+
             if (!entry) {
                 return await message.channel.send('There is no active quiz currently in this channel.');
             }
+
             switch (guess) {
                 case 'giveup':
                     entry.embed.author!.name = `Answer: ${entry.embed.author!.name}`;
@@ -66,7 +68,9 @@ export default class MusicQuizCommand extends Command {
                         });
 
                         if (resp.data.data.Page.media.length == 0) return message.channel.send('Sorry, anime not found.');
+
                         const answers = resp.data.data.Page.media.map((result: { title: { userPreferred: any; }; }) => result.title.userPreferred);
+
                         if (entry.nameCache.some(r => answers.indexOf(r) >= 0)) {
                             entry.embed.author!.name = `Correct: ${entry.embed.author!.name}`;
                             entry.embed.color = 5025616;
@@ -96,6 +100,7 @@ export default class MusicQuizCommand extends Command {
             if (this.client.musicQuizSession.load(message.channel)) {
                 return await message.channel.send('You haven\'t gave an answer to the current music quiz.');
             }
+
             const scores = this.client.musicQuizDatabase.getScore(message.author);
             if (scores.musicScore == 0 && scores.totalAttempts == 0) {
                 this.client.musicQuizDatabase.createScore(message.author, {
@@ -118,9 +123,12 @@ export default class MusicQuizCommand extends Command {
                     method: 'post',
                     data: anilist.anilistAnimeSearchQuery(anime.name, 5)
                 });
+
                 if (resp.data.data.Page.media.length == 0) return message.channel.send('Sorry, anime not found.');
+
                 const results = resp.data.data.Page.media;
                 const song = anime.songs[Math.floor(Math.random() * anime.songs.length)];
+
                 const answerEmbed = new MBEmbed({
                     title: anime.name,
                     url: anime.idMal ? `https://myanimelist.net/anime/${anime.idMal}` : undefined
@@ -154,11 +162,13 @@ export default class MusicQuizCommand extends Command {
                             name: 'Studios',
                             value: studios
                         });
+
                 this.client.musicQuizSession.store(message.channel, {
                     nameCache: results.map((result: { title: { userPreferred: any; }; }) => result.title.userPreferred),
                     embed: answerEmbed,
                     hintEmbed: hintEmbed
                 });
+
                 const prefix = this.client.prefixDatabase.getPrefix(message.guild);
                 const attachment = new MessageAttachment(
                     `https://gitlab.com/darenliang/mq2/-/raw/master/data/${song.url}`,
