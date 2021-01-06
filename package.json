@@ -19,7 +19,7 @@
     "@types/node": "^14.14.10",
     "@types/ws": "^7.4.0",
     "aws-sdk": "^2.801.0",
-    "axios": "^0.21.0",
+    "axios": "^0.21.1",
     "bufferutil": "^4.0.2",
     "countapi-js": "^1.0.1",
     "dblapi.js": "^2.4.1",
