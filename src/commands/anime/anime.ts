@@ -51,7 +51,7 @@ export default class AnimeCommand extends Command {
             color: parseColor(anime.coverImage.color, this.client.config.color)
         })
             .setThumbnail(anime.coverImage.extraLarge)
-            .setDescription(he.decode(anime.description.replace(/(<([^>]+)>)/g, '')))
+            .setDescription(he.decode((anime.description ? anime.description : 'No description.').replace(/(<([^>]+)>)/g, '')))
             .setImage(anime.bannerImage)
             .addFields(
                 {name: 'Type', value: anilist.mapFormats(anime.format), inline: true},

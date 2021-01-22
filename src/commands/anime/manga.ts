@@ -51,7 +51,7 @@ export default class MangaCommand extends Command {
             color: parseColor(manga.coverImage.color, this.client.config.color)
         })
             .setThumbnail(manga.coverImage.extraLarge)
-            .setDescription(he.decode(manga.description.replace(/(<([^>]+)>)/g, '')))
+            .setDescription(he.decode((manga.description ? manga.description : 'No description.').replace(/(<([^>]+)>)/g, '')))
             .setImage(manga.bannerImage)
             .addFields(
                 {name: 'Type', value: anilist.mapFormats(manga.format), inline: true},
