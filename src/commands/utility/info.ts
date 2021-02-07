@@ -29,7 +29,7 @@ export default class InfoCommand extends Command {
         const embed = new MessageEmbed()
             .setColor(this.client.config.color)
             .setTitle(`${this.client.config.name} ${this.client.config.version}`)
-            .setDescription('(づ｡◕‿‿◕｡)づ Made with :heart:.')
+            .setDescription('Made with open source and :heart:.')
             .addField('Links',
                 `[Invite Bot](https://discordapp.com/oauth2/authorize?client_id=${this.client.user?.id}&scope=bot&permissions=36817984)
                 [Help Page](${this.client.config.helpWebsite})
@@ -47,7 +47,7 @@ export default class InfoCommand extends Command {
             .addField('Shards', this.client.options.shardCount, true)
             .addField('Servers', this.client.guildCount, true)
             .addField('Uptime', helpers.msToTime(this.client.uptime!), true)
-            .addField('Memory Usage', `${(process.memoryUsage().rss / 1048576) | 0}MiB`, true);
+            .addField('Shard Memory', `${(process.memoryUsage().rss / 1048576) | 0}MiB`, true);
         return await message.channel.send(embed);
     }
 }

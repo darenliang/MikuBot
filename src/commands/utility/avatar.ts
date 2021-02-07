@@ -39,7 +39,7 @@ export default class AvatarCommand extends Command {
         const embed = new MBEmbed({
             title: `Here is ${user.username}#${user.discriminator}'s profile picture.`,
             color: color
-        }).setImage(user.displayAvatarURL({size: 4096, dynamic: true}));
+        }).setImage(user.displayAvatarURL({size: 1024, dynamic: true}));
         return await message.channel.send(embed);
     }
 }
