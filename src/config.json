@@ -1,9 +1,9 @@
 {
   "name": "MikuBot",
-  "version": "4.2.0",
+  "version": "4.3.0",
   "defaultPrefix": "!",
   "color": 3053734,
-  "helpWebsite": "https://darenliang.github.io/MikuBot-Docs",
+  "helpWebsite": "https://mikubot.beats.moe",
   "supportServer": "https://discord.gg/Tpa3cJB",
   "githubRepo": "darenliang/MikuBot",
   "owners": "301918383610265600",
