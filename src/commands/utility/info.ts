@@ -31,7 +31,7 @@ export default class InfoCommand extends Command {
             .setTitle(`${this.client.config.name} ${this.client.config.version}`)
             .setDescription('Made with open source and :heart:.')
             .addField('Links',
-                `[Invite Bot](https://discordapp.com/oauth2/authorize?client_id=${this.client.user?.id}&scope=bot&permissions=36817984)
+                `[Invite Bot](https://discord.com/api/oauth2/authorize?client_id=${this.client.user?.id}&permissions=8&scope=bot)
                 [Help Page](${this.client.config.helpWebsite})
                 [Support Server](${this.client.config.supportServer})
                 [GitHub Repository](https://github.com/${this.client.config.githubRepo})

@@ -2,7 +2,7 @@
 
 Welcome to MikuBot's documentation page.
 
-[Invite the bot here](https://discordapp.com/oauth2/authorize?client_id=512354713602228265&scope=bot)
+[Invite the bot here](https://discord.com/api/oauth2/authorize?client_id=512354713602228265&permissions=8&scope=bot)
 
 [Source Code](https://github.com/darenliang/MikuBot)
 
