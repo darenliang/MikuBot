@@ -35,7 +35,7 @@ export default class ReadyListener extends Listener {
                     serverCount: this.client.guilds.cache.size,
                     shardId: this.client.options.shards as number,
                     shardCount: this.client.options.shardCount
-                });
+                }).catch(_ => console.log('ERROR', 'ready', 'Failed to post stats'));
 
                 api.getStats(this.client.user!.id).then(bot => {
                     if (bot.serverCount != null) {
@@ -43,7 +43,7 @@ export default class ReadyListener extends Listener {
                     } else {
                         this.client.guildCount = 0;
                     }
-                });
+                }).catch(_ => console.log('ERROR', 'ready', 'Failed to get stats'));
             };
 
             postAndGetStats();

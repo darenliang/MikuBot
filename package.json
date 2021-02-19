@@ -4,8 +4,8 @@
   "description": "A fast and scalable rewrite of MikuBot",
   "main": "dist/bot.js",
   "scripts": {
-    "start": "node dist/bot.js",
-    "spawn": "node dist/main.js",
+    "start": "node dist/bot.js --unhandled-rejections=warn",
+    "spawn": "node dist/main.js --unhandled-rejections=warn",
     "build": "tsc --build tsconfig.json"
   },
   "engines": {
