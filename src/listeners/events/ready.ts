@@ -1,5 +1,5 @@
 import {Listener} from 'discord-akairo';
-import DBL from 'dblapi.js';
+import Topgg from 'topgg-autoposter';
 
 export default class ReadyListener extends Listener {
     constructor() {
@@ -28,23 +28,11 @@ export default class ReadyListener extends Listener {
         }
 
         if (process.env.PRODUCTION == 'true') {
-            const dbl = new DBL(process.env.DBL_TOKEN!, this.client);
+            const ap = Topgg(process.env.DBL_TOKEN!, this.client);
 
-            const postAndGetStats = () => {
-                dbl.postStats(
-                    this.client.guilds.cache.size,
-                    this.client.options.shards as number,
-                    this.client.options.shardCount);
-
-                dbl.getStats(this.client.user!.id).then(bot => {
-                    this.client.guildCount = bot.server_count;
-                });
-            };
-
-            postAndGetStats();
-            setInterval(() => {
-                postAndGetStats();
-            }, 1800000);
+            ap.on('posted', () => {
+                console.log('INFO', 'ready', `Posted stats for shard`);
+            });
         }
 
         console.log('INFO', 'ready', `${this.client.config.name} ${this.client.config.version}`);
