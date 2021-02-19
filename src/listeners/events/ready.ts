@@ -1,5 +1,4 @@
 import {Listener} from 'discord-akairo';
-import Topgg from 'topgg-autoposter';
 
 export default class ReadyListener extends Listener {
     constructor() {
@@ -25,14 +24,6 @@ export default class ReadyListener extends Listener {
                 this.client.prefixDatabase.createGuild(guild);
                 console.log('INFO', 'ready', `Added ${guild.name} - ${guild.id}`);
             }
-        }
-
-        if (process.env.PRODUCTION == 'true') {
-            const ap = Topgg(process.env.DBL_TOKEN!, this.client);
-
-            ap.on('posted', () => {
-                console.log('INFO', 'ready', `Posted stats for shard`);
-            });
         }
 
         console.log('INFO', 'ready', `${this.client.config.name} ${this.client.config.version}`);
