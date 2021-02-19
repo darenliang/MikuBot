@@ -1,4 +1,5 @@
 import {Listener} from 'discord-akairo';
+import * as Topgg from '@top-gg/sdk';
 
 export default class ReadyListener extends Listener {
     constructor() {
@@ -24,6 +25,31 @@ export default class ReadyListener extends Listener {
                 this.client.prefixDatabase.createGuild(guild);
                 console.log('INFO', 'ready', `Added ${guild.name} - ${guild.id}`);
             }
+        }
+
+        if (process.env.PRODUCTION == 'true') {
+            const api = new Topgg.Api(process.env.DBL_TOKEN!);
+
+            const postAndGetStats = () => {
+                api.postStats({
+                    serverCount: this.client.guilds.cache.size,
+                    shardId: this.client.options.shards as number,
+                    shardCount: this.client.options.shardCount
+                });
+
+                api.getStats(this.client.user!.id).then(bot => {
+                    if (bot.serverCount != null) {
+                        this.client.guildCount = bot.serverCount;
+                    } else {
+                        this.client.guildCount = 0;
+                    }
+                });
+            };
+
+            postAndGetStats();
+            setInterval(() => {
+                postAndGetStats();
+            }, 1800000);
         }
 
         console.log('INFO', 'ready', `${this.client.config.name} ${this.client.config.version}`);
