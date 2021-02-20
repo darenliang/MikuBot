@@ -19,6 +19,7 @@ export default class HelpCommand extends Command {
                     }
                 ]
             },
+            clientPermissions: ['SEND_MESSAGES'],
             args: [
                 {
                     id: 'commandAlias',
