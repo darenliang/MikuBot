@@ -162,7 +162,7 @@ export class GifDatabase {
             for (let i = 0; i < pages; i++) {
                 await this.setAlbumsPage(i);
             }
-            tracer.console().error(this.client.options.shards, 'Set image albums complete');
+            tracer.console().info(this.client.options.shards, 'Set image albums complete');
         }).catch(err => {
             tracer.console().error(this.client.options.shards, `Failed to get albums: ${err.toString()}`);
         });
