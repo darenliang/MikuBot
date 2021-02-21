@@ -1,0 +1,14 @@
+[
+  {
+    "category": "Entertainment%3A%20Japanese%20Anime%20%26%20Manga",
+    "type": "multiple",
+    "difficulty": "hard",
+    "question": "Which%20animation%20studio%20animated%20%22Psycho%20Pass%22%3F",
+    "correct_answer": "Production%20I.G",
+    "incorrect_answers": [
+      "Kyoto%20Animation",
+      "Shaft",
+      "Trigger"
+    ]
+  }
+]

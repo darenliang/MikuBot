@@ -1,7 +1,7 @@
 import {Command} from 'discord-akairo';
 import {Message} from 'discord.js';
-import {MBEmbed} from '../../utils/messageGenerator';
 import * as helpers from '../../utils/helpers';
+import {MBEmbed} from '../../utils/messageGenerator';
 
 export default class QueueCommand extends Command {
     constructor() {

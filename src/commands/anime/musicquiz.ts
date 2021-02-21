@@ -1,6 +1,6 @@
+import axios from 'axios';
 import {Command} from 'discord-akairo';
 import {Message, MessageAttachment} from 'discord.js';
-import axios from 'axios';
 import * as anilist from '../../utils/anilist';
 import * as helpers from '../../utils/helpers';
 import {MBEmbed} from '../../utils/messageGenerator';
@@ -171,7 +171,7 @@ export default class MusicQuizCommand extends Command {
 
                 const prefix = this.client.prefixDatabase.getPrefix(message.guild);
                 const attachment = new MessageAttachment(
-                    `https://gitlab.com/darenliang/mq/-/raw/master/data/${song.url}`,
+                    `mount/musicquiz/${song.url}`,
                     Math.random().toString(36).substring(2, 15) + '.mp3');
                 return message.channel.send(
                     `\`${prefix}musicquiz <guess>\` to guess anime, \`${prefix}musicquiz hint\` to get hints or \`${prefix}musicquiz giveup\` to give up.`,

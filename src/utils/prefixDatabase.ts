@@ -1,5 +1,5 @@
-import Client from '../struct/client';
 import {Guild} from 'discord.js';
+import Client from '../struct/client';
 
 interface PrefixCache {
     [key: string]: string
@@ -20,7 +20,7 @@ export class PrefixDatabase {
         }
 
         const params = {
-            TableName: this.client.config.AWS.prefixTableName,
+            TableName: this.client.config.aws.prefixTableName,
             Item: {
                 'GuildId': guild.id,
                 'Prefix': this.client.config.defaultPrefix
@@ -44,7 +44,7 @@ export class PrefixDatabase {
         }
 
         const params = {
-            TableName: this.client.config.AWS.prefixTableName,
+            TableName: this.client.config.aws.prefixTableName,
             ExpressionAttributeValues: {
                 ':s': prefix
             },
@@ -70,7 +70,7 @@ export class PrefixDatabase {
         if (!guild) return false;
 
         const params = {
-            TableName: this.client.config.AWS.prefixTableName,
+            TableName: this.client.config.aws.prefixTableName,
             Key: {
                 'GuildId': guild.id
             }
@@ -102,7 +102,7 @@ export class PrefixDatabase {
         const client = this.client;
 
         const params: any = {
-            TableName: this.client.config.AWS.prefixTableName,
+            TableName: this.client.config.aws.prefixTableName,
             ProjectionExpression: 'GuildId, Prefix'
         };
 

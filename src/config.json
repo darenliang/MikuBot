@@ -1,6 +1,6 @@
 {
   "name": "MikuBot",
-  "version": "4.3.2",
+  "version": "5.0.0",
   "defaultPrefix": "!",
   "color": 3053734,
   "helpWebsite": "https://mikubot.beats.moe",
@@ -9,7 +9,7 @@
   "owners": "301918383610265600",
   "defaultTimeout": 20000,
   "selectionTimeout": 60000,
-  "AWS": {
+  "aws": {
     "region": "us-east-1",
     "prefixTableName": "prefix_table",
     "musicQuizTableName": "music_quiz"

@@ -1,0 +1,24 @@
+[
+  {
+    "name": "example 1",
+    "songs": [
+      {
+        "songname": "example 1",
+        "url": "example-1.mp3"
+      }
+    ]
+  },
+  {
+    "name": "example 2",
+    "songs": [
+      {
+        "songname": "example 2.1",
+        "url": "example-2.1.mp3"
+      },
+      {
+        "songname": "example 2.2",
+        "url": "example-2.2.mp3"
+      }
+    ]
+  }
+]

@@ -1,6 +1,8 @@
-import Client from '../struct/client';
 import axios, {AxiosResponse} from 'axios';
 import {Guild, User} from 'discord.js';
+// @ts-ignore
+import secrets from '../../mount/secrets.json';
+import Client from '../struct/client';
 
 interface GifCache {
     [key: string]: GifAlbum
@@ -54,7 +56,7 @@ export class GifDatabase {
                 method: 'post',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${process.env.IMGUR_TOKEN}`
+                    'Authorization': `Bearer ${secrets.imgur.token}`
                 },
                 params: {
                     title: guild.id,
@@ -85,7 +87,7 @@ export class GifDatabase {
             method: 'post',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${process.env.IMGUR_TOKEN}`
+                'Authorization': `Bearer ${secrets.imgur.token}`
             },
             params: {
                 image: encodeURI(imgURL),
@@ -115,7 +117,7 @@ export class GifDatabase {
             method: 'delete',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${process.env.IMGUR_TOKEN}`
+                'Authorization': `Bearer ${secrets.imgur.token}`
             }
         }).then(() => {
             let imageIdx = -1;
@@ -147,12 +149,12 @@ export class GifDatabase {
      */
     setAlbums(): Promise<any> {
         return axios({
-            url: `https://api.imgur.com/3/account/${process.env.IMGUR_USERNAME}/albums/count`,
+            url: `https://api.imgur.com/3/account/${secrets.imgur.username}/albums/count`,
             timeout: this.client.config.defaultTimeout,
             method: 'get',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${process.env.IMGUR_TOKEN}`
+                'Authorization': `Bearer ${secrets.imgur.token}`
             }
         }).then(async resp => {
             const pages = Math.ceil(resp.data.data / 50);
@@ -166,12 +168,12 @@ export class GifDatabase {
 
     setAlbumsPage(page: number): Promise<any> {
         return axios({
-            url: `https://api.imgur.com/3/account/${process.env.IMGUR_USERNAME}/albums/${page}`,
+            url: `https://api.imgur.com/3/account/${secrets.imgur.username}/albums/${page}`,
             timeout: this.client.config.defaultTimeout,
             method: 'get',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${process.env.IMGUR_TOKEN}`
+                'Authorization': `Bearer ${secrets.imgur.token}`
             }
         }).then(resp => {
             [...Array(resp.data.data.length)].reduce((p: Promise<AxiosResponse>, _, i) =>
@@ -182,7 +184,7 @@ export class GifDatabase {
                         method: 'get',
                         headers: {
                             'Content-Type': 'application/json',
-                            'Authorization': `Bearer ${process.env.IMGUR_TOKEN}`
+                            'Authorization': `Bearer ${secrets.imgur.token}`
                         }
                     }).then(imagesResp => {
                         this.cache[resp.data.data[i].title] = {

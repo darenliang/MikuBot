@@ -1,7 +1,7 @@
 import axios, {AxiosResponse} from 'axios';
 import {MessageEmbed} from 'discord.js';
-import {MBEmbed} from './messageGenerator';
 import * as helpers from './helpers';
+import {MBEmbed} from './messageGenerator';
 
 export function anilistAnimeSearchQuery(query: string, perPage: number): any {
     return {

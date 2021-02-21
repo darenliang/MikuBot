@@ -26,7 +26,7 @@ export default class CatgirlCommand extends Command {
         })
             .setImage(`attachment://catgirl.${ext}`)
             .attachFiles(
-                [new MessageAttachment(`https://gitlab.com/darenliang/cg/-/raw/master/data/${fileName}`,
+                [new MessageAttachment(`mount/catgirl/${fileName}`,
                     `catgirl.${ext}`)]);
         return message.channel.send(embed);
     }

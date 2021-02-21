@@ -1,5 +1,5 @@
-import Client from '../struct/client';
 import {User} from 'discord.js';
+import Client from '../struct/client';
 
 interface MusicQuizCache {
     [key: string]: MusicQuizItem
@@ -23,7 +23,7 @@ export class MusicQuizDatabase {
         if (!user) return false;
 
         const params = {
-            TableName: this.client.config.AWS.musicQuizTableName,
+            TableName: this.client.config.aws.musicQuizTableName,
             Item: {
                 'UserId': user.id,
                 'MusicScore': item.musicScore,
@@ -46,7 +46,7 @@ export class MusicQuizDatabase {
         if (!user) return false;
 
         const params = {
-            TableName: this.client.config.AWS.musicQuizTableName,
+            TableName: this.client.config.aws.musicQuizTableName,
             ExpressionAttributeValues: {
                 ':s': item.musicScore,
                 ':t': item.totalAttempts
@@ -95,7 +95,7 @@ export class MusicQuizDatabase {
         const client = this.client;
 
         const params: any = {
-            TableName: this.client.config.AWS.musicQuizTableName,
+            TableName: this.client.config.aws.musicQuizTableName,
             ProjectionExpression: 'UserId, MusicScore, TotalAttempts'
         };
 

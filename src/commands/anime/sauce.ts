@@ -1,6 +1,8 @@
+import axios from 'axios';
 import {Command} from 'discord-akairo';
 import {Message} from 'discord.js';
-import axios from 'axios';
+// @ts-ignore
+import secrets from '../../../mount/secrets.json';
 import * as helpers from '../../utils/helpers';
 import {MBEmbed} from '../../utils/messageGenerator';
 
@@ -42,7 +44,7 @@ export default class SauceCommand extends Command {
 
         try {
             const resp = await axios({
-                url: `https://saucenao.com/search.php?db=999&api_key=${process.env.SAUCENAO_TOKEN}&output_type=2&numres=1&url=${encodeURIComponent(url)}`,
+                url: `https://saucenao.com/search.php?db=999&api_key=${secrets.sauceNaoToken}&output_type=2&numres=1&url=${encodeURIComponent(url)}`,
                 timeout: this.client.config.defaultTimeout,
                 method: 'get'
             });

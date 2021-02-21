@@ -1,6 +1,8 @@
 import {Command} from 'discord-akairo';
 import {Message, MessageAttachment, User} from 'discord.js';
 import {MBEmbed} from '../../utils/messageGenerator';
+// @ts-ignore
+import secrets from '../../../mount/secrets.json';
 
 export default class HeadpatCommand extends Command {
     constructor() {
@@ -34,7 +36,7 @@ export default class HeadpatCommand extends Command {
         })
             .setImage(`attachment://headpat.gif`)
             .attachFiles(
-                [new MessageAttachment(`https://gitlab.com/darenliang/gifs/-/raw/master/data/headpats/${Math.floor(Math.random() * 140) + 1}.gif`,
+                [new MessageAttachment(`mount/gifs/headpats/${Math.floor(Math.random() * secrets.gifs.headpatsLimit) + 1}.gif`,
                     'headpat.gif')]);
         return message.channel.send(embed);
     }

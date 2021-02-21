@@ -1,6 +1,6 @@
+import axios from 'axios';
 import {Command} from 'discord-akairo';
 import {Message, MessageEmbed} from 'discord.js';
-import axios from 'axios';
 
 export default class ClocCommand extends Command {
     constructor() {

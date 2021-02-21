@@ -1,5 +1,7 @@
-import {Listener} from 'discord-akairo';
 import * as Topgg from '@top-gg/sdk';
+import {Listener} from 'discord-akairo';
+// @ts-ignore
+import secrets from '../../../mount/secrets.json';
 
 export default class ReadyListener extends Listener {
     constructor() {
@@ -27,8 +29,8 @@ export default class ReadyListener extends Listener {
             }
         }
 
-        if (process.env.PRODUCTION == 'true') {
-            const api = new Topgg.Api(process.env.DBL_TOKEN!);
+        if (secrets.production) {
+            const api = new Topgg.Api(secrets.dblToken);
 
             const postAndGetStats = () => {
                 api.postStats({

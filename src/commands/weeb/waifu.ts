@@ -25,7 +25,7 @@ export default class WaifuCommand extends Command {
         })
             .setImage('attachment://waifu.jpg')
             .attachFiles(
-                [new MessageAttachment(`https://gitlab.com/darenliang/${(selection < 50000) ? 'w1' : 'w2'}/-/raw/master/data/example-${selection}.jpg`,
+                [new MessageAttachment(`mount/waifu/example-${selection}.jpg`,
                     'waifu.jpg')]);
         return await message.channel.send(embed);
     }

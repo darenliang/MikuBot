@@ -1,15 +1,18 @@
-import {AkairoClient, CommandHandler, ListenerHandler} from 'discord-akairo';
 import {DocumentClient} from 'aws-sdk/lib/dynamodb/document_client';
-import {PrefixDatabase} from '../utils/prefixDatabase';
+import {AkairoClient, CommandHandler, ListenerHandler} from 'discord-akairo';
+import {Message, TextChannel, VoiceChannel, VoiceConnection} from 'discord.js';
+import {join} from 'path';
+// @ts-ignore
+import catgirlDataset from '../../mount/datasets/catgirl_dataset.json';
+// @ts-ignore
+import musicQuizDataset from '../../mount/datasets/musicquiz_dataset.json';
+// @ts-ignore
+import triviaDataset from '../../mount/datasets/trivia_dataset.json';
+import config from '../config.json';
+import {GifDatabase} from '../utils/gifDatabase';
 import {MusicQuizDatabase} from '../utils/musicQuizDatabase';
 import {MusicQuizSession} from '../utils/musicQuizSession';
-import {GifDatabase} from '../utils/gifDatabase';
-import {join} from 'path';
-import config from '../config.json';
-import musicQuizDataset from '../data/musicquiz_dataset.json';
-import catgirlDataset from '../data/catgirl_dataset.json';
-import triviaDataset from '../data/trivia_dataset.json';
-import {Message, TextChannel, VoiceChannel, VoiceConnection} from 'discord.js';
+import {PrefixDatabase} from '../utils/prefixDatabase';
 
 declare module 'discord-akairo' {
     interface AkairoClient {

@@ -1,6 +1,6 @@
+import translate from '@iamtraction/google-translate';
 import {Command} from 'discord-akairo';
 import {Message} from 'discord.js';
-import translate from '@iamtraction/google-translate';
 
 export default class TranslateCommand extends Command {
     constructor() {
