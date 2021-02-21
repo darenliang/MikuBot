@@ -17,10 +17,10 @@ export default class MissingPermissionsListener extends Listener {
         switch (type) {
             case 'client':
                 return await message.channel.send(`:octagonal_sign: The bot doesn't have the ${permStr} permission(s) to use the \`${command.id}\` command.`)
-                    .catch(err => tracer.console().error(this.client.options.shards, 'DEADLOCK: ' + err));
+                    .catch(err => tracer.console().warn(this.client.options.shards, 'DEADLOCK: ' + err));
             case 'user':
                 return await message.channel.send(`:octagonal_sign: You are missing the ${permStr} permission(s) to use the \`${command.id}\` command.`)
-                    .catch(err => tracer.console().error(this.client.options.shards, 'DEADLOCK: ' + err));
+                    .catch(err => tracer.console().warn(this.client.options.shards, 'DEADLOCK: ' + err));
         }
         return;
     }
