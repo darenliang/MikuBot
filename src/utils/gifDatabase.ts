@@ -1,5 +1,6 @@
 import axios, {AxiosResponse} from 'axios';
 import {Guild, User} from 'discord.js';
+import tracer from 'tracer';
 // @ts-ignore
 import secrets from '../../mount/secrets.json';
 import Client from '../struct/client';
@@ -161,9 +162,10 @@ export class GifDatabase {
             for (let i = 0; i < pages; i++) {
                 await this.setAlbumsPage(i);
             }
-        }).catch(err =>
-            console.log('ERROR', 'setAlbums', `Failed to get albums: ${err.toString()}`)
-        );
+            tracer.console().error(this.client.options.shards, 'Set image albums complete');
+        }).catch(err => {
+            tracer.console().error(this.client.options.shards, `Failed to get albums: ${err.toString()}`);
+        });
     }
 
     setAlbumsPage(page: number): Promise<any> {
@@ -177,7 +179,10 @@ export class GifDatabase {
             }
         }).then(resp => {
             [...Array(resp.data.data.length)].reduce((p: Promise<AxiosResponse>, _, i) =>
-                p.then(() => {
+                p.then(async () => {
+                    // Intentionally hang for 2 secs to prevent ratelimits
+                    await new Promise(resolve => setTimeout(resolve, 2000));
+
                     axios({
                         url: `https://api.imgur.com/3/album/${resp.data.data[i].id}/images`,
                         timeout: this.client.config.defaultTimeout,
@@ -197,9 +202,9 @@ export class GifDatabase {
                                 };
                             })
                         };
-                    }).catch(err =>
-                        console.log('ERROR', 'setAlbumsPage', `Failed to get images in an album: ${err.toString()}`)
-                    );
+                    }).catch(err => {
+                        tracer.console().error(this.client.options.shards, `Failed to get images in an album: ${err.toString()}`);
+                    });
                 }), Promise.resolve());
         });
     }

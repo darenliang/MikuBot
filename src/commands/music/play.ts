@@ -1,5 +1,6 @@
 import {Command} from 'discord-akairo';
 import {Message, TextChannel} from 'discord.js';
+import tracer from 'tracer';
 import {MusicQueue} from '../../struct/client';
 
 const youtubedl = require('youtube-dl');
@@ -78,7 +79,9 @@ export default class PlayCommand extends Command {
                         queue!.songs.shift();
                         play(queue!.songs[0]);
                     })
-                    .on('error', error => console.log('ERROR', 'play', error));
+                    .on('error', error => {
+                        tracer.console().error(client.options.shards, error);
+                    });
                 dispatcher.setVolumeLogarithmic(queue!.volume / 5);
                 await queue!.textChannel.send(`Playing: **${song.title}**`);
             };
@@ -87,7 +90,7 @@ export default class PlayCommand extends Command {
                 queueConstruct.connection = await channel.join();
                 await play(queueConstruct.songs[0]);
             } catch (error) {
-                console.log('ERROR', 'play', error);
+                tracer.console().error(client.options.shards, error);
                 client.musicQueue.delete(message.guild!.id);
                 channel.leave();
                 return message.channel.send('Cannot join voice channel');

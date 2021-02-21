@@ -1,6 +1,7 @@
 import axios from 'axios';
 import {Command} from 'discord-akairo';
 import {Message, MessageEmbed} from 'discord.js';
+import tracer from 'tracer';
 
 export default class ClocCommand extends Command {
     constructor() {
@@ -43,11 +44,11 @@ export default class ClocCommand extends Command {
                 timeout: this.client.config.defaultTimeout
             });
             if (resp.data.hasOwnProperty('Error')) {
-                console.log('WARN', 'cloc', 'Repo fail.');
+                tracer.console().warn(this.client.options.shards, 'Repo fail');
                 return message.channel.send(`Failed to count lines of code in ${repo}.`);
             }
             if (resp.data.length == 0) {
-                console.log('WARN', 'cloc', `Empty repo.`);
+                tracer.console().warn(this.client.options.shards, 'Empty repo');
                 return message.channel.send(':thinking: No programming languages detected.');
             }
             const embed = new MessageEmbed()
@@ -62,7 +63,7 @@ export default class ClocCommand extends Command {
             embed.addField(lastLanguage.language, lastLanguage.linesOfCode);
             return message.channel.send(embed);
         } catch (e) {
-            console.log('ERROR', 'cloc', e);
+            tracer.console().error(this.client.options.shards, e);
             return message.channel.send(`Failed to count lines of code in ${repo}.`);
         }
     }

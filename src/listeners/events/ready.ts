@@ -1,5 +1,6 @@
 import * as Topgg from '@top-gg/sdk';
 import {Listener} from 'discord-akairo';
+import tracer from 'tracer';
 // @ts-ignore
 import secrets from '../../../mount/secrets.json';
 
@@ -25,7 +26,7 @@ export default class ReadyListener extends Listener {
         for (const guild of this.client.guilds.cache.array()) {
             if (!this.client.prefixDatabase.checkGuild(guild)) {
                 this.client.prefixDatabase.createGuild(guild);
-                console.log('INFO', 'ready', `Added ${guild.name} - ${guild.id}`);
+                tracer.console().info(this.client.options.shards, `Added ${guild.name} - ${guild.id}`);
             }
         }
 
@@ -37,7 +38,9 @@ export default class ReadyListener extends Listener {
                     serverCount: this.client.guilds.cache.size,
                     shardId: this.client.options.shards as number,
                     shardCount: this.client.options.shardCount
-                }).catch(_ => console.log('ERROR', 'ready', 'Failed to post stats'));
+                }).catch(_ => {
+                    tracer.console().error(this.client.options.shards, 'Failed to post stats');
+                });
 
                 api.getStats(this.client.user!.id).then(bot => {
                     if (bot.serverCount != null) {
@@ -45,7 +48,9 @@ export default class ReadyListener extends Listener {
                     } else {
                         this.client.guildCount = 0;
                     }
-                }).catch(_ => console.log('ERROR', 'ready', 'Failed to get stats'));
+                }).catch(_ => {
+                    tracer.console().error(this.client.options.shards, 'Failed to get stats');
+                });
             };
 
             postAndGetStats();
@@ -54,7 +59,7 @@ export default class ReadyListener extends Listener {
             }, 1800000);
         }
 
-        console.log('INFO', 'ready', `${this.client.config.name} ${this.client.config.version}`);
-        console.log('INFO', 'ready', `Serving ${this.client.guilds.cache.size} servers`);
+        tracer.console().info(this.client.options.shards, `${this.client.config.name} ${this.client.config.version}`);
+        tracer.console().info(this.client.options.shards, `Serving ${this.client.guilds.cache.size} servers`);
     }
 }

@@ -1,5 +1,6 @@
 import {Command} from 'discord-akairo';
 import {Message, MessageEmbed} from 'discord.js';
+import tracer from 'tracer';
 import * as anilist from '../../utils/anilist';
 import {anilistRequest, createSelectionEmbed} from '../../utils/anilist';
 import {parseAired, parseColor} from '../../utils/anime';
@@ -115,7 +116,7 @@ export default class AnimeCommand extends Command {
                 );
 
                 if (typeof reaction === 'undefined') {
-                    console.log('ERROR', 'anime', 'Weird emoji ERROR');
+                    tracer.console().error(this.client.options.shards, 'Undefined reaction');
                     return message.channel.send(':thinking: Huh, that\'s really weird. We got invalid emoji.');
                 }
 
@@ -128,7 +129,7 @@ export default class AnimeCommand extends Command {
                 await msg.delete();
             }
         } catch (e) {
-            console.log('ERROR', 'anime', `Network failure on ${e.toString()}`);
+            tracer.console().error(this.client.options.shards, `Network failure on ${e.toString()}`);
             return message.channel.send(':timer: Request timed out for `anime`.');
         }
     }

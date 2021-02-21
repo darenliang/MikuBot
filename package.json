@@ -31,6 +31,7 @@
     "humanize-plus": "^1.8.2",
     "libsodium-wrappers": "^0.7.9",
     "moment": "^2.29.1",
+    "tracer": "^1.1.4",
     "typescript": "^4.1.5",
     "utf-8-validate": "^5.0.4",
     "youtube-dl": "^3.4.0",

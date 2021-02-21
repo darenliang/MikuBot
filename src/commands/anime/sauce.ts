@@ -1,6 +1,7 @@
 import axios from 'axios';
 import {Command} from 'discord-akairo';
 import {Message} from 'discord.js';
+import tracer from 'tracer';
 // @ts-ignore
 import secrets from '../../../mount/secrets.json';
 import * as helpers from '../../utils/helpers';
@@ -72,7 +73,7 @@ export default class SauceCommand extends Command {
             }
             return message.channel.send(embed);
         } catch (e) {
-            console.log('ERROR', 'sauce', `Network failure on ${e.toString()}`);
+            tracer.console().error(this.client.options.shards, `Network failure on ${e.toString()}`);
             return message.channel.send(':timer: Request failed or timed out for `sauce`.');
         }
     }

@@ -1,4 +1,5 @@
 import {Guild} from 'discord.js';
+import tracer from 'tracer';
 import Client from '../struct/client';
 
 interface PrefixCache {
@@ -29,7 +30,7 @@ export class PrefixDatabase {
 
         this.client.DDB.put(params, err => {
             if (err) {
-                console.log('ERROR', 'createGuild', err);
+                tracer.console().error(this.client.options.shards, err);
             }
             return false;
         });
@@ -57,7 +58,7 @@ export class PrefixDatabase {
 
         this.client.DDB.update(params, err => {
             if (err) {
-                console.log('ERROR', 'updateGuild', err);
+                tracer.console().error(this.client.options.shards, err);
             }
             return false;
         });
@@ -78,7 +79,7 @@ export class PrefixDatabase {
 
         this.client.DDB.delete(params, err => {
             if (err) {
-                console.log('ERROR', 'removeGuild', err);
+                tracer.console().error(this.client.options.shards, err);
             }
             return false;
         });
@@ -124,6 +125,8 @@ export class PrefixDatabase {
                 }
             };
             client.DDB.scan(params, onScan);
+        }).then(_ => {
+            tracer.console().info(client.options.shards, 'Set prefix table complete');
         });
     };
 }

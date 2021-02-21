@@ -1,5 +1,6 @@
 import {Command} from 'discord-akairo';
 import {Message} from 'discord.js';
+import tracer from 'tracer';
 
 export default class PrefixCommand extends Command {
     constructor() {
@@ -36,7 +37,7 @@ export default class PrefixCommand extends Command {
         if (!message.guild) return await message.channel.send(`Cannot set prefix in private messages.`);
         if (!message.member!.hasPermission('MANAGE_GUILD')) return await message.channel.send(`You must have the \`manage guild\` permission to set prefix.`);
         if (!this.client.prefixDatabase.updateGuild(message.guild, prefix)) {
-            console.log('ERROR', 'prefix', 'Failed to set prefix');
+            tracer.console().error(this.client.options.shards, 'Failed to set prefix');
             return await message.channel.send(`Failed to set prefix to ${prefix}`);
         }
         return await message.channel.send(`The prefix has been set to ${prefix}`);

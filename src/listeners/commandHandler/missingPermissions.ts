@@ -1,5 +1,6 @@
 import {Command, Listener} from 'discord-akairo';
 import {Message} from 'discord.js';
+import tracer from 'tracer';
 import * as helpers from '../../utils/helpers';
 
 export default class MissingPermissionsListener extends Listener {
@@ -11,15 +12,15 @@ export default class MissingPermissionsListener extends Listener {
     }
 
     async exec(message: Message, command: Command, type: string, missing: string[]) {
-        console.log('INFO', 'missingPermissions', command.id);
+        tracer.console().info(this.client.options.shards, command.id);
         const permStr = helpers.perms(missing);
         switch (type) {
             case 'client':
                 return await message.channel.send(`:octagonal_sign: The bot doesn't have the ${permStr} permission(s) to use the \`${command.id}\` command.`)
-                    .catch(err => console.log('ERROR', 'missingPermissions', 'DEADLOCK: ' + err));
+                    .catch(err => tracer.console().error(this.client.options.shards, 'DEADLOCK: ' + err));
             case 'user':
                 return await message.channel.send(`:octagonal_sign: You are missing the ${permStr} permission(s) to use the \`${command.id}\` command.`)
-                    .catch(err => console.log('ERROR', 'missingPermissions', 'DEADLOCK: ' + err));
+                    .catch(err => tracer.console().error(this.client.options.shards, 'DEADLOCK: ' + err));
         }
         return;
     }

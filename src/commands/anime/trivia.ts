@@ -1,5 +1,6 @@
 import {Command} from 'discord-akairo';
 import {Message} from 'discord.js';
+import tracer from 'tracer';
 import * as helpers from '../../utils/helpers';
 import {MBEmbed} from '../../utils/messageGenerator';
 import {collectSelection, sendSelectionEmojis} from '../../utils/selection';
@@ -51,7 +52,7 @@ export default class TriviaCommand extends Command {
             );
 
             if (typeof reaction === 'undefined') {
-                console.log('ERROR', 'anime', 'Weird emoji ERROR');
+                tracer.console().error(this.client.options.shards, 'Undefined reaction');
                 return message.channel.send(':thinking: Huh, that\'s really weird. We got invalid emoji.');
             }
 
@@ -65,7 +66,7 @@ export default class TriviaCommand extends Command {
 
             return message.channel.send(answerEmbed);
         } catch (e) {
-            console.log('ERROR', 'anime', `Error occurred: ${e.toString()}`);
+            tracer.console().error(this.client.options.shards, `Error occurred: ${e.toString()}`);
             return message.channel.send('An error has occurred for `trivia`.');
         } finally {
             await msg.delete();

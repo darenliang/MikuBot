@@ -1,5 +1,6 @@
 import {Listener} from 'discord-akairo';
 import {Guild, TextChannel} from 'discord.js';
+import tracer from 'tracer';
 
 export default class GuildCreateListener extends Listener {
     constructor() {
@@ -11,7 +12,7 @@ export default class GuildCreateListener extends Listener {
 
     async exec(guild: Guild) {
         this.client.prefixDatabase.createGuild(guild);
-        console.log('INFO', 'guildCreate', `Added ${guild.name} - ${guild.id}`);
+        tracer.console().info(this.client.options.shards, `Added ${guild.name} - ${guild.id}`);
 
         const embed = {
             'title': `:tada: Thanks for inviting ${this.client.config.name}!`,
@@ -58,11 +59,15 @@ export default class GuildCreateListener extends Listener {
 
         if (guild.systemChannel && guild.systemChannel.permissionsFor(guild.me!)!.has('SEND_MESSAGES')) {
             return await guild.systemChannel.send({embed})
-                .catch(err => console.log('ERROR', 'guildCreate', 'Failed to send message: ' + err));
+                .catch(err => {
+                    tracer.console().error(this.client.options.shards, 'Failed to send message: ' + err);
+                });
         } else {
             const defaultChannel = guild.channels.cache.find(channel => channel.type == 'text' && channel.permissionsFor(guild.me!)!.has('SEND_MESSAGES'));
             if (defaultChannel) return await (defaultChannel as TextChannel).send({embed})
-                .catch(err => console.log('ERROR', 'guildCreate', 'Failed to send message: ' + err));
+                .catch(err => {
+                    tracer.console().error(this.client.options.shards, 'Failed to send message: ' + err);
+                });
         }
     }
 }

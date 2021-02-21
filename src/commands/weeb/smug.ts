@@ -1,5 +1,6 @@
 import {Command} from 'discord-akairo';
 import {Message, MessageAttachment, User} from 'discord.js';
+import tracer from 'tracer';
 import {MBEmbed} from '../../utils/messageGenerator';
 import {nekolife} from '../../utils/nekolife';
 
@@ -42,7 +43,7 @@ export default class SmugCommand extends Command {
                         `smug.${ext}`)]);
             return message.channel.send(embed);
         } catch (e) {
-            console.log('ERROR', 'smug', `Network failure on ${e.toString()}`);
+            tracer.console().error(this.client.options.shards, `Network failure on ${e.toString()}`)
             return message.channel.send(':timer: Request timed out for `smug`.');
         }
     }

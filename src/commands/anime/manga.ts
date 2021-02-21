@@ -6,6 +6,7 @@ import {parseAired, parseColor} from '../../utils/anime';
 import * as helpers from '../../utils/helpers';
 import {MBEmbed} from '../../utils/messageGenerator';
 import {collectSelection, sendSelectionEmojis} from '../../utils/selection';
+import tracer from 'tracer';
 
 const he = require('he');
 
@@ -112,7 +113,7 @@ export default class MangaCommand extends Command {
                 );
 
                 if (typeof reaction === 'undefined') {
-                    console.log('ERROR', 'manga', 'Weird emoji ERROR');
+                    tracer.console().error(this.client.options.shards, 'Undefined reaction');
                     return message.channel.send(':thinking: Huh, that\'s really weird. We got invalid emoji.');
                 }
 
@@ -125,7 +126,7 @@ export default class MangaCommand extends Command {
                 await msg.delete();
             }
         } catch (e) {
-            console.log('ERROR', 'manga', `Network failure on ${e.toString()}`);
+            tracer.console().error(this.client.options.shards, `Network failure on ${e.toString()}`);
             return message.channel.send(':timer: Request timed out for `manga`.');
         }
     }

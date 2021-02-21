@@ -1,6 +1,7 @@
 import translate from '@iamtraction/google-translate';
 import {Command} from 'discord-akairo';
 import {Message} from 'discord.js';
+import tracer from 'tracer';
 
 export default class TranslateCommand extends Command {
     constructor() {
@@ -49,7 +50,7 @@ export default class TranslateCommand extends Command {
             });
             return await message.channel.send(result.text);
         } catch (e) {
-            console.log('ERROR', 'translate', `Cannot translate: ${e.toString()}`);
+            tracer.console().error(this.client.options.shards, `Cannot translate: ${e.toString()}`);
             return await message.channel.send('We cannot translate your message. Please check to make sure that you used a valid language code.');
         }
     }

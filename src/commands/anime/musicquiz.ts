@@ -1,6 +1,7 @@
 import axios from 'axios';
 import {Command} from 'discord-akairo';
 import {Message, MessageAttachment} from 'discord.js';
+import tracer from 'tracer';
 import * as anilist from '../../utils/anilist';
 import * as helpers from '../../utils/helpers';
 import {MBEmbed} from '../../utils/messageGenerator';
@@ -92,7 +93,7 @@ export default class MusicQuizCommand extends Command {
                             return message.channel.send('You are incorrect. Please try again.');
                         }
                     } catch (e) {
-                        console.log('ERROR', 'musicquiz', `Network failure on ${e.toString()}`);
+                        tracer.console().error(this.client.options.shards, `Network failure on ${e.toString()}`);
                         return message.channel.send('Cannot connect to musicquiz service. Please try again later.');
                     }
             }
@@ -177,7 +178,7 @@ export default class MusicQuizCommand extends Command {
                     `\`${prefix}musicquiz <guess>\` to guess anime, \`${prefix}musicquiz hint\` to get hints or \`${prefix}musicquiz giveup\` to give up.`,
                     attachment);
             } catch (e) {
-                console.log('ERROR', 'musicquiz', `Network failure on ${e.toString()}`);
+                tracer.console().error(this.client.options.shards, `Network failure on ${e.toString()}`);
                 return message.channel.send('Cannot connect to musicquiz service. Please try again later.');
             }
         }

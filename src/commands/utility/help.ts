@@ -1,5 +1,6 @@
 import {Command} from 'discord-akairo';
 import {Message} from 'discord.js';
+import tracer from 'tracer';
 import * as helpers from '../../utils/helpers';
 import {MBEmbed} from '../../utils/messageGenerator';
 
@@ -64,13 +65,17 @@ export default class HelpCommand extends Command {
         try {
             await message.author.send(helpEmbed);
             if (message.guild) return message.channel
-                .send(`​${message.author.username}, please check your private messages.`)
-                .catch(err => console.log('ERROR', 'help', 'Failed to send message to check private messages: ' + err));
+                .send(`<@${message.author.id}>, please check your private messages.`)
+                .catch(err => {
+                    tracer.console().error(this.client.options.shards, 'Failed to send message to check private messages: ' + err);
+                });
         } catch (e) {
-            console.log('INFO', 'help', 'Sending in channel: ' + e);
+            tracer.console().info(this.client.options.shards, 'Sending in channel: ' + e);
             return message.channel
                 .send(helpEmbed)
-                .catch(err => console.log('ERROR', 'help', 'Failed to default to normal channel: ' + err));
+                .catch(err => {
+                    tracer.console().error(this.client.options.shards, 'Failed to default to normal channel: ' + err);
+                });
         }
     }
 }

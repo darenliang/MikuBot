@@ -1,4 +1,5 @@
 import {User} from 'discord.js';
+import tracer from 'tracer';
 import Client from '../struct/client';
 
 interface MusicQuizCache {
@@ -33,7 +34,7 @@ export class MusicQuizDatabase {
 
         this.client.DDB.put(params, err => {
             if (err) {
-                console.log('ERROR', 'createScore', err);
+                tracer.console().error(this.client.options.shards, err);
             }
             return false;
         });
@@ -60,7 +61,7 @@ export class MusicQuizDatabase {
 
         this.client.DDB.update(params, err => {
             if (err) {
-                console.log('ERROR', 'updateScore', err);
+                tracer.console().error(this.client.options.shards, err);
             }
             return false;
         });
@@ -120,6 +121,8 @@ export class MusicQuizDatabase {
                 }
             };
             client.DDB.scan(params, onScan);
+        }).then(_ => {
+            tracer.console().info(client.options.shards, 'Set musicquiz scores complete');
         });
     };
 }

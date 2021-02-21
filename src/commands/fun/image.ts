@@ -1,5 +1,6 @@
 import {Command} from 'discord-akairo';
 import {Message, MessageAttachment} from 'discord.js';
+import tracer from 'tracer';
 import {MBEmbed} from '../../utils/messageGenerator';
 
 export default class ImageCommand extends Command {
@@ -102,11 +103,11 @@ export default class ImageCommand extends Command {
                         await this.client.gifDatabase.uploadGif(message.guild!, message.author, url);
                         return message.channel.send('Image uploaded.');
                     } catch (e) {
-                        console.log('INFO', 'image', `Failed to create album: ${e.toString()}`);
+                        tracer.console().warn(this.client.options.shards, `Failed to create album: ${e.toString()}`);
                         return message.channel.send('Image failed to upload. You might want to try another image.');
                     }
                 } catch (e) {
-                    console.log('ERROR', 'image', `Failed to create album: ${e.toString()}`);
+                    tracer.console().error(this.client.options.shards, `Failed to create album: ${e.toString()}`);
                     return message.channel.send('An unexpected error has occurred.');
                 }
             }

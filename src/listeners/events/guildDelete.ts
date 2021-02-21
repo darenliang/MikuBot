@@ -1,5 +1,6 @@
 import {Listener} from 'discord-akairo';
 import {Guild} from 'discord.js';
+import tracer from 'tracer';
 
 export default class GuildDeleteListener extends Listener {
     constructor() {
@@ -11,6 +12,6 @@ export default class GuildDeleteListener extends Listener {
 
     async exec(guild: Guild) {
         this.client.prefixDatabase.removeGuild(guild);
-        console.log('INFO', 'guildDelete', `Removed ${guild.name} - ${guild.id}`);
+        tracer.console().info(this.client.options.shards, `Removed ${guild.name} - ${guild.id}`);
     }
 }
