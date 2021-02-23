@@ -180,8 +180,8 @@ export class GifDatabase {
         }).then(resp => {
             [...Array(resp.data.data.length)].reduce((p: Promise<AxiosResponse>, _, i) =>
                 p.then(async () => {
-                    // Intentionally hang for 2 secs to prevent ratelimits
-                    await new Promise(resolve => setTimeout(resolve, 2000));
+                    // Intentionally hang for 5 secs to prevent ratelimits
+                    await new Promise(resolve => setTimeout(resolve, 5000));
 
                     axios({
                         url: `https://api.imgur.com/3/album/${resp.data.data[i].id}/images`,
