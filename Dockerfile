@@ -1,6 +1,13 @@
 # get latest node
 FROM node:latest
 
+# get pip
+RUN apt-get update && apt-get install -y \
+    python3-pip
+
+# install youtube-dl
+RUN pip3 install youtube-dl
+
 # make workdir
 WORKDIR /app
 
