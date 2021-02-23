@@ -7,6 +7,8 @@ import Client from './struct/client';
 
 // Init AWS DynamoDB
 AWS.config.update({region: config.aws.region});
+AWS.config.accessKeyId = secrets.aws.accessKeyID;
+AWS.config.secretAccessKey = secrets.aws.secretAccessKey;
 const DDB = new AWS.DynamoDB.DocumentClient();
 
 const client = new Client(DDB);
@@ -18,7 +20,7 @@ Promise.all([
 ])
     .then(() => client.login(secrets.discordToken)
         .then(() => tracer.console().info(client.options.shards, `Logged into Discord`)))
-    .catch(_ => {
-        tracer.console().fatal(client.options.shards, 'Failed to startup');
+    .catch(e => {
+        tracer.console().fatal(client.options.shards, `Failed to startup: ${e}`);
         process.exit(1);
     });

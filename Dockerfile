@@ -1,9 +1,6 @@
 # get latest node
 FROM node:latest
 
-# install ffmpeg
-RUN apt-get update && apt-get install -y ffmpeg
-
 # make workdir
 WORKDIR /app
 
