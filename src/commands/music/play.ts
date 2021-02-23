@@ -41,7 +41,8 @@ export default class PlayCommand extends Command {
             return message.channel.send('You can only queue a maximum of 100 songs at this moment.');
         }
 
-        youtubedl.getInfo(query, [], async function (err: any, info: any) {
+        // Favor audio extraction
+        youtubedl.getInfo(query, ['--extract-audio'], async function (err: any, info: any) {
             if (err) {
                 return message.channel.send('Cannot find the song you are looking for.');
             }
@@ -74,7 +75,11 @@ export default class PlayCommand extends Command {
                     return;
                 }
                 // Delay audio for 1 second to improve stream smoothness
-                const dispatcher = queue!.connection!.play(song.url, {highWaterMark: 50})
+                const dispatcher = queue!.connection!.play(song.url, {
+                    highWaterMark: 50,
+                    bitrate: 'auto',
+                    volume: false
+                })
                     .on('finish', () => {
                         queue!.songs.shift();
                         play(queue!.songs[0]);
