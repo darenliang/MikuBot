@@ -2,6 +2,7 @@ import {exec} from 'child_process';
 import {Command} from 'discord-akairo';
 import {Message, TextChannel} from 'discord.js';
 import tracer from 'tracer';
+import * as util from 'util';
 import {MusicQueue} from '../../struct/client';
 
 export default class PlayCommand extends Command {
@@ -40,71 +41,72 @@ export default class PlayCommand extends Command {
             return message.channel.send('You can only queue a maximum of 100 songs at this moment.');
         }
 
-        // Favor audio extraction
-        exec(
-            `youtube-dl --dump-json --default-search="auto" --extract-audio ${JSON.stringify(query)}`,
-            async (error, stdout) => {
-                if (error) {
-                    tracer.console().warn(client.options.shards, error);
-                    return message.channel.send('Cannot find the song you are looking for.');
-                }
+        let info;
+        try {
+            // Favor audio extraction
+            const {stdout} = await util.promisify(exec)(
+                `youtube-dl --dump-json --default-search="auto" --extract-audio ${JSON.stringify(query)}`
+            );
+            info = JSON.parse(stdout);
+        } catch (e) {
+            tracer.console().warn(client.options.shards, e);
+            return message.channel.send('Cannot find the song you are looking for.');
+        }
 
-                const info = JSON.parse(stdout);
+        const song = {
+            title: info.title,
+            url: info.url,
+            thumbnail: info.thumbnail
+        };
 
-                const song = {
-                    title: info.title,
-                    url: info.url,
-                    thumbnail: info.thumbnail
-                };
+        if (serverQueue) {
+            serverQueue.songs.push(song);
+            return message.channel.send(`**${song.title}** has been added to the queue.`);
+        }
+        const queueConstruct: MusicQueue = {
+            textChannel: message.channel as TextChannel,
+            voiceChannel: channel,
+            connection: null,
+            songs: [],
+            volume: 5,
+            playing: true
+        };
 
-                if (serverQueue) {
-                    serverQueue.songs.push(song);
-                    return message.channel.send(`**${song.title}** has been added to the queue.`);
-                }
-                const queueConstruct: MusicQueue = {
-                    textChannel: message.channel as TextChannel,
-                    voiceChannel: channel,
-                    connection: null,
-                    songs: [],
-                    volume: 5,
-                    playing: true
-                };
-                client.musicQueue.set(message.guild!.id, queueConstruct);
-                queueConstruct.songs.push(song);
-                const play = async (song: { url: string; title: any; }) => {
-                    const queue = client.musicQueue.get(message.guild!.id);
-                    if (!song) {
-                        queue!.voiceChannel.leave();
-                        client.musicQueue.delete(message.guild!.id);
-                        return;
-                    }
-                    // Delay audio for 1 second to improve stream smoothness
-                    const dispatcher = queue!.connection!.play(song.url, {
-                        highWaterMark: 50,
-                        bitrate: 'auto',
-                        volume: false
-                    })
-                        .on('finish', () => {
-                            queue!.songs.shift();
-                            play(queue!.songs[0]);
-                        })
-                        .on('error', error => {
-                            tracer.console().error(client.options.shards, error);
-                        });
-                    dispatcher.setVolumeLogarithmic(queue!.volume / 5);
-                    await queue!.textChannel.send(`Playing: **${song.title}**`);
-                };
+        client.musicQueue.set(message.guild!.id, queueConstruct);
+        queueConstruct.songs.push(song);
 
-                try {
-                    queueConstruct.connection = await channel.join();
-                    await play(queueConstruct.songs[0]);
-                } catch (error) {
-                    tracer.console().error(client.options.shards, error);
-                    client.musicQueue.delete(message.guild!.id);
-                    channel.leave();
-                    return message.channel.send('Cannot join voice channel');
-                }
+        const play = async (song: { url: string; title: any; }) => {
+            const queue = client.musicQueue.get(message.guild!.id);
+            if (!song) {
+                queue!.voiceChannel.leave();
+                client.musicQueue.delete(message.guild!.id);
+                return;
             }
-        );
+            // Delay audio for 1 second to improve stream smoothness
+            const dispatcher = queue!.connection!.play(song.url, {
+                highWaterMark: 50,
+                bitrate: 'auto',
+                volume: false
+            })
+                .on('finish', () => {
+                    queue!.songs.shift();
+                    play(queue!.songs[0]);
+                })
+                .on('error', error => {
+                    tracer.console().error(client.options.shards, error);
+                });
+            dispatcher.setVolumeLogarithmic(queue!.volume / 5);
+            await queue!.textChannel.send(`Playing: **${song.title}**`);
+        };
+
+        try {
+            queueConstruct.connection = await channel.join();
+            await play(queueConstruct.songs[0]);
+        } catch (error) {
+            tracer.console().error(client.options.shards, error);
+            client.musicQueue.delete(message.guild!.id);
+            channel.leave();
+            return message.channel.send('Cannot join voice channel');
+        }
     }
 }
