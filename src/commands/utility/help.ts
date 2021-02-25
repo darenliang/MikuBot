@@ -62,20 +62,25 @@ export default class HelpCommand extends Command {
             }
             helpEmbed = {embed};
         }
+
+        // Send to author
         try {
             await message.author.send(helpEmbed);
-            if (message.guild) return message.channel
-                .send(`<@${message.author.id}>, please check your private messages.`)
-                .catch(err => {
-                    tracer.console().error(this.client.options.shards, 'Failed to send message to check private messages: ' + err);
-                });
+
+            if (message.guild) {
+                await message.channel.send(`<@${message.author.id}>, please check your private messages.`);
+            }
+
+            return;
         } catch (e) {
-            tracer.console().info(this.client.options.shards, 'Sending in channel: ' + e);
-            return message.channel
-                .send(helpEmbed)
-                .catch(err => {
-                    tracer.console().error(this.client.options.shards, 'Failed to default to normal channel: ' + err);
-                });
+            tracer.console().info(this.client.options.shards, 'Sending to author: ' + e);
+        }
+
+        // Send in channel if it is the only way
+        try {
+            await message.channel.send(helpEmbed);
+        } catch (e) {
+            tracer.console().error(this.client.options.shards, 'Sending in channel: ' + e);
         }
     }
 }

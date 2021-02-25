@@ -43,9 +43,10 @@ export default class PlayCommand extends Command {
 
         let info;
         try {
-            // Favor audio extraction
+            // Favor audio extraction and increase output buffer to 10MB
             const {stdout} = await util.promisify(exec)(
-                `youtube-dl --dump-json --default-search="auto" --extract-audio ${JSON.stringify(query)}`
+                `youtube-dl --dump-json --default-search="auto" --extract-audio ${JSON.stringify(query)}`,
+                {maxBuffer: 1024 * 1024 * 10}
             );
             info = JSON.parse(stdout);
         } catch (e) {
