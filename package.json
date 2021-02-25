@@ -8,9 +8,6 @@
     "spawn": "node dist/main.js",
     "build": "tsc --build tsconfig.json"
   },
-  "engines": {
-    "node": "15.x"
-  },
   "keywords": [],
   "author": "Daren Liang",
   "license": "MIT",

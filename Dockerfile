@@ -1,5 +1,5 @@
-# get latest node
-FROM node:latest
+# get latest lts node
+FROM node:lts
 
 # get pip
 RUN apt-get update && apt-get install -y \
