@@ -83,12 +83,11 @@ export default class PlayCommand extends Command {
                 client.musicQueue.delete(message.guild!.id);
                 return;
             }
-            // Use 32mb buffer to reduce the need to request audio chunks
+            // Use 64kb buffer to reduce the need to request audio chunks
             const dispatcher = queue!.connection!.play(song.url, {
                 bitrate: 'auto',
                 volume: false,
-                // @ts-ignore
-                highWaterMark: 1 << 25
+                highWaterMark: 1 << 16
             })
                 .on('finish', () => {
                     queue!.songs.shift();
