@@ -1,8 +1,9 @@
+import axios from 'axios';
 import {Command} from 'discord-akairo';
 import {Message, MessageEmbed, User} from 'discord.js';
+import tracer from 'tracer';
 import * as helpers from '../../utils/helpers';
 
-const countapi = require('countapi-js');
 const humanize = require('humanize-plus');
 
 export default class InfoCommand extends Command {
@@ -23,9 +24,14 @@ export default class InfoCommand extends Command {
 
     async exec(message: Message) {
         let commands = 'Unknown';
-        await countapi.get(this.client.config.name, 'commands').then((res: { value: { toString: () => string; }; }) => {
-            commands = humanize.intComma(res.value);
-        });
+        try {
+            const resp = await axios.get(`https://counter.darenliang.com/hit/mikubot`, {
+                timeout: this.client.config.defaultTimeout
+            });
+            commands = humanize.intComma(resp.data.value);
+        } catch (e) {
+            tracer.console().warn(this.client.options.shards, `Failed hit: ${e}`);
+        }
         const embed = new MessageEmbed()
             .setColor(this.client.config.color)
             .setTitle(`${this.client.config.name} ${this.client.config.version}`)
