@@ -51,6 +51,15 @@ export interface MusicQueue {
 export default class Client extends AkairoClient {
     constructor(DDB: DocumentClient) {
         super({ownerID: config.owners}, {
+            ws: {
+                intents: [
+                    'GUILDS',
+                    'GUILD_MESSAGES',
+                    'GUILD_MESSAGE_REACTIONS',
+                    'DIRECT_MESSAGES',
+                    'DIRECT_MESSAGE_REACTIONS'
+                ]
+            },
             disableMentions: 'everyone',
             messageCacheMaxSize: 10,
             messageCacheLifetime: 120,
