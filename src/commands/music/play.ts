@@ -90,6 +90,7 @@ export default class PlayCommand extends Command {
                 '-i', song.url,
                 '-reconnect', '1',
                 '-reconnect_streamed', '1',
+                '-reconnect_at_eof', '1',
                 '-reconnect_delay_max', '5',
                 '-vn'
             ];
@@ -100,7 +101,8 @@ export default class PlayCommand extends Command {
                 {
                     bitrate: 'auto',
                     volume: false,
-                    highWaterMark: 1 << 25
+                    // one second buffer
+                    highWaterMark: 50
                 }
             );
 
