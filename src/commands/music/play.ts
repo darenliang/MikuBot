@@ -1,9 +1,11 @@
 import {exec} from 'child_process';
 import {Command} from 'discord-akairo';
-import {Message, TextChannel} from 'discord.js';
+import {Message, StreamDispatcher, TextChannel} from 'discord.js';
 import tracer from 'tracer';
 import * as util from 'util';
 import {MusicQueue} from '../../struct/client';
+
+const playArbitraryFFmpeg = require('discord.js-arbitrary-ffmpeg');
 
 export default class PlayCommand extends Command {
     constructor() {
@@ -84,18 +86,31 @@ export default class PlayCommand extends Command {
                 return;
             }
 
-            const dispatcher = queue!.connection!.play(song.url, {
-                bitrate: 'auto',
-                volume: false,
-                highWaterMark: 1 << 16
-            })
-                .on('finish', () => {
-                    queue!.songs.shift();
-                    play(queue!.songs[0]);
-                })
-                .on('error', error => {
-                    tracer.console().error(client.options.shards, error);
-                });
+            const arrFFmpegParams = [
+                '-i', song.url,
+                '-reconnect', '1',
+                '-reconnect_streamed', '1',
+                '-reconnect_delay_max', '5',
+                '-vn'
+            ];
+
+            const dispatcher: StreamDispatcher = playArbitraryFFmpeg(
+                queue!.connection,
+                arrFFmpegParams,
+                {
+                    bitrate: 'auto',
+                    volume: false,
+                    highWaterMark: 1 << 25
+                }
+            );
+
+            dispatcher.on('finish', () => {
+                queue!.songs.shift();
+                play(queue!.songs[0]);
+            }).on('error', error => {
+                tracer.console().error(client.options.shards, error);
+            });
+
             dispatcher.setVolumeLogarithmic(queue!.volume / 5);
             await queue!.textChannel.send(`Playing: **${song.title}**`);
         };

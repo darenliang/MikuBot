@@ -36,6 +36,11 @@ export default class ReadyListener extends Listener {
     }
 
     async exec() {
+        // Wait some time for other shards to startup
+        setTimeout(() => {
+            this.botRoutine();
+        }, 60000);
+
         // Set every 15 minutes
         setInterval(() => {
             this.botRoutine();

@@ -1,9 +1,9 @@
 # get latest lts node
 FROM node:lts
 
-# get pip
+# get pip and ffmpeg
 RUN apt-get update && apt-get install -y \
-    python3-pip
+    python3-pip ffmpeg
 
 # install youtube-dl
 RUN pip3 install youtube-dl
