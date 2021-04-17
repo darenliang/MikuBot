@@ -58,7 +58,8 @@ export default class Client extends AkairoClient {
                     'GUILD_MESSAGES',
                     'GUILD_MESSAGE_REACTIONS',
                     'DIRECT_MESSAGES',
-                    'DIRECT_MESSAGE_REACTIONS'
+                    'DIRECT_MESSAGE_REACTIONS',
+                    'GUILD_VOICE_STATES'
                 ]
             },
             disableMentions: 'everyone',
