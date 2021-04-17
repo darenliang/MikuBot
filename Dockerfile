@@ -3,7 +3,7 @@ FROM node:lts
 
 # get pip and ffmpeg
 RUN apt-get update && apt-get install -y \
-    python3-pip ffmpeg
+    python3-pip ffmpeg libtool
 
 # install youtube-dl
 RUN pip3 install youtube-dl
