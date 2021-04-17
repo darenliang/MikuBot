@@ -25,7 +25,7 @@ export default class StopCommand extends Command {
         if (!serverQueue) return message.channel.send('There is nothing playing.');
         serverQueue.songs = [];
         if (serverQueue.connection && serverQueue.connection.dispatcher) {
-            serverQueue.connection.dispatcher.end();
+            serverQueue.connection.disconnect();
         }
         return await message.channel.send('Stopped music. Queue cleared.');
     }

@@ -79,7 +79,7 @@ export default class PlayCommand extends Command {
         const play = async (song: { url: string; title: any; }) => {
             const queue = client.musicQueue.get(message.guild!.id);
             if (!song) {
-                queue!.voiceChannel.leave();
+                queue!.connection!.disconnect();
                 client.musicQueue.delete(message.guild!.id);
                 return;
             }
@@ -87,7 +87,7 @@ export default class PlayCommand extends Command {
             const dispatcher = queue!.connection!.play(song.url, {
                 bitrate: 'auto',
                 volume: false,
-                highWaterMark: 50
+                highWaterMark: 1 << 16
             })
                 .on('finish', () => {
                     queue!.songs.shift();
