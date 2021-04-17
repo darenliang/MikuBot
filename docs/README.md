@@ -144,8 +144,6 @@ MikuBot is currently in early stages of development. If you have any cool bot co
 
 ## Music Commands
 
-**Hosting music is resource intensive. If anyone is willing to donate server space to host a music node for the bot, it would mean the world to me.**
-
 ### play
 
 `play <url or video name>` to add song to queue and play music.

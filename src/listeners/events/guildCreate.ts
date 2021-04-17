@@ -47,8 +47,8 @@ export default class GuildCreateListener extends Listener {
                     'value': 'Get a never before seen waifu!'
                 },
                 {
-                    'name': `${this.client.config.defaultPrefix}gif <url or attachment>`,
-                    'value': 'Save your best gifs!'
+                    'name': `${this.client.config.defaultPrefix}image <url or attachment>`,
+                    'value': 'Save your best images!'
                 },
                 {
                     'name': 'And much much more!',

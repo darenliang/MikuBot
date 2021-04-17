@@ -9,7 +9,7 @@ const humanize = require('humanize-plus');
 export default class InfoCommand extends Command {
     constructor() {
         super('info', {
-            aliases: ['info', 'information'],
+            aliases: ['info', 'information', 'stats'],
             description: {
                 'fields': [
                     {
@@ -35,7 +35,7 @@ export default class InfoCommand extends Command {
         const embed = new MessageEmbed()
             .setColor(this.client.config.color)
             .setTitle(`${this.client.config.name} ${this.client.config.version}`)
-            .setDescription('Made with open source and :heart:.')
+            .setDescription('Looking for maintainers and supporters!')
             .addField('Links',
                 `[Invite Bot](https://discord.com/api/oauth2/authorize?client_id=${this.client.user?.id}&permissions=8&scope=bot)
                 [Help Page](${this.client.config.helpWebsite})
@@ -52,8 +52,8 @@ export default class InfoCommand extends Command {
             .addField('Shard ID', this.client.options.shards, true)
             .addField('Shards', this.client.options.shardCount, true)
             .addField('Servers', this.client.guildCount, true)
-            .addField('Uptime', helpers.msToTime(this.client.uptime!), true)
-            .addField('Shard Memory', `${(process.memoryUsage().rss / 1048576) | 0}MiB`, true);
+            .addField('Users', this.client.userCount, true)
+            .addField('Uptime', helpers.msToTime(this.client.uptime!), true);
         return await message.channel.send(embed);
     }
 }

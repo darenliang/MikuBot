@@ -28,6 +28,7 @@ declare module 'discord-akairo' {
         musicQueue: Map<string, MusicQueue>;
         deleteCache: Map<string, Message>
         guildCount: number;
+        userCount: number;
         commandHandler: CommandHandler;
         listenerHandler: ListenerHandler
     }
@@ -77,8 +78,10 @@ export default class Client extends AkairoClient {
         this.gifDatabase = new GifDatabase(this);
         this.musicQueue = new Map<string, MusicQueue>();
         this.deleteCache = new Map<string, Message>();
+
         // Set default before waiting for ready event.
         this.guildCount = 0;
+        this.userCount = 0;
 
         this.commandHandler = new CommandHandler(this, {
             directory: join(__dirname, '..', 'commands'),

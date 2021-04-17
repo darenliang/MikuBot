@@ -12,17 +12,37 @@ export default class ReadyListener extends Listener {
         });
     }
 
+    /**
+     * Bot routine
+     */
+    botRoutine() {
+        // Set presence
+        this.client.user!.setPresence({activity: {name: `@${this.client.config.name} help`}, status: 'online'});
+
+        // Set broadcast values
+        const promises = [
+            this.client.shard!.fetchClientValues('guilds.cache.size'),
+            this.client.shard!.broadcastEval('this.guilds.cache.reduce((acc, guild) => acc + guild.memberCount, 0)'),
+        ];
+
+        Promise.all(promises)
+            .then(results => {
+                this.client.guildCount = results[0].reduce((acc, guildCount) => acc + guildCount, 0);
+                this.client.userCount = results[1].reduce((acc, userCount) => acc + userCount, 0);
+            })
+            .catch(err => {
+                tracer.console().error(this.client.options.shards, `Broadcast failed: ${err.toString()}`);
+            });
+    }
+
     async exec() {
-        const setPresence = () => {
-            this.client.user!.setPresence({activity: {name: `@${this.client.config.name} help`}, status: 'online'});
-        };
-
-        // Set every minute
-        setPresence();
+        // Set every 15 minutes
+        this.botRoutine();
         setInterval(() => {
-            setPresence();
-        }, 60000);
+            this.botRoutine();
+        }, 900000);
 
+        // Backfill added guilds to logs
         for (const guild of this.client.guilds.cache.array()) {
             if (!this.client.prefixDatabase.checkGuild(guild)) {
                 this.client.prefixDatabase.createGuild(guild);
@@ -41,25 +61,16 @@ export default class ReadyListener extends Listener {
                 }).catch(_ => {
                     tracer.console().error(this.client.options.shards, 'Failed to post stats');
                 });
-
-                api.getStats(this.client.user!.id).then(bot => {
-                    if (bot.serverCount != null) {
-                        this.client.guildCount = bot.serverCount;
-                    } else {
-                        this.client.guildCount = 0;
-                    }
-                }).catch(_ => {
-                    tracer.console().error(this.client.options.shards, 'Failed to get stats');
-                });
             };
 
+            // Set every 30 minutes
             postAndGetStats();
             setInterval(() => {
                 postAndGetStats();
             }, 1800000);
         }
 
-        tracer.console().info(this.client.options.shards, `${this.client.config.name} ${this.client.config.version}`);
+        tracer.console().info(this.client.options.shards, `${this.client.config.name} ${this.client.config.version} ready`);
         tracer.console().info(this.client.options.shards, `Serving ${this.client.guilds.cache.size} servers`);
     }
 }
