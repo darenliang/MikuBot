@@ -37,7 +37,6 @@ export default class ReadyListener extends Listener {
 
     async exec() {
         // Set every 15 minutes
-        this.botRoutine();
         setInterval(() => {
             this.botRoutine();
         }, 900000);
