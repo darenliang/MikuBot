@@ -51,8 +51,8 @@ export default class InfoCommand extends Command {
             .addField('Latency', `${this.client.ws.ping}ms`, true)
             .addField('Shard ID', this.client.options.shards, true)
             .addField('Shards', this.client.options.shardCount, true)
-            .addField('Servers', this.client.guildCount, true)
-            .addField('Users', this.client.userCount, true)
+            .addField('Servers', humanize.intComma(this.client.guildCount), true)
+            .addField('Users', humanize.intComma(this.client.userCount), true)
             .addField('Uptime', helpers.msToTime(this.client.uptime!), true);
         return await message.channel.send(embed);
     }
