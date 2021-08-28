@@ -12,7 +12,7 @@
   "author": "Daren Liang",
   "license": "MIT",
   "dependencies": {
-    "@discordjs/opus": "^0.5.3",
+    "@discordjs/opus": "^0.6.0",
     "@iamtraction/google-translate": "^1.1.2",
     "@top-gg/sdk": "^3.1.2",
     "@types/express": "^4.17.13",
