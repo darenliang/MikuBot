@@ -55,6 +55,7 @@ export default class PlayCommand extends Command {
 
     async exec(message: Message, {query}: { query: string }) {
         const client = this.client;
+        if (!query) return await message.channel.send('Query is empty.');
         const {channel} = message.member!.voice;
         if (!channel) return message.channel.send('You need to be in a voice channel to play music.');
         const serverQueue = client.musicQueue.get(message.guild!.id);
