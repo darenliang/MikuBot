@@ -116,7 +116,7 @@ export default class PlayCommand extends Command {
                     bitrate: 'auto',
                     volume: false,
                     filter: "audioonly",
-                    highWaterMark: 1 << 25
+                    highWaterMark: 50
                 }
             ).on('finish', () => {
                 queue!.songs.shift();
