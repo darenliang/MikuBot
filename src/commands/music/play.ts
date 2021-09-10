@@ -1,9 +1,10 @@
-import {exec, spawn} from 'child_process';
+import {exec} from 'child_process';
 import {Command} from 'discord-akairo';
-import {Message, StreamDispatcher, TextChannel, VoiceConnection} from 'discord.js';
+import {Message, TextChannel} from 'discord.js';
 import tracer from 'tracer';
 import * as util from 'util';
 import {MusicQueue} from '../../struct/client';
+import {playArbitraryFFmpeg} from '../../utils/musicPlay';
 
 export default class PlayCommand extends Command {
     constructor() {
@@ -31,27 +32,6 @@ export default class PlayCommand extends Command {
             ]
         });
     }
-
-    // Taken from https://github.com/ErikMartensson/discord.js-arbitrary-ffmpeg
-    playArbitraryFFmpeg(objVoiceConnection: VoiceConnection, arrFFmpegParams: Array<string>, objOptions: object): StreamDispatcher {
-        objOptions = objOptions || {type: 'converted', bitrate: 'auto'};
-        const arrStandardParams = [
-            '-analyzeduration', '0',
-            '-loglevel', '0',
-            '-f', 'wav',
-            '-ar', '48000',
-            '-ac', '2',
-            '-reconnect', '1',
-            '-reconnect_streamed', '1',
-            '-reconnect_at_eof', '1',
-            '-reconnect_delay_max', '5',
-            '-nostdin',
-            'pipe:1'
-        ];
-        const arrFinalParams = arrFFmpegParams.concat(arrStandardParams);
-        let ffmpeg = spawn('ffmpeg', arrFinalParams);
-        return objVoiceConnection.play(ffmpeg.stdout, objOptions);
-    };
 
     async exec(message: Message, {query}: { query: string }) {
         const client = this.client;
@@ -110,14 +90,14 @@ export default class PlayCommand extends Command {
                 '-i', song.url
             ];
 
-            const dispatcher = this.playArbitraryFFmpeg(
+            const dispatcher = playArbitraryFFmpeg(
                 queue!.connection!,
                 arrFFmpegParams,
                 {
                     bitrate: 'auto',
                     volume: false,
                     filter: 'audioonly',
-                    highWaterMark: 100000
+                    highWaterMark: 1 << 25
                 }
             ).on('finish', () => {
                 queue!.songs.shift();

@@ -1,5 +1,7 @@
 import {Command} from 'discord-akairo';
 import {Message} from 'discord.js';
+import tracer from 'tracer';
+import {playArbitraryFFmpeg} from '../../utils/musicPlay';
 
 export default class SkipCommand extends Command {
     constructor() {
@@ -24,8 +26,51 @@ export default class SkipCommand extends Command {
         const serverQueue = this.client.musicQueue.get(message.guild!.id);
         if (!serverQueue) return message.channel.send('There is nothing playing.');
         if (serverQueue.connection && serverQueue.connection.dispatcher) {
-            serverQueue.connection.dispatcher.end();
+            serverQueue.connection.dispatcher.destroy();
+            await message.channel.send('Skipping music.');
+
+            // TODO: this is gross; reuse this part of code with play in play.ts
+            const play = async (song: { url: string; title: any; }) => {
+                if (!song) {
+                    serverQueue.connection!.disconnect();
+                    this.client.musicQueue.delete(message.guild!.id);
+                    return;
+                }
+
+                const arrFFmpegParams = [
+                    '-i', song.url
+                ];
+
+                const dispatcher = playArbitraryFFmpeg(
+                    serverQueue.connection!,
+                    arrFFmpegParams,
+                    {
+                        bitrate: 'auto',
+                        volume: false,
+                        filter: 'audioonly',
+                        highWaterMark: 1 << 25
+                    }
+                ).on('finish', () => {
+                    serverQueue.songs.shift();
+                    play(serverQueue.songs[0]);
+                }).on('error', error => {
+                    tracer.console().error(this.client.options.shards, error);
+                });
+
+                dispatcher.setVolumeLogarithmic(serverQueue.volume / 5);
+                await serverQueue.textChannel.send(`Playing: **${song.title}**`);
+            };
+
+            try {
+                serverQueue.songs.shift();
+                await play(serverQueue.songs[0]);
+            } catch (error) {
+                tracer.console().error(this.client.options.shards, error);
+                this.client.musicQueue.delete(message.guild!.id);
+                channel.leave();
+                return message.channel.send('Failed to skip.');
+            }
         }
-        return await message.channel.send('Skipped music.');
+        return;
     }
 }
