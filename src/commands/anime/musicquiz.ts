@@ -92,7 +92,7 @@ export default class MusicQuizCommand extends Command {
                         } else {
                             return message.channel.send('You are incorrect. Please try again.');
                         }
-                    } catch (e) {
+                    } catch (e: any) {
                         tracer.console().error(this.client.options.shards, `Network failure on ${e.toString()}`);
                         return message.channel.send('Cannot connect to musicquiz service. Please try again later.');
                     }
@@ -177,7 +177,7 @@ export default class MusicQuizCommand extends Command {
                 return message.channel.send(
                     `\`${prefix}musicquiz <guess>\` to guess anime, \`${prefix}musicquiz hint\` to get hints or \`${prefix}musicquiz giveup\` to give up.`,
                     attachment);
-            } catch (e) {
+            } catch (e: any) {
                 tracer.console().error(this.client.options.shards, `Network failure on ${e.toString()}`);
                 return message.channel.send('Cannot connect to musicquiz service. Please try again later.');
             }

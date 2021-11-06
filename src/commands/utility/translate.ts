@@ -49,7 +49,7 @@ export default class TranslateCommand extends Command {
                 to: lang
             });
             return await message.channel.send(result.text);
-        } catch (e) {
+        } catch (e: any) {
             tracer.console().error(this.client.options.shards, `Cannot translate: ${e.toString()}`);
             return await message.channel.send('We cannot translate your message. Please check to make sure that you used a valid language code.');
         }

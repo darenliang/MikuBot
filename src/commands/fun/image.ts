@@ -102,11 +102,11 @@ export default class ImageCommand extends Command {
                     try {
                         await this.client.gifDatabase.uploadGif(message.guild!, message.author, url);
                         return message.channel.send('Image uploaded.');
-                    } catch (e) {
+                    } catch (e: any) {
                         tracer.console().warn(this.client.options.shards, `Failed to create album: ${e.toString()}`);
                         return message.channel.send('Image failed to upload. You might want to try another image.');
                     }
-                } catch (e) {
+                } catch (e: any) {
                     tracer.console().error(this.client.options.shards, `Failed to create album: ${e.toString()}`);
                     return message.channel.send('An unexpected error has occurred.');
                 }

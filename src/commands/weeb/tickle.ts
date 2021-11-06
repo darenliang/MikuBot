@@ -42,7 +42,7 @@ export default class TickleCommand extends Command {
                     [new MessageAttachment(resp.data.url,
                         `tickle.${ext}`)]);
             return message.channel.send(embed);
-        } catch (e) {
+        } catch (e: any) {
             tracer.console().error(this.client.options.shards, `Network failure on ${e.toString()}`)
             return message.channel.send(':timer: Request timed out for `tickle`.');
         }

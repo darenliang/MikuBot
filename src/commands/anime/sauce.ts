@@ -72,7 +72,7 @@ export default class SauceCommand extends Command {
                 embed.addField('Link', result.data.ext_urls[0], false);
             }
             return message.channel.send(embed);
-        } catch (e) {
+        } catch (e: any) {
             tracer.console().error(this.client.options.shards, `Network failure on ${e.toString()}`);
             return message.channel.send(':timer: Request failed or timed out for `sauce`.');
         }

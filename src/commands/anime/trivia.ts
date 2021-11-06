@@ -65,7 +65,7 @@ export default class TriviaCommand extends Command {
             }
 
             return message.channel.send(answerEmbed);
-        } catch (e) {
+        } catch (e: any) {
             tracer.console().error(this.client.options.shards, `Error occurred: ${e.toString()}`);
             return message.channel.send('An error has occurred for `trivia`.');
         } finally {

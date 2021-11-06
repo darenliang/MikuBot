@@ -125,7 +125,7 @@ export default class MangaCommand extends Command {
             } finally {
                 await msg.delete();
             }
-        } catch (e) {
+        } catch (e: any) {
             tracer.console().error(this.client.options.shards, `Network failure on ${e.toString()}`);
             return message.channel.send(':timer: Request timed out for `manga`.');
         }
