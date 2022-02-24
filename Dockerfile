@@ -5,8 +5,8 @@ FROM node:lts
 RUN apt-get update && apt-get install -y \
     python3-pip ffmpeg libtool
 
-# install youtube-dl
-RUN pip3 install youtube-dl
+# install yt-dlp
+RUN pip3 install yt-dlp
 
 # make workdir
 WORKDIR /app

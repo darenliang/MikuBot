@@ -11,4 +11,13 @@ const manager = new ShardingManager('dist/bot.js', {
 manager.on('shardCreate', shard => {
     tracer.console().info([shard.id], 'Launched shard');
 });
-manager.spawn();
+
+const spawn = () => {
+    manager.spawn().catch(e => {
+        tracer.console().error('[manager]', 'Failed to spawn: ' + e);
+        tracer.console().info('[manager]', 'Retrying to spawn shards');
+        spawn();
+    });
+};
+
+spawn();
