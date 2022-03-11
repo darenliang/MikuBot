@@ -90,7 +90,7 @@ export default class PlayCommand extends Command {
                 '-i', song.url
             ];
 
-            const dispatcher = playArbitraryFFmpeg(
+            const {child, dispatcher} = playArbitraryFFmpeg(
                 queue!.connection!,
                 arrFFmpegParams,
                 {
@@ -99,11 +99,17 @@ export default class PlayCommand extends Command {
                     filter: 'audioonly',
                     highWaterMark: 1 << 25
                 }
-            ).on('finish', () => {
+            );
+            dispatcher.on('finish', () => {
                 queue!.songs.shift();
                 play(queue!.songs[0]);
             }).on('error', error => {
                 tracer.console().error(client.options.shards, error);
+                try {
+                    child.kill();
+                } catch (e) {
+                    tracer.console().error(client.options.shards, e);
+                }
             });
 
             dispatcher.setVolumeLogarithmic(queue!.volume / 5);

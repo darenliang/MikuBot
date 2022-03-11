@@ -1,8 +1,8 @@
-import {spawn} from 'child_process';
+import {ChildProcessWithoutNullStreams, spawn} from 'child_process';
 import {StreamDispatcher, VoiceConnection} from 'discord.js';
 
 // Taken from https://github.com/ErikMartensson/discord.js-arbitrary-ffmpeg
-export function playArbitraryFFmpeg(objVoiceConnection: VoiceConnection, arrFFmpegParams: Array<string>, objOptions: object): StreamDispatcher {
+export function playArbitraryFFmpeg(objVoiceConnection: VoiceConnection, arrFFmpegParams: Array<string>, objOptions: object): { child: ChildProcessWithoutNullStreams, dispatcher: StreamDispatcher } {
     objOptions = objOptions || {type: 'opus', bitrate: 'auto'};
     const arrStandardParams = [
         '-analyzeduration', '0',
@@ -21,5 +21,8 @@ export function playArbitraryFFmpeg(objVoiceConnection: VoiceConnection, arrFFmp
     ];
     const arrFinalParams = arrFFmpegParams.concat(arrStandardParams);
     let ffmpeg = spawn('ffmpeg', arrFinalParams);
-    return objVoiceConnection.play(ffmpeg.stdout, objOptions);
+    return {
+        child: ffmpeg,
+        dispatcher: objVoiceConnection.play(ffmpeg.stdout, objOptions)
+    };
 }

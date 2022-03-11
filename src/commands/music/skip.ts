@@ -41,7 +41,7 @@ export default class SkipCommand extends Command {
                     '-i', song.url
                 ];
 
-                const dispatcher = playArbitraryFFmpeg(
+                const {child, dispatcher} = playArbitraryFFmpeg(
                     serverQueue.connection!,
                     arrFFmpegParams,
                     {
@@ -50,11 +50,17 @@ export default class SkipCommand extends Command {
                         filter: 'audioonly',
                         highWaterMark: 1 << 25
                     }
-                ).on('finish', () => {
+                );
+                dispatcher.on('finish', () => {
                     serverQueue.songs.shift();
                     play(serverQueue.songs[0]);
                 }).on('error', error => {
                     tracer.console().error(this.client.options.shards, error);
+                    try {
+                        child.kill();
+                    } catch (e) {
+                        tracer.console().error(this.client.options.shards, e);
+                    }
                 });
 
                 dispatcher.setVolumeLogarithmic(serverQueue.volume / 5);
