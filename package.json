@@ -27,7 +27,7 @@
     "erlpack": "github:discord/erlpack",
     "he": "^1.2.0",
     "humanize-plus": "^1.8.2",
-    "moment": "^2.29.1",
+    "moment": "^2.29.2",
     "sodium": "^3.0.2",
     "tracer": "^1.1.5",
     "typescript": "^4.5.5",
